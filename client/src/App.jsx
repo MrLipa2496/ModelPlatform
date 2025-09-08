@@ -1,5 +1,10 @@
-import './reset.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './reset.css';
 
-function App () {}
+function App () {
+  <Router>
+    <Routes></Routes>
+  </Router>;
+}
 
-export default App
+export default App;
