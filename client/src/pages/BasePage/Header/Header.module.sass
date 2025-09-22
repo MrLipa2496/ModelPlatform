@@ -1,0 +1,99 @@
+$main-color: #a9a1ff
+
+.headerWrapper
+    display: flex
+    justify-content: space-between
+    align-items: center
+    min-height: 100px
+    background-color: $main-color
+    font-size: 20px
+    position: relative
+    
+.headerLogoWrapper
+    background-color: white
+    max-width: 290px
+    width: 100%
+    text-align: right
+    padding: 20px
+    border-radius: 50px
+    position: absolute
+    top: 12px
+    left: -90px
+    cursor: pointer
+    transition: transform 0.3s ease 0s
+
+    &:hover
+        transform: translateX(20px)
+
+.logoNavLink
+    max-width: 200px
+
+.headerLogo
+    font-size: 35px
+    font-weight: 1000
+    background: linear-gradient(to bottom right, #00ccff 20%, #9966ff 95%)
+    -webkit-background-clip: text
+    -webkit-text-fill-color: transparent
+    background-clip: text
+    text-fill-color: transparent
+
+.headerAbbreviation
+    font-family: "Dancing Script", cursive
+
+.navLink
+    text-decoration: none
+    color: white
+    padding: 10px
+    width: 100%
+
+.headerNav
+    position: absolute 
+    top: 100% 
+    right: 0
+    background-color: $main-color
+    flex-direction: column
+    list-style-type: none
+    max-width: 800px
+    width: 100%
+    gap: 10px
+    padding: 10px
+    display: none  
+    z-index: 3
+
+    @media screen and (min-width: 1020px)
+        position: static
+        flex-direction: row  
+        justify-content: space-between
+        align-items: center
+        display: flex  
+
+.menuBtn
+    display: flex
+    background-color: inherit
+    border: none
+    font-size: 26px
+    color: white
+    cursor: pointer
+    margin-right: 20px
+    padding: 10px
+    border-radius: 50%
+
+
+    @media screen and (min-width: 1020px)
+        display: none  
+        
+
+.menuOpen
+    display: flex  
+    max-width: 1020px
+    width: 100%
+
+.navLi
+    display: flex
+    text-align: center
+
+.active
+    background-color: #968cff
+    border-radius: 50px
+    padding: 10px 20px
+
