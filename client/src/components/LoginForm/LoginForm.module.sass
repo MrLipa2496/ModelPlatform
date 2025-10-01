@@ -1,0 +1,93 @@
+$form-border-color: #ccc
+$form-error-color: red
+$form-bg: #fff
+$form-text: #000
+$form-gray: #f5f5f5
+
+.formWrapper
+  max-width: 400px
+  min-width: 300px
+  margin: 100px auto
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1)
+  border-radius: 12px
+  padding: 40px
+  background-color: $form-bg
+  color: $form-text
+
+.formTitle
+  margin: 20px 0
+  text-align: center
+  font-size: 26px
+  font-weight: 600
+
+.form
+  display: flex
+  flex-direction: column
+  gap: 18px
+
+.formSpan
+  margin-left: 8px
+  font-size: 14px
+
+.inputWrapper
+  position: relative
+  display: flex
+  align-items: center
+
+.formInput
+  border-radius: 8px
+  border: 1px solid $form-border-color
+  padding: 12px
+  width: 100%
+  box-sizing: border-box
+  background-color: $form-gray
+  font-size: 14px
+  transition: border 0.2s
+
+  &:focus
+    outline: none
+    border: 1px solid #000
+
+.eyeBtn
+  position: absolute
+  top: 53%
+  right: 12px
+  border: none
+  background-color: transparent
+  cursor: pointer
+  color: $form-text
+  font-size: 18px
+
+.formCheckBox
+  display: flex
+  flex-direction: column
+  cursor: pointer
+  position: relative
+
+
+.inputCheckBox
+  margin-right: 8px
+  margin-bottom: 15px
+
+
+.formButton
+  padding: 12px
+  margin-top: 15px
+  border-radius: 6px
+  border: none
+  cursor: pointer
+  background-color: #000
+  color: #fff
+  font-size: 16px
+  font-weight: 500
+  transition: background-color 0.3s
+
+  &:hover
+    background-color: #222
+
+.errorMessage
+  position: absolute
+  color: $form-error-color
+  top: 100%
+  left: 0
+  font-size: 14px
