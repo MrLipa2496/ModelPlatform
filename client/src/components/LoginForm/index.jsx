@@ -78,6 +78,13 @@ const LoginForm = () => {
             <button type='submit' className={styles.formButton}>
               Log In
             </button>
+
+            <div className={styles.toggleLink}>
+              Don't have an account?{' '}
+              <a href='/signup' className={styles.linkText}>
+                Sign Up
+              </a>
+            </div>
           </Form>
         )}
       </Formik>

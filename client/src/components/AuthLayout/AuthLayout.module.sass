@@ -1,0 +1,60 @@
+.authPage
+  display: flex
+  width: 100%
+  min-height: 100vh
+  overflow: hidden
+
+.leftSide,
+.rightSide
+  flex: 0 0 50%
+  display: flex
+  justify-content: center
+  align-items: center
+  position: relative
+  overflow: hidden
+  box-sizing: border-box
+
+.formSide
+  width: 100%
+  height: 100%
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  justify-content: flex-start
+  overflow-y: auto
+  padding: 3rem 2rem 2rem 2rem
+
+.sideImage
+  width: 100%
+  height: 100%
+  object-fit: cover
+
+.leftSide .formSide,
+.rightSide .formSide
+  max-height: 100%
+  overflow-y: auto
+
+@media (max-width: 1020px)
+  .authPage
+    flex-direction: column
+    width: 100%
+    height: auto
+
+  .leftSide,
+  .rightSide
+    flex: 0 0 auto
+    width: 100%
+    height: auto
+
+  .sideImage
+    width: 100%
+    height: 60vh
+    min-height: 250px
+    object-fit: cover
+    object-position: center 20%  
+
+
+  .formSide
+    width: 100%
+    max-height: none
+    padding: 2rem

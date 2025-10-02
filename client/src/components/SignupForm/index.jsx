@@ -122,6 +122,13 @@ const SignupForm = () => {
               <button type='submit' className={styles.formButton}>
                 Sign Up
               </button>
+
+              <div className={styles.toggleLink}>
+                Already have an account?{' '}
+                <a href='/login' className={styles.linkText}>
+                  Log In
+                </a>
+              </div>
             </Form>
           );
         }}
