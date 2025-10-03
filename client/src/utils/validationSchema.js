@@ -61,6 +61,10 @@ export const SIGNUP_VALIDATION_SCHEMA = yup.object().shape({
         )
         .min(2, 'First name is too short')
         .max(50, 'First name is too long')
+        .matches(
+          /^[A-ZА-ЯЁЇІЄ][A-Za-zА-Яа-яЁёЇїІіЄє'\- ]+$/,
+          'First name must start with a capital letter and contain only valid characters'
+        )
         .required('First name is required'),
     otherwise: schema => schema.notRequired(),
   }),
@@ -76,6 +80,10 @@ export const SIGNUP_VALIDATION_SCHEMA = yup.object().shape({
         )
         .min(2, 'Last name is too short')
         .max(50, 'Last name is too long')
+        .matches(
+          /^[A-ZА-ЯЁЇІЄ][A-Za-zА-Яа-яЁёЇїІіЄє'\- ]+$/,
+          'Last name must start with a capital letter and contain only valid characters'
+        )
         .required('Last name is required'),
     otherwise: schema => schema.notRequired(),
   }),
