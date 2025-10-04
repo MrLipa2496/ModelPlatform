@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         primaryKey: true
       },
-      MOD_USR_ID: {
+      USR_ID: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
