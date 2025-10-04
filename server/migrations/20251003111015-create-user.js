@@ -23,6 +23,10 @@ module.exports = {
         allowNull: false,
         defaultValue: 'model'
       },
+      USR_AccessToken: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

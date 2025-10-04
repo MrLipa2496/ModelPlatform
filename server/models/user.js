@@ -47,6 +47,10 @@ module.exports = (sequelize, DataTypes) => {
       USR_Role: {
         type: DataTypes.ENUM('model', 'agency', 'admin'),
         allowNull: false
+      },
+      USR_AccessToken: {
+        type: DataTypes.STRING,
+        allowNull: true
       }
     },
     {
