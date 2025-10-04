@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import ValidatedField from '../ValidatedField';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { SIGNUP_VALIDATION_SCHEMA } from '../../utils/validationSchema';
+import { authenticateUser, clearAuthError } from '../../store/slices/authSlice';
 import CONSTANTS from '../../utils/constants';
 import styles from './SignupForm.module.sass';
 
@@ -18,22 +21,58 @@ const EyeButton = ({ show, onClick }) => (
 const SignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => setShowPassword(v => !v);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleSubmit = (values, { resetForm }) => {
-    console.log('Signup submitted:', values);
-    resetForm();
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    try {
+      const authInfo = {
+        email: values.email,
+        password: values.password,
+        ...(values.role === 'model'
+          ? {
+              firstName: values.firstName,
+              lastName: values.lastName,
+              gender: values.gender,
+              birthDate: values.birthDate,
+            }
+          : {
+              agencyName: values.agencyName,
+              phone: values.phone,
+              location: values.location,
+            }),
+      };
+
+      await dispatch(
+        authenticateUser({
+          authInfo,
+          authMode:
+            values.role === 'model'
+              ? CONSTANTS.AUTH_MODE.SIGNUP_MODEL
+              : CONSTANTS.AUTH_MODE.SIGNUP_AGENCY,
+        })
+      ).unwrap();
+
+      resetForm();
+      navigate('/');
+    } catch (err) {
+      console.error(err);
+      alert(err || 'Signup failed');
+      dispatch(clearAuthError());
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <div className={styles.formWrapper}>
       <h2 className={styles.formTitle}>Sign Up</h2>
-
       <Formik
         initialValues={INITIAL_SIGNUP_VALUES}
         validationSchema={SIGNUP_VALIDATION_SCHEMA}
         onSubmit={handleSubmit}
       >
-        {({ values }) => {
+        {({ values, isSubmitting }) => {
           const roleFields =
             values.role === 'model' ? MODEL_FIELDS : AGENCY_FIELDS;
 
@@ -101,6 +140,7 @@ const SignupForm = () => {
                   />
                 );
               })}
+
               <label className={styles.formCheckBox}>
                 <div>
                   <Field
@@ -119,7 +159,11 @@ const SignupForm = () => {
                 />
               </label>
 
-              <button type='submit' className={styles.formButton}>
+              <button
+                type='submit'
+                className={styles.formButton}
+                disabled={isSubmitting}
+              >
                 Sign Up
               </button>
 

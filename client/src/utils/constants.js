@@ -1,4 +1,14 @@
+const serverIP = 'localhost';
+const serverPort = 5001;
+
 const CONSTANTS = {
+  BASE_URL: `http://${serverIP}:${serverPort}/`,
+  AUTH_MODE: {
+    REGISTER: 'REGISTER',
+    SIGNUP_MODEL: 'SIGNUP_MODEL',
+    SIGNUP_AGENCY: 'SIGNUP_AGENCY',
+  },
+  ACCESS_TOKEN: 'accessToken',
   INITIAL_SIGNUP_VALUES: {
     role: 'model',
     email: '',

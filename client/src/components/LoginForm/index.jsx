@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { LOGIN_FORM_VALIDATION } from '../../utils/validationSchema';
 import ValidatedField from '../ValidatedField';
 import styles from './LoginForm.module.sass';
+import { authenticateUser, clearAuthError } from '../../store/slices/authSlice';
+import CONSTANTS from '../../utils/constants';
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const togglePasswordVisibility = () => {
     setShowPassword(prev => !prev);
@@ -18,8 +24,26 @@ const LoginForm = () => {
     agreed: false,
   };
 
-  const handleSubmit = (values, { resetForm }) => {
-    resetForm();
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    try {
+      const { email, password } = values;
+
+      await dispatch(
+        authenticateUser({
+          authInfo: { email, password },
+          authMode: CONSTANTS.AUTH_MODE.LOGIN,
+        })
+      ).unwrap();
+
+      resetForm();
+      navigate('/');
+    } catch (err) {
+      console.error(err);
+      alert(err || 'Login failed');
+      dispatch(clearAuthError());
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -30,7 +54,7 @@ const LoginForm = () => {
         validationSchema={LOGIN_FORM_VALIDATION}
         onSubmit={handleSubmit}
       >
-        {() => (
+        {({ isSubmitting }) => (
           <Form className={styles.form}>
             <div className={styles.inputWrapper}>
               <ValidatedField
@@ -75,7 +99,11 @@ const LoginForm = () => {
               />
             </label>
 
-            <button type='submit' className={styles.formButton}>
+            <button
+              type='submit'
+              className={styles.formButton}
+              disabled={isSubmitting}
+            >
               Log In
             </button>
 
