@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { User, Model, Agency } = require('../models');
+const db = require('../models/index');
 require('dotenv').config();
 
 const SECRET_KEY = process.env.JWT_SECRET || 'supersecretkey';
@@ -17,19 +17,19 @@ exports.signupModel = async (req, res) => {
     const { email, password, firstName, lastName, gender, birthDate } =
       req.body;
 
-    const existingUser = await User.findOne({ where: { USR_Email: email } });
+    const existingUser = await db.User.findOne({ where: { USR_Email: email } });
     if (existingUser)
       return res.status(400).json({ message: 'Email already in use' });
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const newUser = await User.create({
+    const newUser = await db.User.create({
       USR_Email: email,
       USR_PasswordHash: passwordHash,
       USR_Role: 'model',
     });
 
-    await Model.create({
+    await db.Model.create({
       USR_ID: newUser.USR_ID,
       MOD_FirstName: firstName,
       MOD_LastName: lastName,
@@ -56,19 +56,19 @@ exports.signupAgency = async (req, res) => {
   try {
     const { email, password, agencyName, phone, location } = req.body;
 
-    const existingUser = await User.findOne({ where: { USR_Email: email } });
+    const existingUser = await db.User.findOne({ where: { USR_Email: email } });
     if (existingUser)
       return res.status(400).json({ message: 'Email already in use' });
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const newUser = await User.create({
+    const newUser = await db.User.create({
       USR_Email: email,
       USR_PasswordHash: passwordHash,
       USR_Role: 'agency',
     });
 
-    await Agency.create({
+    await db.Agency.create({
       USR_ID: newUser.USR_ID,
       AGN_Name: agencyName,
       AGN_Phone: phone,
@@ -94,7 +94,7 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ where: { USR_Email: email } });
+    const user = await db.User.findOne({ where: { USR_Email: email } });
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
     const isMatch = await bcrypt.compare(password, user.USR_PasswordHash);
@@ -117,7 +117,7 @@ exports.logout = async (req, res) => {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) return res.status(400).json({ message: 'No token provided' });
 
-    const user = await User.findOne({ where: { USR_AccessToken: token } });
+    const user = await db.User.findOne({ where: { USR_AccessToken: token } });
     if (!user) return res.status(400).json({ message: 'Invalid token' });
 
     user.USR_AccessToken = null;
