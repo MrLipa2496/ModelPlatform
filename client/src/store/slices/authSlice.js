@@ -8,11 +8,14 @@ import CONSTANTS from '../../utils/constants';
 
 const AUTH_SLICE_NAME = 'auth';
 
+const savedToken = localStorage.getItem(CONSTANTS.ACCESS_TOKEN);
+const savedUser = localStorage.getItem('user');
+
 const initialState = {
   isFetching: false,
   error: null,
-  user: null,
-  accessToken: null,
+  user: savedUser ? JSON.parse(savedUser) : null,
+  accessToken: savedToken || null,
 };
 
 export const authenticateUser = createAsyncThunk(
@@ -20,12 +23,19 @@ export const authenticateUser = createAsyncThunk(
   async ({ authInfo, authMode }, { rejectWithValue }) => {
     try {
       let response;
-      if (authMode === CONSTANTS.AUTH_MODE.LOGIN) {
-        response = await loginRequest(authInfo);
-      } else if (authMode === CONSTANTS.AUTH_MODE.SIGNUP_MODEL) {
-        response = await signupModelRequest(authInfo);
-      } else if (authMode === CONSTANTS.AUTH_MODE.SIGNUP_AGENCY) {
-        response = await signupAgencyRequest(authInfo);
+
+      switch (authMode) {
+        case CONSTANTS.AUTH_MODE.LOGIN:
+          response = await loginRequest(authInfo);
+          break;
+        case CONSTANTS.AUTH_MODE.SIGNUP_MODEL:
+          response = await signupModelRequest(authInfo);
+          break;
+        case CONSTANTS.AUTH_MODE.SIGNUP_AGENCY:
+          response = await signupAgencyRequest(authInfo);
+          break;
+        default:
+          throw new Error('Invalid auth mode');
       }
 
       return response.data;
@@ -46,7 +56,9 @@ const authSlice = createSlice({
       state.user = null;
       state.accessToken = null;
       state.error = null;
+
       localStorage.removeItem(CONSTANTS.ACCESS_TOKEN);
+      localStorage.removeItem('user');
     },
   },
   extraReducers: builder => {
@@ -58,11 +70,14 @@ const authSlice = createSlice({
       .addCase(authenticateUser.fulfilled, (state, action) => {
         state.isFetching = false;
         state.error = null;
-        state.user = {
-          userId: action.payload.userId,
-          role: action.payload.role,
-        };
-        state.accessToken = action.payload.accessToken;
+
+        const { userId, role, accessToken } = action.payload;
+
+        state.user = { userId, role };
+        state.accessToken = accessToken;
+
+        localStorage.setItem(CONSTANTS.ACCESS_TOKEN, accessToken);
+        localStorage.setItem('user', JSON.stringify({ userId, role }));
       })
       .addCase(authenticateUser.rejected, (state, action) => {
         state.isFetching = false;
@@ -72,5 +87,4 @@ const authSlice = createSlice({
 });
 
 export const { clearAuthError, logout } = authSlice.actions;
-
 export default authSlice.reducer;
