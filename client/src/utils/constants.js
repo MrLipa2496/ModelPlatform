@@ -1,3 +1,4 @@
+import styles from './../pages/BasePage/Header/Header.module.sass';
 const serverIP = 'localhost';
 const serverPort = 5001;
 
@@ -71,6 +72,51 @@ const CONSTANTS = {
       label: 'Location',
     },
   ],
+
+  NAV_CONFIG: {
+    guest: [
+      { to: '/', label: 'Home' },
+      { to: '/models', label: 'Models' },
+      { to: '/castings', label: 'Castings' },
+      { to: '/about', label: 'About' },
+      { to: '/contacts', label: 'Contacts' },
+      {
+        to: '/login',
+        label: 'Login',
+        isAuthBtn: true,
+        className: styles.loginBtn,
+      },
+      {
+        to: '/signup',
+        label: 'SignUp',
+        isAuthBtn: true,
+        className: styles.signupBtn,
+      },
+    ],
+    model: [
+      { to: '/dashboard', label: 'Dashboard' },
+      { to: '/offers', label: 'Offers' },
+      { to: '/castings', label: 'Castings' },
+      { to: '/profile', label: 'Profile' },
+    ],
+    agency: [
+      { to: '/dashboard', label: 'Dashboard' },
+      { to: '/profile', label: 'Profile' },
+      { to: '/models', label: 'Models' },
+      { to: '/castings', label: 'My Castings' },
+      { to: '/applications', label: 'Applications' },
+    ],
+    admin: [
+      { to: '/admin', label: 'Admin Panel' },
+      { to: '/users', label: 'Users' },
+      { to: '/offers', label: 'Offers' },
+      { to: '/verify', label: 'Verify' },
+      { to: '/reports', label: 'Reports' },
+      { to: '/castings', label: 'Castings' },
+      { to: '/payments', label: 'Payments' },
+      { to: '/statistics', label: 'Statistics' },
+    ],
+  },
 };
 
 export default CONSTANTS;

@@ -7,7 +7,7 @@ function Footer () {
       <nav className={styles.linksContainer}>
         <ul>
           <li>
-            Company: <span>MrLipa Travel Agency</span>
+            Company: <span>LipaX</span>
           </li>
           <li>
             Country: <span>Ukraine</span>
@@ -32,7 +32,7 @@ function Footer () {
         </ul>
       </nav>
       <div className={styles.copyright}>
-        &copy; 2025 Lipchansky Company. All rights reserved.
+        &copy; 2025 Lipchanskyi Company. All rights reserved.
       </div>
     </div>
   );

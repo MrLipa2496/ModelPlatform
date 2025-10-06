@@ -1,99 +1,259 @@
 $main-color: #ffffff
+$black: #000
+$white: #fff
+$transition-time: 0.3s
 
 .headerWrapper
+    position: relative
+    z-index: 5
     display: flex
     justify-content: space-between
     align-items: center
-    min-height: 100px
-    background-color: $main-color
-    font-size: 20px
-    position: relative
+    min-height: 120px
+    padding: 0 20px
     box-shadow: 0 2px 8px rgba(0,0,0,0.1)
-    
-.headerLogoWrapper
-    border: 1px solid black
-    max-width: 250px
-    width: 100%
-    text-align: right
-    padding: 20px
-    border-radius: 50px
-    position: absolute
-    top: 12px
-    left: -90px
-    cursor: pointer
-    transition: transform 0.3s ease 0s
+    font-size: 20px
+    background-color: $main-color
 
+.headerLogoWrapper
+    cursor: pointer
+    transition: transform $transition-time ease
     &:hover
-        transform: translateX(20px)
+        transform: translateX(10px)
 
 .logoNavLink
-    max-width: 200px
+    display: flex
+    align-items: center
+    text-decoration: none
 
 .headerLogo
-    font-size: 35px
-    font-weight: 1000
-    background: linear-gradient(to bottom right, #00ccff 20%, #9966ff 95%)
+    position: relative
+    display: inline-block
+    top: 0
+    left: -90px
+    cursor: pointer
+    width: 200px
+    padding: 20px
+    text-align: right
+    border-radius: 50px
+    font-size: 45px
+    font-family: "Roboto Slab", serif
+    font-weight: 900
+    color: $black
+    background-color: $white
     -webkit-background-clip: text
-    -webkit-text-fill-color: transparent
-    background-clip: text
-    text-fill-color: transparent
+    -webkit-text-fill-color: initial
+    box-shadow: 10px 5px 30px rgba(80, 76, 76, 0.3)
+    transition: transform 0.3s ease, box-shadow 0.3s ease
+
+    &:hover
+        color: $white
+        background: linear-gradient(270deg, red, orange, yellow, violet, red)
+        background-size: 400% 400%
+        -webkit-background-clip: text
+        -webkit-text-fill-color: transparent
+        animation: logoColorAnim 6s linear infinite, logoShadowAnim 6s linear infinite
+
+
 
 .headerAbbreviation
     font-family: "Dancing Script", cursive
-
-.navLink
-    text-decoration: none
-    color: #000
-    padding: 10px
-    width: 100%
+    font-weight: 900
 
 .headerNav
     position: absolute 
-    top: 100% 
+    top: 100%
     right: 0
-    background-color: $main-color
-    flex-direction: column
-    list-style-type: none
-    max-width: 800px
-    width: 100%
-    gap: 10px
-    padding: 10px
-    display: none  
+    left: 0
     z-index: 3
+    display: none
+    flex-direction: column
+    width: 100%
+    padding: 150px
+    gap: 10px
+    list-style: none
+    border-radius: 10px
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1)
+    background-color: $main-color
+    box-sizing: border-box
 
-    @media screen and (min-width: 1020px)
+    @media screen and (min-width: 1050px)
         position: static
-        flex-direction: row  
-        justify-content: space-between
+        display: flex
+        flex-direction: row
+        justify-content: flex-end
         align-items: center
-        display: flex  
+        width: auto
+        padding: 0
+        gap: 20px
+        box-shadow: none
+
+.navLi
+    text-align: center
+    display: flex
+    justify-content: center
+    width: 100%
+
+.navLink
+    position: relative
+    overflow: hidden
+    border-radius: 10px
+    text-decoration: none
+    color: $black
+    padding: 15px 20px
+    transition: color 0.3s
+    white-space: nowrap
+
+
+    &::before
+        content: ''
+        position: absolute
+        top: -2px
+        left: -2px
+        right: -2px
+        bottom: -2px
+        border-radius: 8px
+        background: linear-gradient(270deg, red, orange, yellow, violet, red)
+        background-size: 400% 400%
+        z-index: -1
+        animation: borderAnim 6s linear infinite
+        opacity: 0
+        transition: opacity 0.3s
+
+    &:hover
+        color: $white
+
+    &:hover::before
+        opacity: 1
+    
+    @media screen and (min-width: 1050px)
+        width: 100%
+
+.active
+    color: $white
+    background-color: $black
+    
 
 .menuBtn
     display: flex
     background-color: inherit
     border: none
-    font-size: 26px
     cursor: pointer
-    margin-right: 20px
-    padding: 10px
     border-radius: 50%
+    padding: 10px
+    font-size: 26px
+    transition: background-color $transition-time
 
+    &:hover
+        background-color: rgba(0,0,0,0.05)
 
-    @media screen and (min-width: 1020px)
-        display: none  
-        
+    @media screen and (min-width: 1050px) 
+        display: none
 
 .menuOpen
-    display: flex  
-    max-width: 1020px
-    width: 100%
-
-.navLi
     display: flex
-    text-align: center
+    flex-direction: column
+    gap: 10px
 
-.active
-    background-color: #968cff
-    border-radius: 50px
-    padding: 10px 20px
+.profileIcon
+    font-size: 30px
 
+.authButtonsWrapper
+  display: flex
+  flex-direction: column
+  gap: 10px
+  align-items: center
+  width: 100%
+  max-width: 100%
+  box-sizing: border-box
+  padding: 0 10px
+  margin: 0 20px
+
+.signupBtn
+    padding: 12px 
+    font-family: "Roboto Slab", serif
+    font-weight: 500
+    border: 1px solid $black
+
+    &:hover
+        border: 1px solid $white
+
+.logoutBtn, .loginBtn
+    position: relative
+    z-index: 1
+    padding: 12px 
+    border-radius: 10px
+    border: none
+    overflow: hidden
+    font-family: "Roboto Slab", serif
+    font-size: 20px
+    font-weight: 500
+    color: $white
+    cursor: pointer
+    background-color: $black
+
+    &::before
+        content: ''
+        position: absolute
+        top: -2px
+        left: -2px
+        right: -2px
+        bottom: -2px
+        border-radius: 8px
+        background: linear-gradient(270deg, red, orange, yellow, violet, red)
+        background-size: 400% 400%
+        z-index: -1
+        animation: borderAnim 6s linear infinite
+        opacity: 0
+        transition: opacity 0.3s
+
+    &:hover::before
+        opacity: 1
+
+
+@media screen and (max-width: 1050px)
+    .headerNav.menuOpen
+        border-radius: 0
+        padding: 20px
+
+    .navLi
+        width: 100%
+        
+
+    .navLink
+        display: block
+        width: 100%
+        text-align: center
+
+    .loginBtn, .logoutBtn
+        display: block
+        width: 100%
+        text-align: center
+
+@keyframes logoColorAnim
+    0%
+        background-position: 0% 50%
+    50%
+        background-position: 100% 50%
+    100%
+        background-position: 0% 50%
+
+@keyframes logoShadowAnim
+    0%
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.6)
+    25%
+        box-shadow: 0 0 20px rgba(255, 165, 0, 0.6)
+    50%
+        box-shadow: 0 0 20px rgba(255, 255, 0, 0.6)
+    75%
+        box-shadow: 0 0 20px rgba(138, 43, 226, 0.6)
+    100%
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.6)
+
+@keyframes borderAnim
+    0%
+        background-position: 0% 50%
+    50%
+        background-position: 100% 50%
+    100%
+        background-position: 0% 50%

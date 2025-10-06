@@ -1,18 +1,44 @@
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useState, useMemo } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { CgProfile } from 'react-icons/cg';
+import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
+import { logout } from '../../../store/slices/authSlice';
+import CONSTANTS from '../../../utils/constants';
 import styles from './Header.module.sass';
 
 function Header () {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const { user, isFetching } = useSelector(state => state.auth);
+
+  const toggleMenu = () => setIsMenuOpen(prev => !prev);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login');
   };
 
-  const navLinkClassName = ({ isActive }) =>
-    classNames(styles.navLink, { [styles.active]: isActive });
+  const navConfig = useMemo(() => {
+    return CONSTANTS && CONSTANTS.NAV_CONFIG;
+  }, []);
+
+  const currentRole = user?.role || 'guest';
+  const navLinks = navConfig[currentRole] || [];
+
+  const navLinkClassName = ({ isActive }, customClass) =>
+    classNames(styles.navLink, customClass, { [styles.active]: isActive });
+
+  const authLinks = navLinks.filter(
+    l => l.label === 'Login' || l.label === 'SignUp'
+  );
+
+  const regularLinks = navLinks.filter(
+    l => l.label !== 'Login' && l.label !== 'SignUp'
+  );
 
   return (
     <header className={styles.headerWrapper}>
@@ -24,7 +50,7 @@ function Header () {
         </div>
       </NavLink>
 
-      <button className={styles.menuBtn} onClick={toggleMenu}>
+      <button className={styles.menuBtn} onClick={toggleMenu} aria-label='Menu'>
         <GiHamburgerMenu />
       </button>
 
@@ -33,36 +59,44 @@ function Header () {
           [styles.menuOpen]: isMenuOpen,
         })}
       >
-        <li className={styles.navLi}>
-          <NavLink className={navLinkClassName} to='/'>
-            Home
-          </NavLink>
-        </li>
-        <li className={styles.navLi}>
-          <NavLink className={navLinkClassName} to='/tours'>
-            Tours
-          </NavLink>
-        </li>
-        <li className={styles.navLi}>
-          <NavLink className={navLinkClassName} to='/booking'>
-            Booking
-          </NavLink>
-        </li>
-        <li className={styles.navLi}>
-          <NavLink className={navLinkClassName} to='/transport'>
-            Transport
-          </NavLink>
-        </li>
-        <li className={styles.navLi}>
-          <NavLink className={navLinkClassName} to='/hotels'>
-            Hotels
-          </NavLink>
-        </li>
-        <li className={styles.navLi}>
-          <NavLink className={navLinkClassName} to='/contacts'>
-            Contacts
-          </NavLink>
-        </li>
+        {regularLinks.map(({ to, label, className }) => (
+          <li key={to} className={styles.navLi}>
+            <NavLink
+              className={props => navLinkClassName(props, className)}
+              to={to}
+            >
+              {label === 'Profile' ? (
+                <CgProfile className={styles.profileIcon} />
+              ) : (
+                label
+              )}
+            </NavLink>
+          </li>
+        ))}
+
+        {currentRole === 'guest' && authLinks.length > 0 && (
+          <li className={classNames(styles.navLi, styles.authNavLi)}>
+            <div className={styles.authButtonsWrapper}>
+              {authLinks.map(({ to, label, className }) => (
+                <NavLink
+                  key={to}
+                  className={props => navLinkClassName(props, className)}
+                  to={to}
+                >
+                  {label}
+                </NavLink>
+              ))}
+            </div>
+          </li>
+        )}
+
+        {user && (
+          <li className={styles.navLi}>
+            <button onClick={handleLogout} className={styles.logoutBtn}>
+              Logout
+            </button>
+          </li>
+        )}
       </nav>
     </header>
   );
