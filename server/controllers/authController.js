@@ -4,7 +4,7 @@ const db = require('../models/index');
 require('dotenv').config();
 
 const SECRET_KEY = process.env.JWT_SECRET || 'supersecretkey';
-const TOKEN_EXPIRES_IN = '7d';
+const TOKEN_EXPIRES_IN = '3h';
 
 const generateAccessToken = user => {
   return jwt.sign({ id: user.USR_ID, role: user.USR_Role }, SECRET_KEY, {
