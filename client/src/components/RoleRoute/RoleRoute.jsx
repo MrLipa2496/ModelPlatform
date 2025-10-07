@@ -1,13 +1,10 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Spiner from '../../Spinner/Spinner';
 
 const RoleRoute = ({ allowedRoles }) => {
-  const { data: user, isFetching } = useSelector(state => state.userStore);
+  const { user, isFetching } = useSelector(state => state.auth || {});
 
-  if (isFetching) {
-    return <Spiner />;
-  }
+  if (isFetching) return <div>Loading...</div>;
 
   if (!user) {
     return <Navigate to='/login' replace />;
