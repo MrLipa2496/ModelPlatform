@@ -23,16 +23,16 @@ function App () {
 
         <Route path='/' element={<BasePage />}>
           <Route index element={<HomePage />} />
-          <Route path='models' element={<ModelsPage />} />
-          <Route path='castings' element={<CastingsPage />} />
-          <Route path='about' element={<AboutPage />} />
-          <Route path='contacts' element={<ContactsPage />} />
+          <Route path='/models' element={<ModelsPage />} />
+          <Route path='/castings' element={<CastingsPage />} />
+          <Route path='/about' element={<AboutPage />} />
+          <Route path='/contacts' element={<ContactsPage />} />
 
           <Route element={<RoleRoute allowedRoles={['model']} />}>
-            <Route path='dashboard' element={<DashboardPage />} />
-            <Route path='offers' element={<OfferPage />} />
-            <Route path='my-castings' element={<CastingPage />} />
-            <Route path='profile' element={<ProfilePage />} />
+            <Route path='/dashboard' element={<DashboardPage />} />
+            <Route path='/offers' element={<OfferPage />} />
+            <Route path='/my-castings' element={<CastingPage />} />
+            <Route path='/profile' element={<ProfilePage />} />
           </Route>
         </Route>
       </Routes>
