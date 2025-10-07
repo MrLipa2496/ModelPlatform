@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import Spiner from '../Spinner';
 
 const RoleRoute = ({ allowedRoles }) => {
-  const { data: user, isFetching } = useSelector(state => state.userStore);
+  const { user, isFetching } = useSelector(state => state.auth || {});
 
   if (isFetching) {
     return <Spiner />;
