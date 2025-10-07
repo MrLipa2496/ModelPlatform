@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Spiner from '../../Spinner/Spinner';
+import Spiner from '../Spinner';
 
 const RoleRoute = ({ allowedRoles }) => {
   const { data: user, isFetching } = useSelector(state => state.userStore);
