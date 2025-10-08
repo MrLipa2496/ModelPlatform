@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const modelController = require('../controllers/modelController');
-const auth = require('../middleware/auth');
-const upload = require('../middlewares/upload');
+const auth = require('../middlewares/authMiddleware');
+const { uploadProfilePhoto } = require('../middlewares/upload');
 
 const modelRouter = Router();
 
@@ -10,7 +10,7 @@ modelRouter.put('/profile', auth, modelController.updateProfile);
 modelRouter.patch(
   '/profile/photo',
   auth,
-  upload.single('photo'),
+  uploadProfilePhoto,
   modelController.updatePhoto
 );
 
