@@ -1,6 +1,7 @@
 const express = require('express');
-const router = require('./routers');
+const path = require('path');
 const cors = require('cors');
+const router = require('./routers');
 
 const app = express();
 
@@ -10,6 +11,9 @@ app.use(
     credentials: true,
   })
 );
+
+const uploadPath = path.resolve(__dirname, '..', 'public', 'uploads'); // той самий, що в upload.js
+app.use('/uploads', express.static(uploadPath));
 
 app.use(express.json());
 
