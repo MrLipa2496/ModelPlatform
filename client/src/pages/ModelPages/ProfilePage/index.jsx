@@ -10,6 +10,7 @@ import {
   uploadPhoto,
 } from '../../../store/slices/modelSlice';
 import CONSTANTS from '../../../utils/constants';
+import defaultAvatar from '../../../../img/default-avatar.jpg';
 import styles from './ProfilePage.module.sass';
 
 export default function ProfilePage () {
@@ -50,7 +51,7 @@ export default function ProfilePage () {
               photoPreview ||
               (model.MOD_Photo
                 ? `http://localhost:5001${model.MOD_Photo}`
-                : '/default-avatar.jpg')
+                : `${defaultAvatar}`)
             }
             alt='Profile Photo'
             onClick={() => fileInputRef.current.click()}
