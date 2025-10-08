@@ -54,7 +54,7 @@ const SignupForm = () => {
       ).unwrap();
 
       resetForm();
-      navigate('/');
+      navigate('/dashboard');
     } catch (err) {
       console.error(err);
       alert(err || 'Signup failed');
