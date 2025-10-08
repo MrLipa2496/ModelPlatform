@@ -145,3 +145,61 @@ export const SIGNUP_VALIDATION_SCHEMA = yup.object().shape({
     otherwise: schema => schema.notRequired(),
   }),
 });
+
+export const profileValidationSchema = yup.object({
+  MOD_FirstName: yup
+    .string()
+    .required('First name is required')
+    .matches(/^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s-]+$/, 'Only letters are allowed')
+    .min(2, 'Must be at least 2 characters')
+    .max(50, 'Too long'),
+
+  MOD_LastName: yup
+    .string()
+    .required('Last name is required')
+    .matches(/^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s-]+$/, 'Only letters are allowed')
+    .min(2, 'Must be at least 2 characters')
+    .max(50, 'Too long'),
+
+  MOD_Gender: yup
+    .string()
+    .nullable()
+    .oneOf(['Male', 'Female', 'Other', null], 'Invalid gender'),
+
+  MOD_BirthDate: yup
+    .date()
+    .nullable()
+    .max(new Date(), 'Birth date cannot be in the future')
+    .min(
+      new Date(new Date().setFullYear(new Date().getFullYear() - 120)),
+      'Are you really that old?'
+    ),
+
+  MOD_Height: yup
+    .number()
+    .nullable()
+    .min(50, 'Height must be at least 50 cm')
+    .max(300, 'Height cannot exceed 300 cm'),
+
+  MOD_Weight: yup
+    .number()
+    .nullable()
+    .min(20, 'Weight must be at least 20 kg')
+    .max(300, 'Weight cannot exceed 300 kg'),
+
+  MOD_EyeColor: yup.string().nullable().min(2, 'Too short').max(20, 'Too long'),
+
+  MOD_HairColor: yup
+    .string()
+    .nullable()
+    .min(2, 'Too short')
+    .max(20, 'Too long'),
+
+  MOD_Experience: yup
+    .number()
+    .nullable()
+    .min(0, 'Cannot be negative')
+    .max(100, 'Too much experience'),
+
+  MOD_Bio: yup.string().nullable().max(1000, 'Bio is too long'),
+});

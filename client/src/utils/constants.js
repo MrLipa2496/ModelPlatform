@@ -117,6 +117,24 @@ const CONSTANTS = {
       { to: '/statistics', label: 'Statistics' },
     ],
   },
+
+  PROFILE_FIELDS: [
+    { name: 'MOD_FirstName', label: 'First Name' },
+    { name: 'MOD_LastName', label: 'Last Name' },
+    { name: 'MOD_Gender', label: 'Gender' },
+    { name: 'MOD_BirthDate', label: 'Date of Birth', type: 'date' },
+    { name: 'MOD_Height', label: 'Height (cm)', type: 'number' },
+    { name: 'MOD_Weight', label: 'Weight (kg)', type: 'number' },
+    { name: 'MOD_EyeColor', label: 'Eye Color' },
+    { name: 'MOD_HairColor', label: 'Hair Color' },
+    { name: 'MOD_Experience', label: 'Experience' },
+    {
+      name: 'MOD_Bio',
+      label: 'About Me',
+      as: 'textarea',
+      placeholder: 'Tell something about yourself...',
+    },
+  ],
 };
 
 export default CONSTANTS;
