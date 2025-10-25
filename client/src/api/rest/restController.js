@@ -16,3 +16,5 @@ export const updateModelPhotoRequest = formData =>
   http.patch('api/model/profile/photo', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
+export const getAllModelsRequest = () => http.get('api/model/models');
+export const getModelByIdRequest = id => http.get(`api/model/model/${id}`);
