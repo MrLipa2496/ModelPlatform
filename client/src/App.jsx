@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import HomePage from './pages/GuestPages/HomePage';
 import ModelsPage from './pages/GuestPages/ModelsPage';
+import ModelDetailsPage from './pages/GuestPages/ModelDetailsPage';
 import CastingsPage from './pages/GuestPages/CastingsPage';
 import AboutPage from './pages/GuestPages/AboutPage';
 import ContactsPage from './pages/GuestPages/ContactsPage';
@@ -33,6 +34,10 @@ function App () {
             <Route path='/offers' element={<OfferPage />} />
             <Route path='/my-castings' element={<CastingPage />} />
             <Route path='/profile' element={<ProfilePage />} />
+          </Route>
+
+          <Route element={<RoleRoute allowedRoles={['agency']} />}>
+            <Route path='/model/:id' element={<ModelDetailsPage />} />
           </Route>
         </Route>
       </Routes>
