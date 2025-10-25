@@ -97,3 +97,67 @@ exports.updatePhoto = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+exports.getModels = async (req, res) => {
+  try {
+    const models = await db.Model.findAll({
+      attributes: [
+        'MOD_ID',
+        'MOD_FirstName',
+        'MOD_LastName',
+        'MOD_Photo',
+        'MOD_Experience',
+        'MOD_Gender',
+        'MOD_BirthDate',
+        'MOD_Height',
+      ],
+      order: [['MOD_ID', 'DESC']],
+    });
+
+    res.json(models);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to load models list' });
+  }
+};
+
+exports.getModel = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const model = await db.Model.findOne({
+      where: { MOD_ID: id },
+      attributes: [
+        'MOD_ID',
+        'MOD_FirstName',
+        'MOD_LastName',
+        'MOD_Gender',
+        'MOD_BirthDate',
+        'MOD_Height',
+        'MOD_Weight',
+        'MOD_EyeColor',
+        'MOD_HairColor',
+        'MOD_Experience',
+        'MOD_Skills',
+        'MOD_Bio',
+        'MOD_Photo',
+      ],
+      include: [
+        {
+          model: db.User,
+          as: 'User',
+          attributes: ['USR_Role', 'USR_Email'],
+        },
+      ],
+    });
+
+    if (!model) {
+      return res.status(404).json({ message: 'Model not found' });
+    }
+
+    res.json(model);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to load model info' });
+  }
+};
