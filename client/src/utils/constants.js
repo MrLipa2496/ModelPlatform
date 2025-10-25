@@ -101,10 +101,10 @@ const CONSTANTS = {
     ],
     agency: [
       { to: '/dashboard', label: 'Dashboard' },
-      { to: '/profile', label: 'Profile' },
       { to: '/models', label: 'Models' },
       { to: '/castings', label: 'My Castings' },
       { to: '/applications', label: 'Applications' },
+      { to: '/profile', label: 'Profile' },
     ],
     admin: [
       { to: '/admin', label: 'Admin Panel' },
