@@ -18,3 +18,7 @@ export const updateModelPhotoRequest = formData =>
   });
 export const getAllModelsRequest = () => http.get('api/model/models');
 export const getModelByIdRequest = id => http.get(`api/model/model/${id}`);
+
+// AGENCY
+export const getAllAgenciesRequest = () => http.get('api/agency/agencies');
+export const getAgencyByIdRequest = id => http.get(`api/agency/agency/${id}`);
