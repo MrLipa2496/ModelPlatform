@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -7,20 +7,21 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       USR_ID: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Users',
-          key: 'USR_ID'
+          key: 'USR_ID',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       MOD_FirstName: { type: Sequelize.STRING, allowNull: false },
       MOD_LastName: { type: Sequelize.STRING, allowNull: false },
+      MOD_Country: { type: Sequelize.STRING },
       MOD_Gender: { type: Sequelize.STRING },
       MOD_BirthDate: { type: Sequelize.DATE },
       MOD_Height: { type: Sequelize.INTEGER },
@@ -34,17 +35,17 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      }
-    })
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
+    });
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('Models')
-  }
-}
+    await queryInterface.dropTable('Models');
+  },
+};
