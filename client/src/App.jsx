@@ -14,6 +14,7 @@ import DashboardPage from './pages/ModelPages/DashboardPage';
 import OfferPage from './pages/ModelPages/OfferPage';
 import CastingPage from './pages/ModelPages/CastingPage';
 import ProfilePage from './pages/ModelPages/ProfilePage';
+import AgenciesPage from './pages/GuestPages/AgenciesPage';
 
 function App () {
   return (
@@ -24,6 +25,7 @@ function App () {
 
         <Route path='/' element={<BasePage />}>
           <Route index element={<HomePage />} />
+          <Route path='/agencies' element={<AgenciesPage />} />
           <Route path='/models' element={<ModelsPage />} />
           <Route path='/castings' element={<CastingsPage />} />
           <Route path='/about' element={<AboutPage />} />
