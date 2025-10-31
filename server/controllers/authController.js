@@ -72,7 +72,7 @@ exports.signupAgency = async (req, res) => {
       USR_ID: newUser.USR_ID,
       AGN_Name: agencyName,
       AGN_Phone: phone,
-      AGN_Location: location,
+      AGN_Country: location,
     });
 
     const token = generateAccessToken(newUser);
