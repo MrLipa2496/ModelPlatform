@@ -1,0 +1,115 @@
+.howItWorks
+  text-align: center
+  padding: 80px 20px
+  background: linear-gradient(180deg, #fafafa 0%, #fff 100%)
+
+.title
+  font-size: 60px
+  font-family: "Roboto Slab", serif
+  font-weight: 1000
+  margin-bottom: 20px
+  background: linear-gradient(270deg, red, orange, yellow, violet, red)
+  background-size: 400% 400%
+  -webkit-background-clip: text
+  -webkit-text-fill-color: transparent
+  animation: gradientText 6s linear infinite
+
+.subtitle
+  font-size: 1.2rem
+  color: #666
+  margin-bottom: 60px
+
+.timeline
+  display: flex
+  justify-content: center
+  align-items: stretch 
+  gap: 50px
+  flex-wrap: wrap
+  position: relative
+
+.step
+  flex: 1 1 
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: flex-start
+  text-align: left
+  background: #fff
+  border-radius: 16px
+  padding: 20px
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08)
+  transition: all 0.3s ease
+  min-height: 200px
+  max-width: 300px
+
+  &:hover
+    transform: translateY(-5px)
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12)
+
+.iconWrapper
+  position: relative
+  display: flex
+  align-items: center
+  justify-content: center
+  margin-bottom: 20px
+
+.icon
+  display: flex
+  justify-content: center
+  align-items: center
+  background: linear-gradient(135deg, #ff0077, #ff5c00)
+  color: #fff
+  padding: 20px
+  border-radius: 50%
+  width: 70px
+  height: 70px
+  font-size: 28px
+  transition: all 0.3s ease
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15)
+  cursor: pointer
+
+  &:hover
+    transform: scale(1.1) rotate(8deg)
+    box-shadow: 0 10px 25px rgba(255, 0, 100, 0.4)
+
+.content
+  flex: 1 
+  display: flex
+  flex-direction: column
+  justify-content: flex-start
+
+  h3
+    font-size: 1.3rem
+    margin-bottom: 10px
+    font-weight: 600
+    text-align: center
+
+  p
+    color: #555
+    line-height: 1.6
+    font-size: 1rem
+    margin-bottom: auto
+
+
+@media (max-width: 768px)
+  .timeline
+    flex-direction: column
+    align-items: center
+  .step
+    max-width: 90%
+    padding: 30px 20px
+
+@media (max-width: 520px)
+  h2
+    font-size: 40px
+  .step
+    max-width: 280px
+    padding: 35px 25px
+
+@keyframes gradientText
+  0%
+    background-position: 0% 50%
+  50%
+    background-position: 100% 50%
+  100%
+    background-position: 0% 50%
