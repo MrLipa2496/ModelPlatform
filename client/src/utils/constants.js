@@ -75,8 +75,8 @@ const CONSTANTS = {
 
   NAV_CONFIG: {
     guest: [
-      { to: '/', label: 'Home' },
       { to: '/models', label: 'Models' },
+      { to: '/agencies', label: 'Agencies' },
       { to: '/castings', label: 'Castings' },
       { to: '/about', label: 'About' },
       { to: '/contacts', label: 'Contacts' },
