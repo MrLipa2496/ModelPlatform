@@ -1,0 +1,242 @@
+// --- Змінні для керування темою ---
+$primary-color: #6d55ff
+$danger-color: #e74c3c
+$text-color: #2c3e50
+$light-text-color: #95a5a6
+$border-color: #ecf0f1
+$background-light: #f9f9f9
+$border-radius: 12px
+$base-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)
+
+// --- Анімації ---
+@keyframes liftUp
+  from
+    transform: translateY(0)
+    box-shadow: 0 4px 12px rgba($text-color, 0.05)
+  to
+    transform: translateY(-5px)
+    box-shadow: 0 8px 20px rgba($text-color, 0.1)
+
+// --- Основна картка ---
+.albumCard
+  background: #fff
+  border-radius: $border-radius
+  aspect-ratio: 1 / 1
+  display: flex
+  flex-direction: column
+  box-shadow: 0 4px 12px rgba($text-color, 0.05)
+  border: 1px solid $border-color
+  overflow: hidden
+  transition: $base-transition
+  width: 100%
+  max-width: 200px
+  margin: 0 auto
+
+  &:hover
+    animation: liftUp 0.3s forwards
+
+  &.addNew
+    border: 2px dashed $border-color
+    background: transparent
+    box-shadow: none
+    cursor: pointer
+
+    &:hover
+      border-color: $primary-color
+      background: #fff
+
+      .emptyAlbum .plus,
+      .emptyAlbum .label
+        color: $primary-color
+        transform: scale(1.05)
+
+.previewWrapper
+  flex-grow: 1
+  display: flex
+  height: 100%
+  cursor: pointer
+  position: relative
+  overflow: hidden
+
+.emptyAlbum
+  width: 100%
+  height: 100%
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  background: $background-light
+  transition: $base-transition
+
+  .plus
+    font-size: 4.5rem
+    font-weight: 200
+    line-height: 1
+    color: $light-text-color
+    transition: $base-transition
+
+  .label
+    font-size: 0.9rem
+    font-weight: 500
+    color: $light-text-color
+    margin-top: 8px
+    text-align: center
+    padding: 0 10px
+    transition: $base-transition
+
+// --- Сітка фото 1+2 ---
+.photoGrid
+  display: flex
+  width: 100%
+  height: 100%
+  background: $background-light
+
+  img
+    width: 100%
+    height: 100%
+    object-fit: cover
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)
+
+  .previewWrapper:hover & img
+    transform: scale(1.05)
+
+  .mainPhoto
+    flex-basis: 66.66%
+    overflow: hidden
+    border-right: 3px solid #fff
+
+  .sidePhotos
+    flex-basis: 33.33%
+    display: flex
+    flex-direction: column
+    overflow: hidden
+
+    img
+      flex-basis: 50%
+      height: 50%
+      &:first-child
+        border-bottom: 3px solid #fff
+
+.controls
+  display: flex
+  justify-content: center
+  align-items: center
+  padding: 0.75rem 1rem
+  background: #fff
+  flex-shrink: 0
+  border-top: 1px solid $border-color
+
+.albumTitle
+  font-weight: 600
+  font-size: 0.95rem
+  color: $text-color
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  padding-right: 10px
+
+@keyframes fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+@keyframes scaleIn
+  from
+    opacity: 0
+    transform: scale(0.9)
+  to
+    opacity: 1
+    transform: scale(1)
+
+.deleteBtn
+  background: none
+  border: none
+  color: $light-text-color
+  font-size: 1.3rem
+  font-weight: bold
+  cursor: pointer
+  padding: 0 4px
+  line-height: 1
+  transition: $base-transition
+
+  &:hover
+    color: $danger-color
+    transform: scale(1.2) rotate(90deg)
+
+.confirmOverlay
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: rgba(0, 0, 0, 0.6)
+  // Сучасний ефект розмиття фону
+  backdrop-filter: blur(8px)
+  display: flex
+  align-items: center
+  justify-content: center
+  z-index: 1001
+  animation: fadeIn 0.3s ease-out
+
+.confirmModal
+  background: #fff
+  padding: 2rem
+  border-radius: $border-radius
+  max-width: 400px
+  width: 90%
+  text-align: center
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1)
+  animation: scaleIn 0.3s ease-out 0.1s
+  animation-fill-mode: backwards // Починає анімацію з 0
+
+  h4
+    font-size: 1.4rem
+    color: $text-color
+    margin: 0 0 0.5rem
+  p
+    margin: 0.5rem 0 1.5rem
+    color: $light-text-color
+    font-size: 1rem
+
+.confirmActions
+  display: flex
+  justify-content: center
+  gap: 1rem
+
+  button
+    padding: 0.75rem 1.5rem
+    border: none
+    border-radius: 8px
+    font-weight: 600
+    cursor: pointer
+    transition: $base-transition
+
+  // Кнопка "Cancel"
+  button:first-child
+    background: $border-color
+    color: $text-color
+    &:hover
+      background: darken($border-color, 10%)
+
+  .confirmDeleteBtn
+    background: $danger-color
+    color: #fff
+    &:hover
+      opacity: 0.85
+      box-shadow: 0 4px 10px rgba($danger-color, 0.3)
+
+// --- Ключові кадри для анімацій ---
+@keyframes fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+@keyframes scaleIn
+  from
+    opacity: 0
+    transform: scale(0.9)
+  to
+    opacity: 1
+    transform: scale(1)
