@@ -22,3 +22,24 @@ export const getModelByIdRequest = id => http.get(`api/model/model/${id}`);
 // AGENCY
 export const getAllAgenciesRequest = () => http.get('api/agency/agencies');
 export const getAgencyByIdRequest = id => http.get(`api/agency/agency/${id}`);
+
+// ALBUMS
+export const getModelAlbumsRequest = modelId =>
+  http.get(`api/albums/model/${modelId}`);
+
+export const createAlbumRequest = (modelId, data) =>
+  http.post(`api/albums/${modelId}`, data);
+
+export const uploadAlbumPhotosRequest = (albumId, formData) =>
+  http.post(`api/albums/${albumId}/photos`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+
+export const updateAlbumRequest = (albumId, data) =>
+  http.put(`api/albums/${albumId}`, data);
+
+export const deleteAlbumPhotosRequest = (albumId, data) =>
+  http.patch(`api/albums/${albumId}/photos`, data);
+
+export const deleteAlbumRequest = albumId =>
+  http.delete(`api/albums/${albumId}`);
