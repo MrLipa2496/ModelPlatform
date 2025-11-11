@@ -73,6 +73,15 @@ const CONSTANTS = {
     },
   ],
 
+  AGENCY_PROFILE_FIELDS: [
+    { name: 'AGN_Name', label: 'Agency Name', type: 'text' },
+    { name: 'AGN_Country', label: 'Country', type: 'text' },
+    { name: 'AGN_City', label: 'City', type: 'text' },
+    { name: 'AGN_Website', label: 'Website', type: 'text' },
+    { name: 'AGN_Phone', label: 'Phone', type: 'text' },
+    { name: 'AGN_Description', label: 'Description', type: 'textarea' },
+  ],
+
   NAV_CONFIG: {
     guest: [
       { to: '/models', label: 'Models' },
@@ -102,8 +111,8 @@ const CONSTANTS = {
     agency: [
       { to: '/dashboard', label: 'Dashboard' },
       { to: '/models', label: 'Models' },
-      { to: '/castings', label: 'My Castings' },
-      { to: '/applications', label: 'Applications' },
+      { to: '/myCastings', label: 'My Castings' },
+      { to: '/myCastings', label: 'Applications' },
       { to: '/profile', label: 'Profile' },
     ],
     admin: [

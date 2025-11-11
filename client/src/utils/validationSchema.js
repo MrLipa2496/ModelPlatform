@@ -203,3 +203,22 @@ export const profileValidationSchema = yup.object({
 
   MOD_Bio: yup.string().nullable().max(1000, 'Bio is too long'),
 });
+
+export const agencyProfileValidationSchema = yup.object({
+  AGN_Name: yup
+    .string()
+    .min(2, 'Must be 2 characters or more')
+    .required('Agency name is required'),
+  AGN_Country: yup.string(),
+  AGN_City: yup.string(),
+  AGN_Website: yup
+    .string()
+    .url('Must be a valid URL (e.g., https://example.com)'),
+  AGN_Phone: yup
+    .string()
+    .matches(
+      /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/,
+      'Phone number is not valid'
+    ),
+  AGN_Description: yup.string().max(1000, 'Must be 1000 characters or less'),
+});
