@@ -41,4 +41,5 @@ const upload = multer({
 module.exports = {
   uploadProfilePhoto: upload.single('photo'),
   uploadAlbumPhotos: upload.array('photos', 10),
+  uploadCastingCover: upload.single('coverImage'),
 };
