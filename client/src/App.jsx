@@ -12,9 +12,12 @@ import ContactsPage from './pages/GuestPages/ContactsPage';
 import RoleRoute from './components/RoleRoute';
 import DashboardPage from './pages/ModelPages/DashboardPage';
 import OfferPage from './pages/ModelPages/OfferPage';
-import CastingPage from './pages/ModelPages/CastingPage';
-import ProfilePage from './pages/ModelPages/ProfilePage';
+import ProfilePage from './pages/ProfilePage';
 import AgenciesPage from './pages/GuestPages/AgenciesPage';
+import MyCastings from './pages/AgencyPages/MyCastings';
+import Applicants from './pages/AgencyPages/Applicants';
+
+import CastingDetailsPage from './pages/GuestPages/CastingsPage/CastingDetailsPage';
 
 function App () {
   return (
@@ -34,12 +37,20 @@ function App () {
           <Route element={<RoleRoute allowedRoles={['model']} />}>
             <Route path='/dashboard' element={<DashboardPage />} />
             <Route path='/offers' element={<OfferPage />} />
-            <Route path='/my-castings' element={<CastingPage />} />
-            <Route path='/profile' element={<ProfilePage />} />
+            <Route path='/castings/:id' element={<CastingDetailsPage />} />
           </Route>
 
           <Route element={<RoleRoute allowedRoles={['agency']} />}>
             <Route path='/model/:id' element={<ModelDetailsPage />} />
+            <Route path='/myCastings' element={<MyCastings />} />
+            <Route
+              path='/castings/:castingId/applications'
+              element={<Applicants />}
+            />
+          </Route>
+
+          <Route element={<RoleRoute allowedRoles={['model', 'agency']} />}>
+            <Route path='/profile' element={<ProfilePage />} />
           </Route>
         </Route>
       </Routes>

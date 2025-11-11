@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllModels } from '../../../store/slices/modelSlice';
 import Card from '../../../components/Card';
+import AuthModal from '../../../components/AuthModal';
 import styles from './ModelsPage.module.sass';
 
 export default function ModelsPage () {
@@ -80,31 +81,17 @@ export default function ModelsPage () {
         )}
       </section>
 
-      {showModal && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modalBox}>
-            <h2 className={styles.modalTitle}>Sign up to see more</h2>
-            <p className={styles.modalText}>
-              Create an account to view detailed model profiles including
-              biography, skills, and portfolio.
-            </p>
-            <div className={styles.modalActions}>
-              <button
-                className={styles.closeButton}
-                onClick={() => setShowModal(false)}
-              >
-                Close
-              </button>
-              <button
-                className={styles.signupButton}
-                onClick={() => (window.location.href = '/signup')}
-              >
-                Sign Up
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <AuthModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        title='Sign up to see more'
+        signupPath='/signup'
+      >
+        <p>
+          Create an account to view detailed model profiles including biography,
+          skills, and portfolio.
+        </p>
+      </AuthModal>
     </div>
   );
 }

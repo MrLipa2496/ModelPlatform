@@ -1,0 +1,61 @@
+.modalOverlay
+  position: fixed
+  inset: 0
+  background-color: rgba(0, 0, 0, 0.5)
+  backdrop-filter: blur(6px)
+  display: flex
+  justify-content: center
+  align-items: center
+  z-index: 1000
+
+.modalBox
+  background-color: #fff
+  border-radius: 25px
+  padding: 40px
+  max-width: 500px
+  text-align: center
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3)
+
+.modalTitle
+  font-size: 28px
+  font-weight: 700
+  color: #1e293b
+  margin-bottom: 20px
+
+.modalText
+  color: #475569
+  margin-bottom: 30px
+  font-size: 16px
+  line-height: 1.5
+
+.modalActions
+  display: flex
+  justify-content: center
+  gap: 20px
+  margin-top: 20px
+
+.closeButton
+  background-color: #e2e8f0
+  color: #334155
+  border: none
+  border-radius: 15px
+  padding: 10px 25px
+  cursor: pointer
+  font-weight: 600
+  transition: background-color 0.3s ease
+
+.closeButton:hover
+  background-color: #cbd5e1
+
+.signupButton
+  background-color: #2563eb
+  color: white
+  border: none
+  border-radius: 15px
+  padding: 10px 25px
+  cursor: pointer
+  font-weight: 600
+  transition: background-color 0.3s ease
+
+.signupButton:hover
+  background-color: #1e40af

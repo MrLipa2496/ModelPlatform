@@ -1,0 +1,207 @@
+$primary-color: #007bff
+$success-color: #28a745
+$danger-color: #dc3545
+$pending-color: #ffc107
+$border-color: #eee
+$text-dark: #222
+$text-light: #777
+$card-bg: #ffffff
+
+.pageContainer
+  background: #f8f9fa 
+
+.loading
+  font-size: 1.5rem
+  color: $text-light
+  text-align: center
+  padding: 5rem
+
+.header
+  height: 600px
+  background-size: cover
+  background-position: top 
+  position: relative
+  color: white
+
+.headerOverlay
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0.1) 100%)
+  z-index: 3
+
+.headerContent
+  position: absolute
+  bottom: 0
+  left: 0
+  width: 100%
+  max-width: 1200px
+  margin: 0 auto
+  padding: 2rem
+  box-sizing: border-box
+  left: 50%
+  transform: translateX(-50%)
+
+.title
+  font-size: 3rem
+  font-weight: 700
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5)
+
+.mainLayout
+  display: grid
+  grid-template-columns: 2fr 1fr
+  gap: 2rem
+  max-width: 1200px
+  margin: -4rem auto 2rem auto 
+  padding: 0 2rem
+  position: relative 
+  margin-top: 80px
+  z-index: 2 
+
+.leftColumn
+  display: flex
+  flex-direction: column
+  gap: 2rem
+
+.rightColumn
+  display: flex
+  flex-direction: column
+  gap: 1.5rem
+  position: sticky 
+  top: 2rem 
+
+.contentBlock
+  background: $card-bg
+  border: 1px solid $border-color
+  border-radius: 12px
+  padding: 1.5rem
+
+.contentBlock h2
+  font-size: 1.4rem
+  font-weight: 600
+  color: $text-dark
+  margin-top: 0
+  margin-bottom: 1rem
+
+.contentBlock p
+  font-size: 1rem
+  line-height: 1.6
+  color: $text-light
+  white-space: pre-wrap 
+
+.actionBox, .agencyBox, .detailsBox
+  background: $card-bg
+  border: 1px solid $border-color
+  border-radius: 12px
+  padding: 1.5rem
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03)
+
+.detailsBox h4, .agencyBox h4
+  font-size: 1.1rem
+  font-weight: 600
+  color: $text-dark
+  margin-top: 0
+  margin-bottom: 1.25rem
+  border-bottom: 1px solid $border-color
+  padding-bottom: 0.75rem
+
+.applyButton
+  width: 100%
+  padding: 1rem
+  font-size: 1.1rem
+  font-weight: 700
+  color: white
+  background: $primary-color
+  border: none
+  border-radius: 8px
+  cursor: pointer
+  transition: all 0.2s ease
+
+.applyButton:hover
+  background: #0056b3
+
+.applyButton:disabled
+  cursor: not-allowed
+
+.buttonPending
+  background: $pending-color
+  color: #333
+.buttonPending:hover
+  background: $pending-color
+
+.buttonSuccess
+  background: $success-color
+.buttonSuccess:hover
+  background: $success-color
+
+.buttonDanger
+  background: $danger-color
+.buttonDanger:hover
+  background: $danger-color
+
+.agencyInfo
+  display: flex
+  align-items: center
+  gap: 12px
+
+.agencyLogo
+  width: 50px
+  height: 50px
+  border-radius: 50%
+  object-fit: cover
+
+.agencyName
+  font-size: 1rem
+  font-weight: 600
+  color: $text-dark
+
+.detailsGrid
+  display: grid
+  grid-template-columns: 1fr 1fr 
+  gap: 1rem
+
+.detailItem
+  display: flex
+  align-items: center
+  gap: 10px
+  font-size: 0.9rem
+
+.detailItem svg
+  color: $primary-color
+  font-size: 1.2rem
+  width: 18px
+  flex-shrink: 0
+  text-align: center
+
+.detailItem div
+  display: flex
+  flex-direction: column
+  
+.detailItem span
+  color: $text-light
+  font-size: 0.85rem
+
+.detailItem strong
+  color: $text-dark
+  font-weight: 600
+  font-size: 0.95rem
+
+@media (max-width: 900px)
+  .mainLayout
+    grid-template-columns: 1fr 
+    margin-top: -8rem 
+
+  .actionBox
+    margin-top: 150px
+
+  .rightColumn
+    position: static
+    grid-row: 1 
+
+  .title
+    font-size: 2.2rem
+
+  .detailsGrid
+    grid-template-columns: 1fr
