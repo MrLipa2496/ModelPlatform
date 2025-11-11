@@ -1,23 +1,21 @@
-'use strict'
-const { Model: SequelizeModel } = require('sequelize')
+'use strict';
+const { Model: SequelizeModel } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Casting extends SequelizeModel {
     static associate (models) {
-      // 1:1 з Agency
-      Casting.belongsTo(models.Agency, { foreignKey: 'AGN_ID', as: 'Agency' })
+      Casting.belongsTo(models.Agency, { foreignKey: 'AGN_ID', as: 'Agency' });
 
-      // 1:N Applications
       Casting.hasMany(models.Application, {
         foreignKey: 'CST_ID',
-        as: 'Applications'
-      })
+        as: 'Applications',
+      });
 
-      // 1:N Invitations
       Casting.hasMany(models.Invitation, {
         foreignKey: 'CST_ID',
-        as: 'Invitations'
-      })
+
+        as: 'Invitations',
+      });
     }
   }
 
@@ -26,17 +24,12 @@ module.exports = (sequelize, DataTypes) => {
       CST_ID: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
       },
       AGN_ID: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-          model: 'Agencies',
-          key: 'AGN_ID'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        references: { model: 'Agencies', key: 'AGN_ID' },
       },
       CST_Title: { type: DataTypes.STRING, allowNull: false },
       CST_Description: { type: DataTypes.TEXT },
@@ -50,17 +43,49 @@ module.exports = (sequelize, DataTypes) => {
           'active',
           'closed'
         ),
-        defaultValue: 'pending'
+        defaultValue: 'pending',
       },
       CST_StartDate: { type: DataTypes.DATE },
-      CST_EndDate: { type: DataTypes.DATE }
+      CST_EndDate: { type: DataTypes.DATE },
+
+      CST_CoverImage: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+
+      CST_Type: {
+        type: DataTypes.ENUM(
+          'commercial',
+          'editorial',
+          'runway',
+          'promo',
+          'tfp',
+          'other'
+        ),
+        defaultValue: 'other',
+      },
+      CST_Gender: {
+        type: DataTypes.ENUM('any', 'female', 'male', 'non_binary'),
+        defaultValue: 'any',
+      },
+      CST_AgeMin: { type: DataTypes.INTEGER, allowNull: true },
+      CST_AgeMax: { type: DataTypes.INTEGER, allowNull: true },
+      CST_HeightMin: { type: DataTypes.INTEGER, allowNull: true },
+      CST_HeightMax: { type: DataTypes.INTEGER, allowNull: true },
+
+      CST_LocationType: {
+        type: DataTypes.ENUM('on_site', 'remote'),
+        defaultValue: 'on_site',
+      },
+      CST_Country: { type: DataTypes.STRING, allowNull: true },
+      CST_City: { type: DataTypes.STRING, allowNull: true },
     },
     {
       sequelize,
       modelName: 'Casting',
-      tableName: 'Castings'
+      tableName: 'Castings',
     }
-  )
+  );
 
-  return Casting
-}
+  return Casting;
+};
