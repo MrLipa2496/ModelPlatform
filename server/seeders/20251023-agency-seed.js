@@ -239,12 +239,16 @@ module.exports = {
       const logoFileName = `agency${i + 1}.jpg`;
 
       agencies.push({
-        USR_ID: i + 1,
+        USR_ID: i + 21,
         AGN_Name: agencyData[i].name,
         AGN_City: agencyData[i].city,
         AGN_Country: agencyData[i].country,
         AGN_Description: agencyData[i].description,
         AGN_Logo: `/uploads/${logoFileName}`,
+
+        AGN_Verified: true,
+        AGN_Status: 'active',
+
         createdAt: new Date(),
         updatedAt: new Date(),
       });
