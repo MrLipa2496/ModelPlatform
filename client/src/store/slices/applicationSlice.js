@@ -4,6 +4,7 @@ import {
   getMyApplicationsRequest,
   getApplicationsForCastingRequest,
   respondToApplicationRequest,
+  getAgencyApplicationsRequest,
 } from '../../api/rest/restController';
 
 export const createApplication = createAsyncThunk(
@@ -42,6 +43,18 @@ export const fetchApplicationsForCasting = createAsyncThunk(
   }
 );
 
+export const fetchAgencyApplications = createAsyncThunk(
+  'application/fetchAgencyApplications',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await getAgencyApplicationsRequest();
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || 'Error');
+    }
+  }
+);
+
 export const respondToApplication = createAsyncThunk(
   'application/respondToApplication',
   async ({ id, data }, { rejectWithValue }) => {
@@ -59,12 +72,16 @@ const applicationSlice = createSlice({
   initialState: {
     myApplications: [],
     castingApplications: [],
+    agencyApplications: [],
     loading: false,
     error: null,
   },
   reducers: {
     clearCastingApplications: state => {
       state.castingApplications = [];
+    },
+    clearAgencyApplications: state => {
+      state.agencyApplications = [];
     },
   },
   extraReducers: builder => {
@@ -83,6 +100,7 @@ const applicationSlice = createSlice({
       .addCase(createApplication.fulfilled, (state, action) => {
         state.myApplications.push(action.payload);
       })
+
       .addCase(fetchApplicationsForCasting.pending, state => {
         state.loading = true;
       })
@@ -94,17 +112,41 @@ const applicationSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
+      .addCase(fetchAgencyApplications.pending, state => {
+        state.loading = true;
+      })
+      .addCase(fetchAgencyApplications.fulfilled, (state, action) => {
+        state.loading = false;
+        state.agencyApplications = action.payload;
+      })
+      .addCase(fetchAgencyApplications.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
       .addCase(respondToApplication.fulfilled, (state, action) => {
-        const index = state.castingApplications.findIndex(
-          app => app.APP_ID === action.payload.APP_ID
+        const updatedApp = action.payload;
+
+        const indexInCasting = state.castingApplications.findIndex(
+          app => app.APP_ID === updatedApp.APP_ID
         );
-        if (index !== -1) {
-          state.castingApplications[index].APP_Status =
-            action.payload.APP_Status;
+        if (indexInCasting !== -1) {
+          state.castingApplications[indexInCasting].APP_Status =
+            updatedApp.APP_Status;
+        }
+
+        const indexInAgency = state.agencyApplications.findIndex(
+          app => app.APP_ID === updatedApp.APP_ID
+        );
+        if (indexInAgency !== -1) {
+          state.agencyApplications[indexInAgency].APP_Status =
+            updatedApp.APP_Status;
         }
       });
   },
 });
 
-export const { clearCastingApplications } = applicationSlice.actions;
+export const { clearCastingApplications, clearAgencyApplications } =
+  applicationSlice.actions;
 export default applicationSlice.reducer;

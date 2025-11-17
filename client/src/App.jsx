@@ -43,10 +43,7 @@ function App () {
           <Route element={<RoleRoute allowedRoles={['agency']} />}>
             <Route path='/model/:id' element={<ModelDetailsPage />} />
             <Route path='/myCastings' element={<MyCastings />} />
-            <Route
-              path='/castings/:castingId/applications'
-              element={<Applicants />}
-            />
+            <Route path='/applicants' element={<Applicants />} />
           </Route>
 
           <Route element={<RoleRoute allowedRoles={['model', 'agency']} />}>

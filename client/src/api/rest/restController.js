@@ -63,7 +63,10 @@ export const getMyCastingsRequest = () => http.get('api/castings/my/agencies');
 // APPLICATIONS (api/applications)
 export const createApplicationRequest = data =>
   http.post('api/applications', data);
-export const getMyApplicationsRequest = () => http.get('api/applications/my');
+export const getMyApplicationsRequest = () =>
+  http.get('api/applications/applications');
+export const getAgencyApplicationsRequest = () =>
+  http.get('api/applications/agency');
 export const getApplicationsForCastingRequest = castingId =>
   http.get(`api/applications/casting/${castingId}`);
 export const respondToApplicationRequest = (id, data) =>

@@ -112,7 +112,7 @@ const CONSTANTS = {
       { to: '/dashboard', label: 'Dashboard' },
       { to: '/models', label: 'Models' },
       { to: '/myCastings', label: 'My Castings' },
-      { to: '/myCastings', label: 'Applications' },
+      { to: '/applicants', label: 'Applicants' },
       { to: '/profile', label: 'Profile' },
     ],
     admin: [

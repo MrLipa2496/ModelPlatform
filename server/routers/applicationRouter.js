@@ -5,15 +5,22 @@ const auth = require('../middlewares/authMiddleware');
 const applicationRouter = Router();
 
 applicationRouter.post('/', auth, applicationController.createApplication);
+applicationRouter.get(
+  '/applications',
+  auth,
+  applicationController.getMyApplications
+);
 
-applicationRouter.get('/my', auth, applicationController.getMyApplications);
-
+applicationRouter.get(
+  '/agency',
+  auth,
+  applicationController.getAgencyApplications
+);
 applicationRouter.get(
   '/casting/:id',
   auth,
   applicationController.getApplicationsForCasting
 );
-
 applicationRouter.patch(
   '/:id/respond',
   auth,
