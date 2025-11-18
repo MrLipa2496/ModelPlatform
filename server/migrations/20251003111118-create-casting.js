@@ -52,7 +52,7 @@ module.exports = {
         defaultValue: 'other',
       },
       CST_Gender: {
-        type: Sequelize.ENUM('any', 'female', 'male', 'non_binary'),
+        type: Sequelize.STRING,
         defaultValue: 'any',
       },
       CST_AgeMin: {

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -7,46 +7,54 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       CST_ID: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Castings',
-          key: 'CST_ID'
+          key: 'CST_ID',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       MOD_ID: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Models',
-          key: 'MOD_ID'
+          key: 'MOD_ID',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       APP_Status: {
         type: Sequelize.ENUM('pending', 'accepted', 'rejected'),
-        defaultValue: 'pending'
+        defaultValue: 'pending',
+      },
+      APP_RejectionReason: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      APP_InvitationText: {
+        type: Sequelize.TEXT,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      }
-    })
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
+    });
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('Applications')
-  }
-}
+    await queryInterface.dropTable('Applications');
+  },
+};

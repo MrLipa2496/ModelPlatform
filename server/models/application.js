@@ -1,5 +1,5 @@
-'use strict'
-const { Model: SequelizeModel } = require('sequelize')
+'use strict';
+const { Model: SequelizeModel } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Application extends SequelizeModel {
@@ -7,11 +7,14 @@ module.exports = (sequelize, DataTypes) => {
       // 1:1 з Casting
       Application.belongsTo(models.Casting, {
         foreignKey: 'CST_ID',
-        as: 'Casting'
-      })
+        as: 'Casting',
+      });
 
       // 1:1 з Model
-      Application.belongsTo(models.Model, { foreignKey: 'MOD_ID', as: 'Model' })
+      Application.belongsTo(models.Model, {
+        foreignKey: 'MOD_ID',
+        as: 'Model',
+      });
     }
   }
 
@@ -20,39 +23,47 @@ module.exports = (sequelize, DataTypes) => {
       APP_ID: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
       },
       CST_ID: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: 'Castings',
-          key: 'CST_ID'
+          key: 'CST_ID',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       MOD_ID: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: 'Models',
-          key: 'MOD_ID'
+          key: 'MOD_ID',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       APP_Status: {
         type: DataTypes.ENUM('pending', 'accepted', 'rejected'),
-        defaultValue: 'pending'
-      }
+        defaultValue: 'pending',
+      },
+      APP_RejectionReason: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      APP_InvitationText: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
     },
     {
       sequelize,
       modelName: 'Application',
-      tableName: 'Applications'
+      tableName: 'Applications',
     }
-  )
+  );
 
-  return Application
-}
+  return Application;
+};

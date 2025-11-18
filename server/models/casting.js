@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 'other',
       },
       CST_Gender: {
-        type: DataTypes.ENUM('any', 'female', 'male', 'non_binary'),
+        type: DataTypes.STRING,
         defaultValue: 'any',
       },
       CST_AgeMin: { type: DataTypes.INTEGER, allowNull: true },
