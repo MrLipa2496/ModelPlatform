@@ -26,16 +26,19 @@ const getStatusTagClass = status => {
       return styles.statusDefault;
   }
 };
+
 const formatPayment = payment => {
   if (!payment || payment === '0.00') return 'Negotiable';
   return `$${payment}`;
 };
+
 const formatRange = (min, max, unit) => {
   if (min && max) return `${min} - ${max} ${unit}`;
   if (min) return `${min}+ ${unit}`;
   if (max) return `Up to ${max} ${unit}`;
   return 'Any';
 };
+
 const formatDate = date => {
   if (!date) return 'TBA';
   return new Date(date).toLocaleDateString('en-US', {
@@ -43,6 +46,7 @@ const formatDate = date => {
     day: 'numeric',
   });
 };
+
 const formatDateRange = (start, end) => {
   if (start && end) return `${formatDate(start)} - ${formatDate(end)}`;
   if (start) return `Starts: ${formatDate(start)}`;
@@ -67,13 +71,18 @@ export default function MyCastingCard ({ casting, onEdit, onDelete }) {
     CST_AgeMax,
     CST_HeightMin,
     CST_HeightMax,
+    Applications,
   } = casting;
+
+  const applicantCount = Applications ? Applications.length : 0;
 
   const coverImage = CST_CoverImage
     ? `http://localhost:5001${CST_CoverImage}`
     : `https://placehold.co/600x400/eee/ccc?text=No+Image`;
+
   const locationText =
     CST_LocationType === 'remote' ? 'Remote' : CST_City || 'On-site';
+
   const dateRange = formatDateRange(CST_StartDate, CST_EndDate);
   const ageRange = formatRange(CST_AgeMin, CST_AgeMax, 'y.o.');
   const heightRange = formatRange(CST_HeightMin, CST_HeightMax, 'cm');
@@ -106,11 +115,16 @@ export default function MyCastingCard ({ casting, onEdit, onDelete }) {
 
       <div className={styles.content}>
         <h3 className={styles.title}>{CST_Title}</h3>
+
         <div className={styles.applicantInfo}>
           <FaUsers className={styles.applicantIcon} />
-          <span className={styles.applicantText}>0 Applicants</span>
+          <span className={styles.applicantText}>
+            {applicantCount} {applicantCount === 1 ? 'Applicant' : 'Applicants'}
+          </span>
         </div>
+
         <hr className={styles.divider} />
+
         <div className={styles.dataGrid}>
           <div className={styles.dataItem}>
             <FaDollarSign className={styles.dataIcon} />

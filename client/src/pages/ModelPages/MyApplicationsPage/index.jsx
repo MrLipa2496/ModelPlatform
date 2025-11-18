@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchMyApplications } from '../../../store/slices/applicationSlice';
 import MyApplicationCard from '../../../components/MyApplicationCard';
 import styles from './MyApplicationsPage.module.sass';
-import { FaFolderOpen } from 'react-icons/fa'; // Іконка для порожнього стану
+import { FaFolderOpen } from 'react-icons/fa';
 
 export default function MyApplicationsPage () {
   const dispatch = useDispatch();

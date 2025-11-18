@@ -57,30 +57,24 @@ export default function Applicants () {
     if (castingFilter === 'all') {
       return 'All Applicants';
     }
-
     if (!Array.isArray(myCastings) || myCastings.length === 0) {
       return 'Loading Applicants...';
     }
-
     const castingId = parseInt(castingFilter, 10);
     const selectedCasting = myCastings.find(
       casting => casting.CST_ID === castingId
     );
-
     return selectedCasting
       ? `Applicants for: ${selectedCasting.CST_Title}`
       : 'All Applicants';
   }, [castingFilter, myCastings]);
 
-  const handleAccept = applicationId => {
+  const handleRespond = ({ id, data }) => {
     dispatch(
-      respondToApplication({ id: applicationId, data: { status: 'accepted' } })
-    );
-  };
-
-  const handleReject = applicationId => {
-    dispatch(
-      respondToApplication({ id: applicationId, data: { status: 'rejected' } })
+      respondToApplication({
+        id,
+        data,
+      })
     );
   };
 
@@ -104,8 +98,7 @@ export default function Applicants () {
           <ApplicantCard
             key={app.APP_ID}
             application={app}
-            onAccept={() => handleAccept(app.APP_ID)}
-            onReject={() => handleReject(app.APP_ID)}
+            onRespond={handleRespond}
             showActions={statusFilter === 'pending'}
           />
         ))}
@@ -119,9 +112,7 @@ export default function Applicants () {
         <Link to='/myCastings' className={styles.backLink}>
           ← Back to Castings
         </Link>
-
         <h1 className={styles.title}>{pageTitle}</h1>
-
         <div className={styles.filterContainer}>
           <label htmlFor='casting-filter' className={styles.filterLabel}>
             Filter by Casting:
@@ -141,7 +132,6 @@ export default function Applicants () {
               ))}
           </select>
         </div>
-
         <div className={styles.tabs}>
           <button
             className={`${styles.tab} ${
@@ -169,7 +159,6 @@ export default function Applicants () {
           </button>
         </div>
       </header>
-
       {renderContent()}
     </div>
   );

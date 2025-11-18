@@ -15,9 +15,9 @@ import OfferPage from './pages/ModelPages/OfferPage';
 import ProfilePage from './pages/ProfilePage';
 import AgenciesPage from './pages/GuestPages/AgenciesPage';
 import MyCastings from './pages/AgencyPages/MyCastings';
-import Applicants from './pages/AgencyPages/Applicants';
-
 import CastingDetailsPage from './pages/GuestPages/CastingsPage/CastingDetailsPage';
+import Applicants from './pages/AgencyPages/Applicants';
+import MyApplications from './pages/ModelPages/MyApplicationsPage';
 
 function App () {
   return (
@@ -37,11 +37,13 @@ function App () {
           <Route element={<RoleRoute allowedRoles={['model']} />}>
             <Route path='/dashboard' element={<DashboardPage />} />
             <Route path='/offers' element={<OfferPage />} />
+            <Route path='/myApplications' element={<MyApplications />} />
             <Route path='/castings/:id' element={<CastingDetailsPage />} />
           </Route>
 
           <Route element={<RoleRoute allowedRoles={['agency']} />}>
             <Route path='/model/:id' element={<ModelDetailsPage />} />
+            <Route path='/myCastings/:id' element={<CastingDetailsPage />} />
             <Route path='/myCastings' element={<MyCastings />} />
             <Route path='/applicants' element={<Applicants />} />
           </Route>
