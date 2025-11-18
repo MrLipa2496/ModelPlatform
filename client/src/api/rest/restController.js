@@ -72,6 +72,16 @@ export const getApplicationsForCastingRequest = castingId =>
 export const respondToApplicationRequest = (id, data) =>
   http.patch(`api/applications/${id}/respond`, data);
 
+export const downloadInviteRequest = id =>
+  http.get(`api/applications/${id}/download-invite`, {
+    responseType: 'blob',
+  });
+
+export const downloadRejectionRequest = id =>
+  http.get(`api/applications/${id}/download-rejection`, {
+    responseType: 'blob',
+  });
+
 // INVITATIONS (api/invitations)
 export const createInvitationRequest = data =>
   http.post('api/invitations', data);
