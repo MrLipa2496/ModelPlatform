@@ -26,5 +26,16 @@ applicationRouter.patch(
   auth,
   applicationController.respondToApplication
 );
+applicationRouter.get(
+  '/:id/download-invite',
+  auth,
+  applicationController.downloadInvite
+);
+
+applicationRouter.get(
+  '/:id/download-rejection',
+  auth,
+  applicationController.downloadRejection
+);
 
 module.exports = applicationRouter;
