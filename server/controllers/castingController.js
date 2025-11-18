@@ -238,6 +238,13 @@ module.exports = {
 
       const castings = await db.Casting.findAll({
         where: { AGN_ID: agency.AGN_ID },
+        include: [
+          {
+            model: db.Application,
+            as: 'Applications',
+            attributes: ['APP_ID'],
+          },
+        ],
         order: [['createdAt', 'DESC']],
       });
 
