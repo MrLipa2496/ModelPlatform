@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --black: #1a1a1a;
+        --white: #fff;
+        --text-light: #555;
+        --border-light: #e0e0e0;
+        --bg-accent: #f9f9f9;
+      }
+
+      body {
+        font-family: 'Roboto Slab', serif;
+        margin: 0;
+        padding: 0;
+        color: var(--black);
+      }
+
+      .document {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px;
+        background: var(--white);
+      }
+
+      .header {
+        border-bottom: 2px solid var(--black);
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: flex-start;
+      }
+
+      .logo {
+        max-height: 60px;
+        object-fit: contain;
+      }
+
+      .headerLogo {
+        font-size: 35px;
+        font-weight: 900;
+        background: linear-gradient(270deg, red, orange, yellow, violet, red);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+      }
+
+      .coverImageContainer {
+        width: 100%;
+        height: 220px;
+        overflow: hidden;
+        margin-bottom: 30px;
+        border-radius: 4px;
+        border: 1px solid var(--border-light);
+      }
+
+      .coverImage {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .mainTitle {
+        font-size: 1.8rem;
+        color: var(--black);
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 25px;
+        font-weight: 900;
+        border-bottom: 1px solid var(--border-light);
+        padding-bottom: 15px;
+      }
+
+      .subTitle {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        font-weight: 700;
+      }
+
+      .bodyText {
+        line-height: 1.8;
+        font-size: 1.05rem;
+        color: var(--text-light);
+        margin-bottom: 20px;
+        text-align: justify;
+      }
+
+      .descriptionBox {
+        background-color: #fff;
+        border-left: 4px solid var(--black);
+        padding: 15px;
+        margin-bottom: 20px;
+        font-style: italic;
+        color: var(--text-light);
+      }
+      .descriptionBox p {
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      .miniTitle {
+        margin-top: 0;
+        margin-bottom: 5px;
+        font-size: 1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .detailsBlock {
+        background-color: var(--bg-accent);
+        padding: 25px;
+        margin-top: 30px;
+        border-radius: 2px;
+        border: 1px solid var(--border-light);
+      }
+
+      .blockTitle {
+        font-size: 1.1rem;
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .detailRow {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        font-size: 1rem;
+      }
+      .detailRow:last-child {
+        border-bottom: none;
+      }
+
+      .detailLabel {
+        font-weight: 600;
+        color: var(--text-light);
+      }
+
+      .detailValue {
+        font-weight: 700;
+        color: #1a1a1a;
+        background-clip: text;
+        text-align: right;
+      }
+
+      .requirementsBlock {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px dashed var(--border-light);
+      }
+
+      .reqGrid {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .reqItem {
+        font-size: 0.95rem;
+        color: var(--text-light);
+      }
+      .reqItem strong {
+        color: var(--black);
+        margin-left: 5px;
+      }
+
+      .footer {
+        text-align: center;
+        border-top: 2px solid var(--black);
+        padding-top: 20px;
+        margin-top: 40px;
+        font-size: 0.8rem;
+        color: var(--text-light);
+        line-height: 1.5;
+      }
+
+      .copyright {
+        margin-top: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+      }
+
+      .detailsBlock,
+      .requirementsBlock,
+      .coverImageContainer {
+        page-break-inside: avoid;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="document">
+      <header class="header">
+        <% if (formatted.agencyLogo) { %>
+        <img
+          src="<%= formatted.agencyLogo %>"
+          alt="<%= formatted.agencyName %>"
+          class="logo"
+        />
+        <% } else { %>
+        <div class="headerLogo"><%= formatted.agencyName %></div>
+        <% } %>
+      </header>
+
+      <% if (formatted.coverImage) { %>
+      <div class="coverImageContainer">
+        <img src="<%= formatted.coverImage %>" class="coverImage" />
+      </div>
+      <% } %>
+
+      <section class="mainContent">
+        <h2 class="mainTitle">OFFICIAL CASTING INVITATION</h2>
+        <h3 class="subTitle">Dear <%= model.MOD_FirstName %>,</h3>
+
+        <p class="bodyText"><%= invitationText %></p>
+
+        <% if (casting.CST_Description) { %>
+        <div class="descriptionBox">
+          <h4 class="miniTitle">Project Description:</h4>
+          <p><%= casting.CST_Description %></p>
+        </div>
+        <% } %>
+
+        <p class="bodyText">
+          Please review the details below and confirm your participation.
+        </p>
+
+        <div class="detailsBlock">
+          <h4 class="blockTitle">Casting Details:</h4>
+
+          <div class="detailRow">
+            <span class="detailLabel">Project:</span>
+            <span class="detailValue"><%= casting.CST_Title %></span>
+          </div>
+
+          <div class="detailRow">
+            <span class="detailLabel">Dates:</span>
+            <span class="detailValue"><%= formatted.dates %></span>
+          </div>
+
+          <div class="detailRow">
+            <span class="detailLabel">Location:</span>
+            <span class="detailValue"><%= formatted.address %></span>
+          </div>
+
+          <div class="detailRow">
+            <span class="detailLabel">Compensation:</span>
+            <span class="detailValue"><%= formatted.payment %></span>
+          </div>
+        </div>
+
+        <div class="requirementsBlock">
+          <h4 class="blockTitle">Role Requirements:</h4>
+          <div class="reqGrid">
+            <div class="reqItem">
+              <span>Gender:</span>
+              <strong><%= casting.CST_Gender || 'Any' %></strong>
+            </div>
+            <div class="reqItem">
+              <span>Age:</span>
+              <strong><%= formatted.ageReq %></strong>
+            </div>
+            <div class="reqItem">
+              <span>Height:</span>
+              <strong><%= formatted.heightReq %></strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <p>
+          This is a confidential invitation from <%= formatted.agencyName %>.
+          Please confirm your contact information to receive scheduling details.
+        </p>
+        <div class="copyright">
+          © <%= new Date().getFullYear() %> <%= formatted.agencyName %>. All
+          rights reserved.
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
