@@ -5,6 +5,8 @@ import {
   getApplicationsForCastingRequest,
   respondToApplicationRequest,
   getAgencyApplicationsRequest,
+  downloadInviteRequest,
+  downloadRejectionRequest,
 } from '../../api/rest/restController';
 
 export const createApplication = createAsyncThunk(
@@ -67,6 +69,60 @@ export const respondToApplication = createAsyncThunk(
   }
 );
 
+export const downloadInvite = createAsyncThunk(
+  'application/downloadInvite',
+  async ({ id, fileName }, { rejectWithValue }) => {
+    try {
+      const res = await downloadInviteRequest(id);
+
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+      link.href = url;
+
+      link.setAttribute('download', fileName || `invite_${id}.pdf`);
+
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+
+      window.URL.revokeObjectURL(url);
+
+      return true;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.message || 'Error downloading file'
+      );
+    }
+  }
+);
+
+export const downloadRejection = createAsyncThunk(
+  'application/downloadRejection',
+  async ({ id, fileName }, { rejectWithValue }) => {
+    try {
+      const res = await downloadRejectionRequest(id);
+
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+      link.href = url;
+
+      link.setAttribute('download', fileName || `rejection_${id}.pdf`);
+
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+
+      window.URL.revokeObjectURL(url);
+
+      return true;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.message || 'Error downloading rejection letter'
+      );
+    }
+  }
+);
+
 const applicationSlice = createSlice({
   name: 'application',
   initialState: {
@@ -74,6 +130,7 @@ const applicationSlice = createSlice({
     castingApplications: [],
     agencyApplications: [],
     loading: false,
+    downloadLoading: false,
     error: null,
   },
   reducers: {
@@ -88,6 +145,7 @@ const applicationSlice = createSlice({
     builder
       .addCase(fetchMyApplications.pending, state => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(fetchMyApplications.fulfilled, (state, action) => {
         state.loading = false;
@@ -97,12 +155,14 @@ const applicationSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
       .addCase(createApplication.fulfilled, (state, action) => {
         state.myApplications.push(action.payload);
       })
 
       .addCase(fetchApplicationsForCasting.pending, state => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(fetchApplicationsForCasting.fulfilled, (state, action) => {
         state.loading = false;
@@ -115,6 +175,7 @@ const applicationSlice = createSlice({
 
       .addCase(fetchAgencyApplications.pending, state => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(fetchAgencyApplications.fulfilled, (state, action) => {
         state.loading = false;
@@ -143,6 +204,30 @@ const applicationSlice = createSlice({
           state.agencyApplications[indexInAgency].APP_Status =
             updatedApp.APP_Status;
         }
+      })
+
+      .addCase(downloadInvite.pending, state => {
+        state.downloadLoading = true;
+        state.error = null;
+      })
+      .addCase(downloadInvite.fulfilled, state => {
+        state.downloadLoading = false;
+      })
+      .addCase(downloadInvite.rejected, (state, action) => {
+        state.downloadLoading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(downloadRejection.pending, state => {
+        state.downloadLoading = true;
+        state.error = null;
+      })
+      .addCase(downloadRejection.fulfilled, state => {
+        state.downloadLoading = false;
+      })
+      .addCase(downloadRejection.rejected, (state, action) => {
+        state.downloadLoading = false;
+        state.error = action.payload;
       });
   },
 });

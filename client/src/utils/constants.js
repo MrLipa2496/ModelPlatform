@@ -104,8 +104,8 @@ const CONSTANTS = {
     ],
     model: [
       { to: '/dashboard', label: 'Dashboard' },
-      { to: '/offers', label: 'Offers' },
       { to: '/castings', label: 'Castings' },
+      { to: '/myApplications', label: 'MyApplications' },
       { to: '/profile', label: 'Profile' },
     ],
     agency: [
