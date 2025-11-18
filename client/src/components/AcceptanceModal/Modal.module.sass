@@ -1,0 +1,185 @@
+$primary-color: #007bff
+$success-color: #28a745
+$danger-color: #dc3545
+$text-dark: #222
+$text-muted: #777
+$border-color: #e0e0e0
+$background-light: #fff
+$background-grey: #f9f9f9
+
+// 🚨 ГЛОБАЛЬНИЙ КЛАС ДЛЯ BODY (Застосовуйте через JS при відкритті модалки)
+.modalOpenBody
+  overflow: hidden !important
+  padding-right: 17px // Компенсація ширини скролбару (типова ширина)
+
+.modalOverlay
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background-color: rgba(0, 0, 0, 0.8)
+  display: flex
+  justify-content: center
+  align-items: center
+  z-index: 1000
+  overflow-y: auto // Дозволяє скрол, якщо модалка висока
+  padding: 20px 0 // Додаємо вертикальний відступ
+
+.modalContent
+  background-color: $background-light
+  border-radius: 12px
+  width: 90%
+  max-width: 600px
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3)
+  overflow: hidden
+  transition: max-width 0.3s ease, min-height 0.3s ease
+  margin: auto 0 // Центрування всередині flex-контейнера
+
+.modalContentLarge // 👈 Велике вікно для PDF
+  @extend .modalContent
+  max-width: 95%
+  width: 95%
+  height: 90vh // Фіксована висота, щоб краще керувати внутрішнім скролом
+  margin: 5vh auto
+  overflow: hidden // Забороняємо скролити саме модальне вікно (вміст скролиться в .modalBody)
+
+.modalHeader
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding: 1.5rem
+  border-bottom: 1px solid $border-color
+
+.modalTitle
+  margin: 0
+  font-size: 1.25rem
+  font-weight: 700
+  color: $primary-color
+  display: flex
+  align-items: center
+  gap: 10px
+
+.closeButton
+  background: none
+  border: none
+  font-size: 1.25rem
+  color: $text-muted
+  cursor: pointer
+  transition: color 0.2s
+  &:hover
+    color: $text-dark
+
+.modalBody
+  padding: 1.5rem
+  // 👇 FIX: Дозволяємо скролити лише вміст Body для modalContentLarge
+  overflow-y: auto 
+  // Якщо modalContentLarge використовується, це запобігає появі смуги прокрутки в .modalOverlay
+
+.modalContentLarge .modalBody
+  height: calc(90vh - 80px - 70px) // 90vh - Header(80px) - Footer(70px)
+  padding: 0 // У великому вікні переносимо padding на вміст, якщо потрібно
+
+.modalDescription
+  font-size: 0.95rem
+  color: $text-muted
+  margin-bottom: 1rem
+
+.reasonTextarea
+  width: 100%
+  min-height: 100px
+  padding: 10px
+  border: 1px solid $border-color
+  border-radius: 6px
+  font-family: inherit
+  font-size: 0.9rem
+  resize: vertical
+  &:focus
+    border-color: $primary-color
+    outline: none
+
+.castingInfoTitle
+  font-size: 1rem
+  font-weight: 700
+  color: $text-dark
+  margin-top: 1rem
+  margin-bottom: 0.5rem
+
+// --- Стилі для PDF Preview ---
+.pdfViewer
+  height: 100%
+  background: $background-grey
+  padding: 0
+  overflow-y: auto // Дозволяє скролити вміст прев'ю
+
+// --- Деталі прев'ю ---
+.previewDetails
+    display: flex
+    flex-direction: column
+    gap: 8px
+    font-size: 0.9rem
+    color: $text-muted
+    padding: 1rem 0
+    border-top: 1px solid $border-color
+    margin-top: 1rem
+
+.detailItem
+    display: flex
+    align-items: center
+    gap: 8px
+    font-weight: 500
+    strong
+      color: $text-dark
+      font-weight: 700
+
+.detailIcon
+    color: $text-muted
+    font-size: 1rem
+
+// --- Footer & Buttons ---
+.modalFooter
+  display: flex
+  justify-content: flex-end
+  padding: 1rem 1.5rem
+  border-top: 1px solid $border-color
+  gap: 10px
+
+.cancelButton
+  background-color: $background-light
+  color: $text-muted
+  border: 1px solid $border-color
+  padding: 0.6rem 1.2rem
+  border-radius: 6px
+  cursor: pointer
+  transition: all 0.2s
+  &:hover
+    background-color: #f0f0f0
+
+.secondaryButton
+  @extend .cancelButton
+  color: $primary-color
+  border-color: $primary-color
+  &:hover
+    background-color: lighten($primary-color, 40%)
+
+.confirmDangerButton
+  background-color: $danger-color
+  color: #fff
+  border: none
+  padding: 0.6rem 1.2rem
+  border-radius: 6px
+  cursor: pointer
+  transition: background-color 0.2s
+  &:hover
+    background-color: darken($danger-color, 10%)
+
+.confirmSuccessButton
+  background-color: $success-color
+  color: #fff
+  border: none
+  padding: 0.6rem 1.2rem
+  border-radius: 6px
+  cursor: pointer
+  transition: background-color 0.2s
+  &:hover
+    background-color: darken($success-color, 10%)
