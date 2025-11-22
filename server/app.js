@@ -12,7 +12,7 @@ app.use(
   })
 );
 
-const uploadPath = path.resolve(__dirname, '..', 'public', 'uploads'); // той самий, що в upload.js
+const uploadPath = path.resolve(__dirname, '..', 'public', 'uploads');
 app.use('/uploads', express.static(uploadPath));
 
 app.use(express.json());
