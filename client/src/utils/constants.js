@@ -103,13 +103,11 @@ const CONSTANTS = {
       },
     ],
     model: [
-      { to: '/dashboard', label: 'Dashboard' },
       { to: '/castings', label: 'Castings' },
-      { to: '/myApplications', label: 'MyApplications' },
+      { to: '/myApplications', label: 'My Applications' },
       { to: '/profile', label: 'Profile' },
     ],
     agency: [
-      { to: '/dashboard', label: 'Dashboard' },
       { to: '/models', label: 'Models' },
       { to: '/myCastings', label: 'My Castings' },
       { to: '/applicants', label: 'Applicants' },

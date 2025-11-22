@@ -36,7 +36,7 @@ const LoginForm = () => {
       ).unwrap();
 
       resetForm();
-      navigate('/dashboard');
+      navigate('/');
     } catch (err) {
       console.error(err);
       alert(err || 'Login failed');
