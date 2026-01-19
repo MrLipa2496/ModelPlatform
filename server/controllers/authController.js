@@ -1,131 +1,67 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const db = require('../models/index');
-require('dotenv').config();
+const authService = require('../services/authService');
+const { HTTP_CODES, ROLES, MESSAGES } = require('../utils/constants');
 
-const SECRET_KEY = process.env.JWT_SECRET || 'supersecretkey';
-const TOKEN_EXPIRES_IN = '3h';
+const handleError = (res, err) => {
+  console.error(err);
+  const isKnownError = Object.values(MESSAGES).includes(err.message);
+  const status = isKnownError
+    ? HTTP_CODES.BAD_REQUEST
+    : HTTP_CODES.SERVER_ERROR;
+  const message = isKnownError ? err.message : MESSAGES.SERVER_ERROR;
 
-const generateAccessToken = user => {
-  return jwt.sign({ id: user.USR_ID, role: user.USR_Role }, SECRET_KEY, {
-    expiresIn: TOKEN_EXPIRES_IN,
-  });
+  res.status(status).json({ message });
 };
 
 exports.signupModel = async (req, res) => {
   try {
-    const { email, password, firstName, lastName, gender, birthDate } =
-      req.body;
+    const { email, password, ...profileData } = req.body;
 
-    const existingUser = await db.User.findOne({ where: { USR_Email: email } });
-    if (existingUser)
-      return res.status(400).json({ message: 'Email already in use' });
-
-    const passwordHash = await bcrypt.hash(password, 10);
-
-    const newUser = await db.User.create({
-      USR_Email: email,
-      USR_PasswordHash: passwordHash,
-      USR_Role: 'model',
+    const result = await authService.registerUser({
+      email,
+      password,
+      role: ROLES.MODEL,
+      profileData,
     });
 
-    await db.Model.create({
-      USR_ID: newUser.USR_ID,
-      MOD_FirstName: firstName,
-      MOD_LastName: lastName,
-      MOD_Gender: gender,
-      MOD_BirthDate: birthDate,
-    });
-
-    const token = generateAccessToken(newUser);
-    newUser.USR_AccessToken = token;
-    await newUser.save();
-
-    res.status(201).json({
-      accessToken: token,
-      userId: newUser.USR_ID,
-      role: newUser.USR_Role,
-    });
+    res.status(HTTP_CODES.CREATED).json(result);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    handleError(res, err);
   }
 };
 
 exports.signupAgency = async (req, res) => {
   try {
-    const { email, password, agencyName, phone, location } = req.body;
+    const { email, password, ...profileData } = req.body;
 
-    const existingUser = await db.User.findOne({ where: { USR_Email: email } });
-    if (existingUser)
-      return res.status(400).json({ message: 'Email already in use' });
-
-    const passwordHash = await bcrypt.hash(password, 10);
-
-    const newUser = await db.User.create({
-      USR_Email: email,
-      USR_PasswordHash: passwordHash,
-      USR_Role: 'agency',
+    const result = await authService.registerUser({
+      email,
+      password,
+      role: ROLES.AGENCY,
+      profileData,
     });
 
-    await db.Agency.create({
-      USR_ID: newUser.USR_ID,
-      AGN_Name: agencyName,
-      AGN_Phone: phone,
-      AGN_Country: location,
-    });
-
-    const token = generateAccessToken(newUser);
-    newUser.USR_AccessToken = token;
-    await newUser.save();
-
-    res.status(201).json({
-      accessToken: token,
-      userId: newUser.USR_ID,
-      role: newUser.USR_Role,
-    });
+    res.status(HTTP_CODES.CREATED).json(result);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    handleError(res, err);
   }
 };
 
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    const user = await db.User.findOne({ where: { USR_Email: email } });
-    if (!user) return res.status(400).json({ message: 'Invalid credentials' });
-
-    const isMatch = await bcrypt.compare(password, user.USR_PasswordHash);
-    if (!isMatch)
-      return res.status(400).json({ message: 'Invalid credentials' });
-
-    const token = generateAccessToken(user);
-    user.USR_AccessToken = token;
-    await user.save();
-
-    res.json({ accessToken: token, userId: user.USR_ID, role: user.USR_Role });
+    const result = await authService.loginUser(email, password);
+    res.json(result);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    handleError(res, err);
   }
 };
 
 exports.logout = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) return res.status(400).json({ message: 'No token provided' });
-
-    const user = await db.User.findOne({ where: { USR_AccessToken: token } });
-    if (!user) return res.status(400).json({ message: 'Invalid token' });
-
-    user.USR_AccessToken = null;
-    await user.save();
-
-    res.json({ message: 'Logged out successfully' });
+    const token = req.headers.authorization;
+    await authService.logoutUser(token);
+    res.json({ message: MESSAGES.LOGGED_OUT });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    handleError(res, err);
   }
 };
