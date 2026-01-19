@@ -1,31 +1,40 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
-require('dotenv').config();
-
-const SECRET_KEY = process.env.JWT_SECRET || 'supersecretkey';
+const { AUTH, MESSAGES, HTTP_CODES } = require('../utils/constants');
 
 const authMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    if (!authHeader)
-      return res.status(401).json({ message: 'No token provided' });
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res
+        .status(HTTP_CODES.UNAUTHORIZED)
+        .json({ message: MESSAGES.NO_TOKEN });
+    }
 
     const token = authHeader.split(' ')[1];
-    if (!token)
-      return res.status(401).json({ message: 'Malformed token header' });
 
     let decoded;
     try {
-      decoded = jwt.verify(token, SECRET_KEY);
+      decoded = jwt.verify(token, AUTH.SECRET_KEY);
     } catch (err) {
-      return res.status(401).json({ message: 'Invalid or expired token' });
+      return res
+        .status(HTTP_CODES.UNAUTHORIZED)
+        .json({ message: MESSAGES.INVALID_TOKEN });
     }
 
     const user = await User.findOne({ where: { USR_ID: decoded.id } });
-    if (!user) return res.status(401).json({ message: 'User not found' });
+    if (!user) {
+      return res
+        .status(HTTP_CODES.UNAUTHORIZED)
+        .json({ message: MESSAGES.INVALID_TOKEN });
+    }
 
-    if (user.USR_AccessToken !== token)
-      return res.status(401).json({ message: 'Token is no longer valid' });
+    if (user.USR_AccessToken !== token) {
+      return res
+        .status(HTTP_CODES.UNAUTHORIZED)
+        .json({ message: MESSAGES.INVALID_TOKEN });
+    }
 
     req.user = {
       id: user.USR_ID,
@@ -36,7 +45,9 @@ const authMiddleware = async (req, res, next) => {
     next();
   } catch (err) {
     console.error('Auth middleware error:', err);
-    res.status(500).json({ message: 'Server error in auth middleware' });
+    res
+      .status(HTTP_CODES.SERVER_ERROR)
+      .json({ message: MESSAGES.SERVER_ERROR });
   }
 };
 
