@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllModels } from '../../../store/slices/modelSlice';
 import Card from '../../../components/Card';
+import defaultAvatarLocal from '../../../../img/default-avatar.jpg';
 import AuthModal from '../../../components/AuthModal';
 import styles from './ModelsPage.module.sass';
 
@@ -70,7 +71,11 @@ export default function ModelsPage () {
             return (
               <Card
                 key={model.MOD_ID}
-                image={`http://localhost:5001${model.MOD_Photo}`}
+                image={
+                  model.MOD_Photo
+                    ? `http://localhost:5001${model.MOD_Photo}`
+                    : defaultAvatarLocal
+                }
                 title={`${model.MOD_FirstName} ${model.MOD_LastName}`}
                 items={items}
                 buttonText='Learn More'

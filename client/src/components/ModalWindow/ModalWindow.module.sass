@@ -1,29 +1,25 @@
 .inlineWrapper
-  position: absolute
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
+  position: relative
+  height: auto      
+  min-height: 100%   
   display: flex
   flex-direction: column
   justify-content: flex-start
-  background-color: rgba(255, 255, 255, 0.95)
+  background-color: transparent 
   z-index: 10
-  padding: 20px
-  border-radius: 12px
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2)
-  overflow-y: auto
+  padding: 0 10px   
   box-sizing: border-box
 
 .inlineContent
   width: 100%
-  height: 100%
+  height: auto      
   display: flex
   flex-direction: column
   justify-content: flex-start
 
-  
 .modalOverlay
+  position: fixed 
+  left: 0
   width: 100%
   height: 100%
   display: flex
@@ -32,24 +28,28 @@
   justify-content: center
   padding: 20px
   box-sizing: border-box
+  background-color: rgba(0,0,0,0.5) 
+  z-index: 10000
 
 .modalContent
   width: 100%
-  height: 100%
+  max-width: 600px 
+  max-height: 90vh
   display: flex
   flex-direction: column
   justify-content: flex-start
   background-color: #fff
   border-radius: 12px
-  padding: 20px
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1)
-  overflow-y: auto
+  padding: 30px
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2)
+  overflow-y: auto 
 
 .title
-  margin-bottom: 20px
+  margin-bottom: 25px
   font-size: 24px
   font-weight: 700
   text-align: center
+  text-transform: uppercase
 
 .profileForm
   display: grid
@@ -64,17 +64,17 @@
 .modalButtons
   grid-column: 1 / -1
   display: flex
-  justify-content: flex-end
-  gap: 10px
-  margin-top: 20px
+  justify-content: center 
+  gap: 20px
+  margin-top: 30px
+  margin-bottom: 10px
 
 .saveBtn,
 .cancelBtn
-  padding: 10px 20px
+  padding: 12px 30px
   font-size: 16px
   font-weight: 600
   border-radius: 8px
-  margin-bottom: 20px
   border: none
   cursor: pointer
   transition: all 0.3s ease
@@ -84,16 +84,17 @@
   color: white
   &:hover
     background-color: #333
+    transform: translateY(-2px)
 
 .cancelBtn
-  background-color: #ccc
-  color: black
+  background-color: #e0e0e0
+  color: #333
   &:hover
-    background-color: #bbb
+    background-color: #d0d0d0
 
-.profileForm::-webkit-scrollbar
+.modalContent::-webkit-scrollbar
   width: 6px
 
-.profileForm::-webkit-scrollbar-thumb
+.modalContent::-webkit-scrollbar-thumb
   background: rgba(0,0,0,0.2)
   border-radius: 3px
