@@ -4,7 +4,7 @@ const multer = require('multer');
 const ServerError = require('../errors/ServerError');
 const { UPLOAD_CONFIG } = require('../utils/constants');
 
-const uploadDir = path.join(process.cwd(), 'public', UPLOAD_CONFIG.DIR);
+const uploadDir = path.join(__dirname, '../../public', UPLOAD_CONFIG.DIR);
 
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
