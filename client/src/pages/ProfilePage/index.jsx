@@ -39,7 +39,6 @@ export default function ProfilePage () {
   const { data: agency, loading: agencyLoading } = useSelector(
     state => state.agency
   );
-
   const [isAgencyModalOpen, setIsAgencyModalOpen] = useState(false);
 
   useEffect(() => {
@@ -72,19 +71,28 @@ export default function ProfilePage () {
           onEdit={() => setIsModelModalOpen(true)}
           onPhotoChange={file => dispatch(uploadPhoto(file))}
         />
+
         <div className={styles.albumsSection}>
-          <h3>My Albums</h3>
+          <div className={styles.sectionHeader}>
+            <h3>Portfolio Albums</h3>
+            {!albumsLoading && (
+              <span className={styles.countBadge}>{albums.length} albums</span>
+            )}
+          </div>
+
           {albumsLoading ? (
             <div>Loading albums...</div>
           ) : (
-            <div className={styles.albums}>
+            <div className={styles.albumsList}>
+              <AlbumCard isAddNew={true} modelId={modelId} />
+
               {albums.map(album => (
                 <AlbumCard key={album.ALB_ID} album={album} modelId={modelId} />
               ))}
-              <AlbumCard isAddNew={true} modelId={modelId} />
             </div>
           )}
         </div>
+
         {isModelModalOpen && (
           <ModalWindow
             model={model}
