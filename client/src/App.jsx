@@ -9,7 +9,6 @@ import ModelDetailsPage from './pages/GuestPages/ModelDetailsPage';
 import CastingsPage from './pages/GuestPages/CastingsPage';
 import AboutPage from './pages/GuestPages/AboutPage';
 import ContactsPage from './pages/GuestPages/ContactsPage';
-import RoleRoute from './components/RoleRoute';
 import DashboardPage from './pages/ModelPages/DashboardPage';
 import OfferPage from './pages/ModelPages/OfferPage';
 import ProfilePage from './pages/ProfilePage';
@@ -18,13 +17,18 @@ import MyCastings from './pages/AgencyPages/MyCastings';
 import CastingDetailsPage from './pages/GuestPages/CastingsPage/CastingDetailsPage';
 import Applicants from './pages/AgencyPages/Applicants';
 import MyApplications from './pages/ModelPages/MyApplicationsPage';
+import RoleRoute from './components/RoleRoute';
+import SignupRoleSelection from './components/SignupRoleSelection';
 
 function App () {
   return (
     <Router>
       <Routes>
+        <Route path='/signup' element={<SignupRoleSelection />} />
+        <Route path='/signup/model' element={<SignupPage role='model' />} />
+        <Route path='/signup/agency' element={<SignupPage role='agency' />} />
+
         <Route path='/login' element={<LoginPage />} />
-        <Route path='/signup' element={<SignupPage />} />
 
         <Route path='/' element={<BasePage />}>
           <Route index element={<HomePage />} />

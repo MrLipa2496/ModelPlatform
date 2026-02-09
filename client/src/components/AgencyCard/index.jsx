@@ -1,6 +1,6 @@
-import React from 'react';
-import styles from './AgencyCard.module.sass';
 import { FaCamera, FaGlobe, FaPhone, FaEnvelope } from 'react-icons/fa';
+import styles from './AgencyCard.module.sass';
+import defaultAvatarLocal from '../../../img/default-avatar.jpg';
 
 export default function AgencyCard ({
   agency,
@@ -36,9 +36,7 @@ export default function AgencyCard ({
         <div className={styles.logoWrapper}>
           <img
             src={
-              AGN_Logo
-                ? `http://localhost:5001${AGN_Logo}`
-                : '/default-logo.png'
+              AGN_Logo ? `http://localhost:5001${AGN_Logo}` : defaultAvatarLocal
             }
             alt='Agency Logo'
             className={styles.logo}

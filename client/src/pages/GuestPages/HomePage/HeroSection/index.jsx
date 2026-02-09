@@ -75,17 +75,13 @@ export default function HeroSection () {
 
           <div className={styles.ctaGroup}>
             <div className={styles.buttons}>
-              <NavLink className={styles.btnPrimary} to='/signup'>
+              <NavLink className={styles.btnPrimary} to='/signup/model'>
                 Join as Model
               </NavLink>
-              <NavLink className={styles.btnSecondary} to='/signup'>
+              <NavLink className={styles.btnSecondary} to='/signup/agency'>
                 Join as Agency
               </NavLink>
             </div>
-
-            <NavLink className={styles.btnOutline} to='/discover'>
-              Discover Talent
-            </NavLink>
           </div>
 
           <div className={styles.stats}>
