@@ -4,6 +4,7 @@ const serverPort = 5001;
 
 const CONSTANTS = {
   BASE_URL: `http://${serverIP}:${serverPort}/`,
+  PAGINATION_LIMIT: 12,
   AUTH_MODE: {
     REGISTER: 'REGISTER',
     SIGNUP_MODEL: 'SIGNUP_MODEL',

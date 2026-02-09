@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllCastings } from '../../../store/slices/castingSlice';
 import CastingCard from '../../../components/CastingCard';
+import Pagination from '../../../components/Pagination'; // 1. Импортируем компонент
 import AuthModal from '../../../components/AuthModal';
 import styles from './CastingsPage.module.sass';
+import CONSTANTS from '../../../utils/constants';
 
 export default function CastingsPage () {
   const dispatch = useDispatch();
 
-  const { allCastings, loading } = useSelector(state => state.casting);
+  const { allCastings, loading, totalPages, currentPage } = useSelector(
+    state => state.casting
+  );
   const { user } = useSelector(state => state.auth);
 
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -16,8 +20,16 @@ export default function CastingsPage () {
   const [modalText, setModalText] = useState('');
 
   useEffect(() => {
-    dispatch(fetchAllCastings());
+    dispatch(fetchAllCastings({ page: 1, limit: CONSTANTS.PAGINATION_LIMIT }));
   }, [dispatch]);
+
+  const handlePageChange = pageNumber => {
+    if (pageNumber === currentPage) return;
+    dispatch(
+      fetchAllCastings({ page: pageNumber, limit: CONSTANTS.PAGINATION_LIMIT })
+    );
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleViewDetails = casting => {
     if (user && user.role === 'model') {
@@ -55,9 +67,10 @@ export default function CastingsPage () {
       </section>
 
       <section className={styles.castingsGrid}>
-        {loading ? (
+        {loading && (!allCastings || allCastings.length === 0) ? (
           <p className={styles.loadingText}>Loading castings...</p>
         ) : (
+          Array.isArray(allCastings) &&
           allCastings.map(casting => {
             return (
               <CastingCard
@@ -68,7 +81,19 @@ export default function CastingsPage () {
             );
           })
         )}
+
+        {!loading && allCastings && allCastings.length === 0 && (
+          <p className={styles.noData}>No active castings found.</p>
+        )}
       </section>
+
+      {!loading && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
 
       <AuthModal
         isOpen={showAuthModal}

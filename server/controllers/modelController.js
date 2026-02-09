@@ -65,7 +65,10 @@ module.exports = {
 
   getModels: async (req, res, next) => {
     try {
-      const models = await modelService.getAllPublicModels();
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 12;
+
+      const models = await modelService.getAllPublicModels(page, limit);
       res.json(models);
     } catch (err) {
       next(err);

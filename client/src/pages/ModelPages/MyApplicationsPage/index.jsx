@@ -2,28 +2,44 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMyApplications } from '../../../store/slices/applicationSlice';
 import MyApplicationCard from '../../../components/MyApplicationCard';
+import Pagination from '../../../components/Pagination';
 import styles from './MyApplicationsPage.module.sass';
 import { FaFolderOpen } from 'react-icons/fa';
+import CONSTANTS from '../../../utils/constants';
 
 export default function MyApplicationsPage () {
   const dispatch = useDispatch();
 
-  const { myApplications, loading, error } = useSelector(
-    state => state.application
-  );
+  const { myApplications, loading, error, totalPages, currentPage } =
+    useSelector(state => state.application);
 
   useEffect(() => {
-    dispatch(fetchMyApplications());
+    dispatch(
+      fetchMyApplications({ page: 1, limit: CONSTANTS.PAGINATION_LIMIT })
+    );
   }, [dispatch]);
 
+  const handlePageChange = pageNumber => {
+    if (pageNumber === currentPage) return;
+    dispatch(
+      fetchMyApplications({
+        page: pageNumber,
+        limit: CONSTANTS.PAGINATION_LIMIT,
+      })
+    );
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const renderContent = () => {
-    if (loading) {
+    if (loading && (!myApplications || myApplications.length === 0)) {
       return <div className={styles.loading}>Loading your applications...</div>;
     }
+
     if (error) {
       return <div className={styles.error}>Error: {error}</div>;
     }
-    if (!myApplications || myApplications.length === 0) {
+
+    if (!loading && (!myApplications || myApplications.length === 0)) {
       return (
         <div className={styles.emptyState}>
           <FaFolderOpen className={styles.emptyIcon} />
@@ -35,9 +51,10 @@ export default function MyApplicationsPage () {
 
     return (
       <div className={styles.grid}>
-        {myApplications.map(app => (
-          <MyApplicationCard key={app.APP_ID} application={app} />
-        ))}
+        {Array.isArray(myApplications) &&
+          myApplications.map(app => (
+            <MyApplicationCard key={app.APP_ID} application={app} />
+          ))}
       </div>
     );
   };
@@ -52,6 +69,14 @@ export default function MyApplicationsPage () {
       </header>
 
       {renderContent()}
+
+      {!loading && !error && totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   );
 }

@@ -4,7 +4,10 @@ const { ROLES } = require('../utils/constants');
 
 exports.getAgencies = async (req, res, next) => {
   try {
-    const agencies = await agencyService.getAllPublicAgencies();
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 12;
+
+    const agencies = await agencyService.getAllPublicAgencies(page, limit);
     res.json(agencies);
   } catch (err) {
     next(err);

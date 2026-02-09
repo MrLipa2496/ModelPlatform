@@ -39,8 +39,10 @@ class ModelService {
     };
   }
 
-  async getAllPublicModels () {
-    return await db.Model.findAll({
+  async getAllPublicModels (page = 1, limit = 12) {
+    const offset = (page - 1) * limit;
+
+    const { count, rows } = await db.Model.findAndCountAll({
       attributes: [
         'MOD_ID',
         'MOD_FirstName',
@@ -51,8 +53,16 @@ class ModelService {
         'MOD_BirthDate',
         'MOD_Height',
       ],
+      limit: limit,
+      offset: offset,
       order: [['MOD_ID', 'DESC']],
     });
+    return {
+      data: rows,
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+    };
   }
 
   async getPublicModelById (modelId) {

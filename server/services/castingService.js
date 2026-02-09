@@ -24,8 +24,10 @@ class CastingService {
     });
   }
 
-  async getAllPublicCastings () {
-    return await db.Casting.findAll({
+  async getAllPublicCastings (page = 1, limit = 12) {
+    const offset = (page - 1) * limit;
+
+    const { count, rows } = await db.Casting.findAndCountAll({
       where: {
         CST_Status: {
           [Op.in]: [STATUS.ACTIVE, STATUS.APPROVED],
@@ -38,8 +40,17 @@ class CastingService {
           attributes: ['AGN_ID', 'AGN_Name', 'AGN_Logo'],
         },
       ],
+      limit,
+      offset,
       order: [['CST_StartDate', 'DESC']],
     });
+
+    return {
+      data: rows,
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+    };
   }
 
   async getPublicCastingById (id) {
@@ -73,10 +84,11 @@ class CastingService {
     return casting;
   }
 
-  async getMyCastings (userId) {
+  async getMyCastings (userId, page = 1, limit = 12) {
     const agency = await this._getAgencyProfile(userId);
+    const offset = (page - 1) * limit;
 
-    return await db.Casting.findAll({
+    const { count, rows } = await db.Casting.findAndCountAll({
       where: { AGN_ID: agency.AGN_ID },
       include: [
         {
@@ -85,8 +97,17 @@ class CastingService {
           attributes: ['APP_ID'],
         },
       ],
+      limit,
+      offset,
       order: [['createdAt', 'DESC']],
     });
+
+    return {
+      data: rows,
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+    };
   }
 
   async updateCasting (userId, castingId, updateData, file) {

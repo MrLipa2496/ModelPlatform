@@ -4,8 +4,10 @@ const path = require('path');
 const { STATUS, PATHS } = require('../utils/constants');
 
 class AgencyService {
-  async getAllPublicAgencies () {
-    return await db.Agency.findAll({
+  async getAllPublicAgencies (page = 1, limit = 12) {
+    const offset = (page - 1) * limit;
+
+    const { count, rows } = await db.Agency.findAndCountAll({
       attributes: [
         'AGN_ID',
         'AGN_Name',
@@ -23,8 +25,18 @@ class AgencyService {
         AGN_Verified: true,
       },
       order: [['AGN_ID', 'DESC']],
+
+      limit: limit,
+      offset: offset,
+
       raw: true,
     });
+    return {
+      data: rows,
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+    };
   }
 
   async getAgencyWithCastings (id) {

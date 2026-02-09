@@ -32,8 +32,13 @@ module.exports = {
       if (req.user.role !== ROLES.MODEL)
         return next(new ServerError('Forbidden', 403));
 
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 12;
+
       const applications = await applicationService.getModelApplications(
-        req.user.id
+        req.user.id,
+        page,
+        limit
       );
       res.json(applications);
     } catch (err) {
@@ -46,8 +51,13 @@ module.exports = {
       if (req.user.role !== ROLES.AGENCY)
         return next(new ServerError('Forbidden', 403));
 
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 12;
+
       const applications = await applicationService.getAllAgencyApplications(
-        req.user.id
+        req.user.id,
+        page,
+        limit
       );
       res.json(applications);
     } catch (err) {

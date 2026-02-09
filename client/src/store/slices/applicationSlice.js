@@ -23,9 +23,9 @@ export const createApplication = createAsyncThunk(
 
 export const fetchMyApplications = createAsyncThunk(
   'application/fetchMyApplications',
-  async (_, { rejectWithValue }) => {
+  async ({ page = 1, limit = 10 } = {}, { rejectWithValue }) => {
     try {
-      const res = await getMyApplicationsRequest();
+      const res = await getMyApplicationsRequest(page, limit);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || 'Error');
@@ -47,9 +47,9 @@ export const fetchApplicationsForCasting = createAsyncThunk(
 
 export const fetchAgencyApplications = createAsyncThunk(
   'application/fetchAgencyApplications',
-  async (_, { rejectWithValue }) => {
+  async ({ page = 1, limit = 10 } = {}, { rejectWithValue }) => {
     try {
-      const res = await getAgencyApplicationsRequest();
+      const res = await getAgencyApplicationsRequest(page, limit);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || 'Error');
@@ -129,6 +129,11 @@ const applicationSlice = createSlice({
     myApplications: [],
     castingApplications: [],
     agencyApplications: [],
+
+    totalItems: 0,
+    totalPages: 0,
+    currentPage: 1,
+
     loading: false,
     downloadLoading: false,
     error: null,
@@ -140,6 +145,13 @@ const applicationSlice = createSlice({
     clearAgencyApplications: state => {
       state.agencyApplications = [];
     },
+    clearApplicationsList: state => {
+      state.myApplications = [];
+      state.agencyApplications = [];
+      state.currentPage = 1;
+      state.totalItems = 0;
+      state.totalPages = 0;
+    },
   },
   extraReducers: builder => {
     builder
@@ -149,7 +161,14 @@ const applicationSlice = createSlice({
       })
       .addCase(fetchMyApplications.fulfilled, (state, action) => {
         state.loading = false;
-        state.myApplications = action.payload;
+
+        if (action.payload) {
+          const { data, totalItems, totalPages, currentPage } = action.payload;
+          state.myApplications = data || [];
+          state.totalItems = totalItems || 0;
+          state.totalPages = totalPages || 0;
+          state.currentPage = Number(currentPage) || 1;
+        }
       })
       .addCase(fetchMyApplications.rejected, (state, action) => {
         state.loading = false;
@@ -157,7 +176,7 @@ const applicationSlice = createSlice({
       })
 
       .addCase(createApplication.fulfilled, (state, action) => {
-        state.myApplications.push(action.payload);
+        state.myApplications.unshift(action.payload);
       })
 
       .addCase(fetchApplicationsForCasting.pending, state => {
@@ -179,7 +198,14 @@ const applicationSlice = createSlice({
       })
       .addCase(fetchAgencyApplications.fulfilled, (state, action) => {
         state.loading = false;
-        state.agencyApplications = action.payload;
+
+        if (action.payload) {
+          const { data, totalItems, totalPages, currentPage } = action.payload;
+          state.agencyApplications = data || [];
+          state.totalItems = totalItems || 0;
+          state.totalPages = totalPages || 0;
+          state.currentPage = Number(currentPage) || 1;
+        }
       })
       .addCase(fetchAgencyApplications.rejected, (state, action) => {
         state.loading = false;
@@ -232,6 +258,9 @@ const applicationSlice = createSlice({
   },
 });
 
-export const { clearCastingApplications, clearAgencyApplications } =
-  applicationSlice.actions;
+export const {
+  clearCastingApplications,
+  clearAgencyApplications,
+  clearApplicationsList,
+} = applicationSlice.actions;
 export default applicationSlice.reducer;

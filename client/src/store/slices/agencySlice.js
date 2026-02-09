@@ -9,9 +9,9 @@ import {
 
 export const fetchAllAgencies = createAsyncThunk(
   'agency/fetchAllAgencies',
-  async (_, { rejectWithValue }) => {
+  async ({ page = 1, limit = 12 } = {}, { rejectWithValue }) => {
     try {
-      const response = await getAllAgenciesRequest();
+      const response = await getAllAgenciesRequest(page, limit);
       return response.data;
     } catch (err) {
       return rejectWithValue(
@@ -78,6 +78,10 @@ const agencySlice = createSlice({
   initialState: {
     data: null,
     allAgencies: [],
+    totalItems: 0,
+    totalPages: 0,
+    currentPage: 1,
+
     selectedAgency: null,
     loading: false,
     error: null,
@@ -89,6 +93,12 @@ const agencySlice = createSlice({
     clearAgencyProfile: state => {
       state.data = null;
     },
+    clearAgenciesList: state => {
+      state.allAgencies = [];
+      state.currentPage = 1;
+      state.totalItems = 0;
+      state.totalPages = 0;
+    },
   },
   extraReducers: builder => {
     builder
@@ -98,7 +108,14 @@ const agencySlice = createSlice({
       })
       .addCase(fetchAllAgencies.fulfilled, (state, action) => {
         state.loading = false;
-        state.allAgencies = action.payload;
+
+        if (action.payload) {
+          const { data, totalItems, totalPages, currentPage } = action.payload;
+          state.allAgencies = data || [];
+          state.totalItems = totalItems || 0;
+          state.totalPages = totalPages || 0;
+          state.currentPage = Number(currentPage) || 1;
+        }
       })
       .addCase(fetchAllAgencies.rejected, (state, action) => {
         state.loading = false;
@@ -155,5 +172,6 @@ const agencySlice = createSlice({
   },
 });
 
-export const { clearSelectedAgency, clearAgencyProfile } = agencySlice.actions;
+export const { clearSelectedAgency, clearAgencyProfile, clearAgenciesList } =
+  agencySlice.actions;
 export default agencySlice.reducer;

@@ -34,10 +34,11 @@ class ApplicationService {
     });
   }
 
-  async getModelApplications (userId) {
+  async getModelApplications (userId, page = 1, limit = 12) {
     const model = await this._getModelProfile(userId);
+    const offset = (page - 1) * limit;
 
-    return await db.Application.findAll({
+    const { count, rows } = await db.Application.findAndCountAll({
       where: { MOD_ID: model.MOD_ID },
       include: [
         {
@@ -53,8 +54,17 @@ class ApplicationService {
           ],
         },
       ],
+      limit,
+      offset,
       order: [['createdAt', 'DESC']],
     });
+
+    return {
+      data: rows,
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+    };
   }
 
   async getApplicationsForCasting (userId, castingId) {
@@ -98,8 +108,9 @@ class ApplicationService {
     });
   }
 
-  async getAllAgencyApplications (userId) {
+  async getAllAgencyApplications (userId, page = 1, limit = 12) {
     const agency = await this._getAgencyProfile(userId);
+    const offset = (page - 1) * limit;
 
     const agencyCastings = await db.Casting.findAll({
       where: { AGN_ID: agency.AGN_ID },
@@ -107,9 +118,17 @@ class ApplicationService {
     });
 
     const castingIds = agencyCastings.map(c => c.CST_ID);
-    if (castingIds.length === 0) return [];
 
-    return await db.Application.findAll({
+    if (castingIds.length === 0) {
+      return {
+        data: [],
+        totalItems: 0,
+        totalPages: 0,
+        currentPage: page,
+      };
+    }
+
+    const { count, rows } = await db.Application.findAndCountAll({
       where: { CST_ID: { [Op.in]: castingIds } },
       include: [
         {
@@ -140,8 +159,17 @@ class ApplicationService {
           ],
         },
       ],
+      limit,
+      offset,
       order: [['createdAt', 'DESC']],
     });
+
+    return {
+      data: rows,
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+    };
   }
   async respondToApplication (
     userId,

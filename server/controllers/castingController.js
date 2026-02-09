@@ -10,8 +10,6 @@ module.exports = {
           new ServerError('Forbidden: Only agencies can create castings', 403)
         );
       }
-
-      // Передаем req.body полностью, сервис сам разберется
       const newCasting = await castingService.createCasting(
         req.user.id,
         req.body,
@@ -28,7 +26,10 @@ module.exports = {
 
   getAllCastings: async (req, res, next) => {
     try {
-      const castings = await castingService.getAllPublicCastings();
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 12;
+
+      const castings = await castingService.getAllPublicCastings(page, limit);
       res.status(200).json(castings);
     } catch (err) {
       next(err);
@@ -52,7 +53,14 @@ module.exports = {
         return next(new ServerError('Forbidden', 403));
       }
 
-      const castings = await castingService.getMyCastings(req.user.id);
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 12;
+
+      const castings = await castingService.getMyCastings(
+        req.user.id,
+        page,
+        limit
+      );
       res.status(200).json(castings);
     } catch (err) {
       next(err);
@@ -65,8 +73,6 @@ module.exports = {
         return next(new ServerError('Forbidden', 403));
       }
 
-      // Извлекаем CST_Status, чтобы случайно не передать его в сервис
-      // (статус всегда сбрасывается сервисом принудительно)
       const { CST_Status, ...updateData } = req.body;
 
       const updatedCasting = await castingService.updateCasting(

@@ -231,7 +231,7 @@ export default function MyApplicationCard ({ application }) {
             </button>
           ) : (
             <Link
-              to={`/myCastings/${Casting.CST_ID}`}
+              to={`/castings/${Casting.CST_ID}`}
               className={styles.viewLink}
             >
               View Casting <FaExternalLinkAlt />
