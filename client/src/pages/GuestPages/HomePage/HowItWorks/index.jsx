@@ -13,7 +13,7 @@ const steps = [
     icon: <Link2 />,
     title: 'Connect with Agencies & Clients',
     text: 'Explore opportunities, send applications, and get discovered by top modeling agencies and brands from around the world.',
-    link: '/agency',
+    link: '/agencies',
   },
   {
     icon: <Rocket />,

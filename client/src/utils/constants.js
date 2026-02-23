@@ -129,7 +129,12 @@ const CONSTANTS = {
   PROFILE_FIELDS: [
     { name: 'MOD_FirstName', label: 'First Name' },
     { name: 'MOD_LastName', label: 'Last Name' },
-    { name: 'MOD_Gender', label: 'Gender' },
+    {
+      name: 'MOD_Gender',
+      label: 'Gender',
+      as: 'select',
+      options: ['', 'Male', 'Female', 'Non-binary', 'Other'],
+    },
     { name: 'MOD_BirthDate', label: 'Date of Birth', type: 'date' },
     { name: 'MOD_Height', label: 'Height (cm)', type: 'number' },
     { name: 'MOD_Weight', label: 'Weight (kg)', type: 'number' },

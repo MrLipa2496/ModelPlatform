@@ -76,6 +76,27 @@ export default function ModelCard ({
     setIsFlipped(false);
   };
 
+  const formatFieldValue = (field, value) => {
+    if (value === null || value === undefined || value === '') return '-';
+
+    if (field === 'MOD_BirthDate') {
+      return value.toString().split('T')[0];
+    }
+
+    if (field === 'MOD_Experience') {
+      const exp = Number(value);
+      return `${exp} year${exp === 1 ? '' : 's'}`;
+    }
+
+    if (field === 'MOD_Gender') {
+      return (
+        value.toString().charAt(0).toUpperCase() + value.toString().slice(1)
+      );
+    }
+
+    return value;
+  };
+
   return (
     <>
       {isEditing && (
@@ -142,11 +163,7 @@ export default function ModelCard ({
                     <span className={styles.infoLabel}>
                       {field.replace('MOD_', '')}:
                     </span>
-                    <span>
-                      {field === 'MOD_BirthDate'
-                        ? model[field]?.split('T')[0] || '-'
-                        : model[field] || '-'}
-                    </span>
+                    <span>{formatFieldValue(field, model[field])}</span>
                   </div>
                 ))}
               </div>

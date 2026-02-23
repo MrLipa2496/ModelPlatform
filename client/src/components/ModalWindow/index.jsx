@@ -31,7 +31,16 @@ export default function ModalWindow ({
           }, {})}
           validationSchema={validationSchema}
           onSubmit={async values => {
-            await onSubmit(values);
+            const sanitizedValues = { ...values };
+
+            Object.keys(sanitizedValues).forEach(key => {
+              if (sanitizedValues[key] === '') {
+                sanitizedValues[key] = null;
+              }
+            });
+
+            await onSubmit(sanitizedValues);
+
             onClose();
           }}
         >
@@ -46,7 +55,20 @@ export default function ModalWindow ({
                       : styles.fieldWrapper
                   }
                 >
-                  <ValidatedField {...field} />
+                  {field.as === 'select' ? (
+                    <ValidatedField {...field}>
+                      {field.options &&
+                        field.options.map(opt => (
+                          <option key={opt} value={opt}>
+                            {opt === ''
+                              ? 'Select...'
+                              : opt.charAt(0).toUpperCase() + opt.slice(1)}
+                          </option>
+                        ))}
+                    </ValidatedField>
+                  ) : (
+                    <ValidatedField {...field} />
+                  )}
                 </div>
               ))}
 
