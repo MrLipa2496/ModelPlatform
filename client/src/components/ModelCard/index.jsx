@@ -97,6 +97,21 @@ export default function ModelCard ({
     return value;
   };
 
+  const getStatusText = status => {
+    switch (status) {
+      case 'active':
+        return 'Verified';
+      case 'blocked':
+        return 'Declined';
+      case 'pending':
+        return 'Pending';
+      default:
+        return 'Pending';
+    }
+  };
+
+  const currentStatus = model.MOD_Status || 'pending';
+
   return (
     <>
       {isEditing && (
@@ -143,9 +158,19 @@ export default function ModelCard ({
 
             <div className={styles.infoColumn}>
               <div className={styles.nameWrapper}>
-                <span className={styles.fullName}>
+                <span
+                  className={`${styles.fullName} ${
+                    currentStatus === 'active' ? styles.verifiedName : ''
+                  }`}
+                >
                   {model.MOD_FirstName?.toUpperCase()}{' '}
                   {model.MOD_LastName?.toUpperCase()}
+                </span>
+
+                <span
+                  className={`${styles.statusBadge} ${styles[currentStatus]}`}
+                >
+                  {getStatusText(currentStatus)}
                 </span>
               </div>
 
@@ -168,19 +193,6 @@ export default function ModelCard ({
                 ))}
               </div>
             </div>
-
-            {isEditable && (
-              <button
-                className={styles.editBtn}
-                onClick={e => {
-                  e.stopPropagation();
-                  setIsEditing(true);
-                  setIsFlipped(true);
-                }}
-              >
-                <FiEdit />
-              </button>
-            )}
 
             <div className={styles.bioSection}>
               <h3>About</h3>
@@ -260,6 +272,19 @@ export default function ModelCard ({
                   </button>
                 </div>
               </>
+            )}
+
+            {isEditable && (
+              <button
+                className={styles.editBtn}
+                onClick={e => {
+                  e.stopPropagation();
+                  setIsEditing(true);
+                  setIsFlipped(true);
+                }}
+              >
+                <FiEdit />
+              </button>
             )}
           </div>
         </div>

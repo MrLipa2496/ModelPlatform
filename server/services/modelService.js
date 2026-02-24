@@ -43,6 +43,9 @@ class ModelService {
     const offset = (page - 1) * limit;
 
     const { count, rows } = await db.Model.findAndCountAll({
+      where: {
+        MOD_Verified: true,
+      },
       attributes: [
         'MOD_ID',
         'MOD_FirstName',
@@ -57,6 +60,7 @@ class ModelService {
       offset: offset,
       order: [['MOD_ID', 'DESC']],
     });
+
     return {
       data: rows,
       totalItems: count,
@@ -64,10 +68,12 @@ class ModelService {
       currentPage: page,
     };
   }
-
   async getPublicModelById (modelId) {
     const model = await db.Model.findOne({
-      where: { MOD_ID: modelId },
+      where: {
+        MOD_ID: modelId,
+        MOD_Verified: true,
+      },
       attributes: [
         'MOD_ID',
         'MOD_FirstName',

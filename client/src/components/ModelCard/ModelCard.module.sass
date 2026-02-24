@@ -36,11 +36,6 @@
   font-size: 28px
   font-weight: 900
   text-transform: uppercase
-  background: linear-gradient(270deg, red, orange, yellow, violet, red)
-  background-size: 400% 400%
-  -webkit-background-clip: text
-  -webkit-text-fill-color: transparent
-  animation: gradientText 6s linear infinite
 
 .infoWrapper
   display: grid
@@ -367,6 +362,49 @@
     transform: translateY(-2px)
     box-shadow: 0 8px 20px rgba(0,0,0,0.3)
 
+
+.statusBadge
+  display: inline-block
+  margin-left: 12px
+  margin-bottom: 10px
+  padding: 4px 10px
+  font-size: 0.75rem
+  font-weight: 700
+  border-radius: 20px
+  text-transform: uppercase
+  letter-spacing: 0.5px
+  vertical-align: middle
+
+.active
+  background-color: #e6f4ea 
+  color: #1e8e3e            
+  border: 1px solid #1e8e3e
+
+.pending
+  background-color: #fef7e0 
+  color: #f9ab00            
+  border: 1px solid #f9ab00
+
+.blocked
+  background-color: #fce8e6 
+  color: #d93025            
+  border: 1px solid #d93025
+
+.verifiedName
+  background: linear-gradient(270deg, red, orange, yellow, violet, red)
+  background-size: 400% 400%
+  -webkit-background-clip: text
+  -webkit-text-fill-color: transparent
+  animation: textGradientAnim 6s linear infinite
+
+@keyframes textGradientAnim
+  0%
+    background-position: 0% 50%
+  50%
+    background-position: 100% 50%
+  100%
+    background-position: 0% 50%
+
 @keyframes borderAnim
     0%
         background-position: 0% 50%
@@ -374,14 +412,6 @@
         background-position: 100% 50%
     100%
         background-position: 0% 50%
-
-@keyframes gradientText
-  0%
-    background-position: 0% 50%
-  50%
-    background-position: 100% 50%
-  100%
-    background-position: 0% 50%
 
 @keyframes fadeIn
   from 

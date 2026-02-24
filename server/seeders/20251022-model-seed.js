@@ -301,6 +301,9 @@ module.exports = {
         MOD_Skills: JSON.stringify(modelData[i].skills),
         MOD_Bio: modelData[i].bio,
         MOD_Photo: `/uploads/${photoFileName}`,
+
+        MOD_Verified: true,
+        MOD_Status: 'active',
         createdAt: new Date(),
         updatedAt: new Date(),
       });
