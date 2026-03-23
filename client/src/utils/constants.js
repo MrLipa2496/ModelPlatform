@@ -3,7 +3,7 @@ const serverIP = 'localhost';
 const serverPort = 5001;
 
 const CONSTANTS = {
-  BASE_URL: `http://${serverIP}:${serverPort}/`,
+  BASE_URL: `http://${serverIP}:${serverPort}`,
   PAGINATION_LIMIT: 12,
   AUTH_MODE: {
     REGISTER: 'REGISTER',
@@ -106,12 +106,15 @@ const CONSTANTS = {
     model: [
       { to: '/castings', label: 'Castings' },
       { to: '/myApplications', label: 'My Applications' },
+      { to: '/agencies', label: 'Agencies' },
+      { to: '/contacts', label: 'Contacts' },
       { to: '/profile', label: 'Profile' },
     ],
     agency: [
       { to: '/models', label: 'Models' },
       { to: '/myCastings', label: 'My Castings' },
       { to: '/applicants', label: 'Applicants' },
+      { to: '/contacts', label: 'Contacts' },
       { to: '/profile', label: 'Profile' },
     ],
     admin: [

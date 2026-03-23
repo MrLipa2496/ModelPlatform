@@ -5,11 +5,12 @@ import AlbumUploadModal from '../AlbumUploadModal';
 import AlbumViewModal from '../AlbumViewModal/AlbumViewModal';
 import styles from './AlbumCard.module.sass';
 import defaultPhoto from '../../../img/defaultPhotoBG.jpg';
-
-const API_BASE_URL = 'http://localhost:5001';
+import CONSTANTS from '../../utils/constants';
 
 const PhotoUrl = ({ url, alt = 'album cover' }) => {
-  const [src, setSrc] = useState(url ? `${API_BASE_URL}${url}` : defaultPhoto);
+  const [src, setSrc] = useState(
+    url ? `${CONSTANTS.BASE_URL}${url}` : defaultPhoto
+  );
   return (
     <img
       src={src}

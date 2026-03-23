@@ -13,7 +13,7 @@ import {
 } from 'react-icons/fa';
 import RejectionModal from '../RejectionModal';
 import AcceptanceModal from '../AcceptanceModal';
-
+import CONSTANTS from '../../utils/constants';
 import styles from './ApplicantCard.module.sass';
 
 const calculateAge = birthDate => {
@@ -23,7 +23,6 @@ const calculateAge = birthDate => {
   return Math.abs(ageDate.getUTCFullYear() - 1970);
 };
 
-// Хелпер для генерації тексту відмови
 const generateRejectionDraft = (model, casting, matchResults) => {
   const mismatched = matchResults.filter(r => !r.match && r.req !== 'Any');
   const castingTitle = casting.CST_Title || 'the casting';
@@ -53,7 +52,6 @@ export default function ApplicantCard ({ application, showActions, onRespond }) 
 
     const modelAge = calculateAge(Model.MOD_BirthDate);
 
-    // --- 1. Стать (Ігноруємо регістр) ---
     const genderReqRaw = Casting.CST_Gender || 'Any';
     const modelGenderRaw = Model.MOD_Gender || '';
     const genderReqLower = genderReqRaw.toLowerCase();
@@ -64,7 +62,6 @@ export default function ApplicantCard ({ application, showActions, onRespond }) 
       !modelGenderLower ||
       genderReqLower === modelGenderLower;
 
-    // --- 2. Вік ---
     const ageMin = Casting.CST_AgeMin;
     const ageMax = Casting.CST_AgeMax;
     let ageReq = 'Any';
@@ -74,7 +71,6 @@ export default function ApplicantCard ({ application, showActions, onRespond }) 
     const ageMatch =
       (!ageMin || modelAge >= ageMin) && (!ageMax || modelAge <= ageMax);
 
-    // --- 3. Зріст ---
     const heightMin = Casting.CST_HeightMin;
     const heightMax = Casting.CST_HeightMax;
     let heightReq = 'Any';
@@ -117,7 +113,6 @@ export default function ApplicantCard ({ application, showActions, onRespond }) 
     );
   }
 
-  // --- Handlers для модальних вікон ---
   const handleOpenReject = () => setIsRejectModalOpen(true);
   const handleCloseReject = () => setIsRejectModalOpen(false);
   const handleOpenAccept = () => setIsAcceptModalOpen(true);
@@ -125,15 +120,13 @@ export default function ApplicantCard ({ application, showActions, onRespond }) 
 
   const rejectionDraft = generateRejectionDraft(Model, Casting, matchResults);
 
-  // --- ЛОГІКА ВІДПРАВКИ ---
-
   const confirmReject = reason => {
     if (onRespond) {
       onRespond({
         id: application.APP_ID,
         data: {
           status: 'rejected',
-          rejectionReason: reason, // 👈 Ключ має відповідати контролеру
+          rejectionReason: reason,
         },
       });
     }
@@ -146,7 +139,7 @@ export default function ApplicantCard ({ application, showActions, onRespond }) 
         id: application.APP_ID,
         data: {
           status: 'accepted',
-          invitationText: invitationText, // 👈 Ключ має відповідати контролеру
+          invitationText: invitationText,
         },
       });
     }
@@ -154,7 +147,7 @@ export default function ApplicantCard ({ application, showActions, onRespond }) 
   };
 
   const modelImage = Model.MOD_Photo
-    ? `http://localhost:5001${Model.MOD_Photo}`
+    ? `${CONSTANTS.BASE_URL}${Model.MOD_Photo}`
     : `https://placehold.co/300x400/eee/ccc?text=No+Photo`;
 
   return (

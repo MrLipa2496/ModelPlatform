@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styles from './MyCastingCard.module.sass';
+import CONSTANTS from '../../utils/constants';
 
 const getStatusTagClass = status => {
   switch (status) {
@@ -77,7 +78,7 @@ export default function MyCastingCard ({ casting, onEdit, onDelete }) {
   const applicantCount = Applications ? Applications.length : 0;
 
   const coverImage = CST_CoverImage
-    ? `http://localhost:5001${CST_CoverImage}`
+    ? `${CONSTANTS.BASE_URL}${CST_CoverImage}`
     : `https://placehold.co/600x400/eee/ccc?text=No+Image`;
 
   const locationText =

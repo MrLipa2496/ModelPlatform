@@ -88,7 +88,7 @@ export default function ModelsPage () {
                 key={model.MOD_ID}
                 image={
                   model.MOD_Photo
-                    ? `http://localhost:5001${model.MOD_Photo}`
+                    ? `${CONSTANTS.BASE_URL}${model.MOD_Photo}`
                     : defaultAvatarLocal
                 }
                 title={`${model.MOD_FirstName} ${model.MOD_LastName}`}

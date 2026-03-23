@@ -8,11 +8,12 @@ import {
 } from '../../store/slices/albumSlice';
 import styles from './AlbumUploadModal.module.sass';
 import defaultPhoto from '../../../img/defaultPhotoBG.jpg';
-
-const API_BASE_URL = 'http://localhost:5001';
+import CONSTANTS from '../../utils/constants';
 
 const PhotoUrl = ({ url, alt = 'album photo', className = '' }) => {
-  const [src, setSrc] = useState(url ? `${API_BASE_URL}${url}` : defaultPhoto);
+  const [src, setSrc] = useState(
+    url ? `${CONSTANTS.BASE_URL}${url}` : defaultPhoto
+  );
 
   return (
     <img

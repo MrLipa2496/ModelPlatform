@@ -59,7 +59,7 @@ export default function AgenciesPage () {
                 <img
                   src={
                     agency.AGN_Logo
-                      ? `http://localhost:5001${agency.AGN_Logo}`
+                      ? `${CONSTANTS.BASE_URL}${agency.AGN_Logo}`
                       : '/placeholder-agency.png'
                   }
                   alt={agency.AGN_Name}

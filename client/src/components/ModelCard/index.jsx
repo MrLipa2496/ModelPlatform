@@ -144,7 +144,7 @@ export default function ModelCard ({
                 src={
                   photoPreview ||
                   (model.MOD_Photo
-                    ? `http://localhost:5001${model.MOD_Photo}`
+                    ? `${CONSTANTS.BASE_URL}${model.MOD_Photo}`
                     : defaultAvatarLocal)
                 }
                 alt='Profile'

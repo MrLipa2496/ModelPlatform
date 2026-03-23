@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './InviteTemplate.module.sass';
 
 export default function InviteTemplate ({
@@ -7,8 +6,6 @@ export default function InviteTemplate ({
   casting,
   invitationText,
 }) {
-  // --- Хелпери для форматування ---
-
   const formatAddress = (city, type) => {
     if (type === 'remote') return 'Remote Work';
     return city || 'Location TBA';
@@ -35,10 +32,9 @@ export default function InviteTemplate ({
     if (min && max) return `${min} - ${max} ${unit}`;
     if (min) return `${min}+ ${unit}`;
     if (max) return `Up to ${max} ${unit}`;
-    return 'Any'; // Якщо вимог немає
+    return 'Any';
   };
 
-  // --- Дані ---
   const agencyName = agency?.AGN_Name || 'LipaX Agency';
   const logoUrl = agency?.AGN_Logo
     ? `http://localhost:5001${agency.AGN_Logo}`
@@ -54,7 +50,6 @@ export default function InviteTemplate ({
         {logoUrl ? (
           <img src={logoUrl} alt={agencyName} className={styles.logo} />
         ) : (
-          // Використовуємо ваш клас для стильного лого
           <div className={styles.headerLogo}>{agencyName}</div>
         )}
       </header>
@@ -78,7 +73,6 @@ export default function InviteTemplate ({
             `We are thrilled to inform you that your application for the casting "${casting.CST_Title}" has been successful! We believe your profile perfectly matches the requirements for this project.`}
         </p>
 
-        {/* Опис кастингу, якщо він є */}
         {casting.CST_Description && (
           <div className={styles.descriptionBox}>
             <h4 className={styles.miniTitle}>Project Description:</h4>
@@ -121,7 +115,6 @@ export default function InviteTemplate ({
           </div>
         </div>
 
-        {/* Блок вимог (щоб нагадати моделі, під що вона підписалась) */}
         <div className={styles.requirementsBlock}>
           <h4 className={styles.blockTitle}>Role Requirements:</h4>
           <div className={styles.reqGrid}>

@@ -8,10 +8,9 @@ import {
   FiChevronRight,
   FiMaximize2,
 } from 'react-icons/fi';
+import CONSTANTS from '../../utils/constants';
 
-const API_BASE_URL = 'http://localhost:5001';
-
-const getPhotoSrc = url => (url ? `${API_BASE_URL}${url}` : defaultPhoto);
+const getPhotoSrc = url => (url ? `${CONSTANTS.BASE_URL}${url}` : defaultPhoto);
 
 const formatTimeAgo = dateString => {
   if (!dateString) return '';

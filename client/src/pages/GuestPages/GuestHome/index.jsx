@@ -3,7 +3,7 @@ import AboutSection from './AboutSection';
 import HowItWorks from './HowItWorks';
 import FeaturesSection from './FeaturesSection';
 
-function HomePage () {
+function GuestHome () {
   return (
     <>
       <HeroSection />
@@ -14,4 +14,4 @@ function HomePage () {
   );
 }
 
-export default HomePage;
+export default GuestHome;
