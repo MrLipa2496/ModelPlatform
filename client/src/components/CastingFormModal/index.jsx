@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './CastingFormModal.module.sass';
+import CONSTANTS from '../../utils/constants';
 
 const getInitialState = () => ({
   CST_Title: '',
@@ -39,7 +40,7 @@ export default function CastingFormModal ({
   const [coverImageFile, setCoverImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(
     initialData?.CST_CoverImage
-      ? `http://localhost:5001${initialData.CST_CoverImage}`
+      ? `${CONSTANTS.BASE_URL}${initialData.CST_CoverImage}`
       : null
   );
   const fileInputRef = useRef(null);
@@ -54,7 +55,7 @@ export default function CastingFormModal ({
         });
         setImagePreview(
           initialData.CST_CoverImage
-            ? `http://localhost:5001${initialData.CST_CoverImage}`
+            ? `${CONSTANTS.BASE_URL}${initialData.CST_CoverImage}`
             : null
         );
       } else {

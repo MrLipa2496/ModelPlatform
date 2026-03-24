@@ -1,142 +1,159 @@
-$form-border-color: #ccc
-$form-error-color: red
-$form-bg: #fff
-$form-text: #000
-$form-gray: #f5f5f5
+$border-color: #e1e1e1
+$error-color: #e74c3c
+$text-main: #111
+$text-light: #666
+$bg-input: #fff
+$focus-color: #000
+$btn-bg: #000
+$btn-text: #fff
 
 .formWrapper
-  max-width: 400px
-  min-width: 300px
   width: 100%
-  margin: 100px auto
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1)
-  border-radius: 12px
-  padding: 40px
-  background-color: $form-bg
-  color: $form-text
+  max-width: 420px
+  margin: 0 auto
+  padding: 0
+  color: $text-main
+  animation: fadeIn 0.4s ease-out
+
+.backLink
+  display: inline-flex
+  align-items: center
+  gap: 6px
+  font-size: 0.85rem
+  color: $text-light
+  text-decoration: none
+  margin-bottom: 20px
+  transition: color 0.2s
+
+  &:hover
+    color: $focus-color
 
 .formTitle
-  margin: 20px 0
-  text-align: center
-  font-size: 26px
-  font-weight: 600
+  margin: 0 0 25px 0
+  text-align: left
+  font-size: 2rem
+  font-weight: 700
+  font-family: 'Roboto Slab', serif 
+  color: $text-main
+  letter-spacing: -0.5px
 
 .form
   display: flex
   flex-direction: column
-  gap: 8px
+  gap: 16px
 
-.roleSelect
-  display: flex
-  justify-content: space-evenly
-  gap: 20px
-  margin-bottom: 20px
+.fieldRow
   width: 100%
-
-.formSpan
-  margin-left: 8px
-  font-size: 14px
 
 .inputWrapper
   position: relative
-  display: flex
-  align-items: center
-
-.formInput
-  border-radius: 8px
-  border: 1px solid $form-border-color
-  padding: 12px
   width: 100%
-  box-sizing: border-box
-  background-color: $form-gray
-  font-size: 14px
-  transition: border 0.2s
-
-  &:focus
-    outline: none
-    border: 1px solid #000
 
 .eyeBtn
   position: absolute
-  right: 12px
-  top: 50%
+  right: 15px
+  top: 65% 
+  transform: translateY(-50%)
   border: none
-  background-color: transparent
+  background: transparent
   cursor: pointer
-  color: $form-text
-  font-size: 18px
+  color: $text-light
+  font-size: 1.2rem
+  padding: 0
+  display: flex
+  align-items: center
+  justify-content: center
+  transition: color 0.2s
+  z-index: 2
+
+  &:hover
+    color: $focus-color
 
 .formCheckBox
   display: flex
   flex-direction: column
-  cursor: pointer
+  margin-top: 5px
   position: relative
+
+.checkContainer
+  display: flex
+  align-items: center
 
 .inputCheckBox
-  margin-right: 8px
-  margin-bottom: 15px
-
-
-.formButton
-  position: relative
-  padding: 12px 24px
-  margin-top: 15px
-  border-radius: 6px
-  border: none
+  width: 18px
+  height: 18px
+  margin-right: 10px
   cursor: pointer
-  background-color: #000
-  color: #fff
-  font-size: 16px
-  font-weight: 500
-  z-index: 1
-  overflow: hidden
-  transition: background-color 0.3s
+  accent-color: $btn-bg
 
-  &:hover
-    background-color: #111
-
-  &::before
-    content: ''
-    position: absolute
-    top: -2px
-    left: -2px
-    right: -2px
-    bottom: -2px
-    border-radius: 8px
-    background: linear-gradient(270deg, red, orange, yellow, violet, red)
-    background-size: 400% 400%
-    z-index: -1
-    animation: borderAnim 6s linear infinite
-    opacity: 0
-    transition: opacity 0.3s
-
-  &:hover::before
-    opacity: 1
-
-@keyframes borderAnim
-  0%
-    background-position: 0% 50%
-  50%
-    background-position: 100% 50%
-  100%
-    background-position: 0% 50%
-
-.toggleLink
-  margin-top: 1rem
-  text-align: center
+.formSpan
   font-size: 0.9rem
-  color: #555
+  color: $text-light
 
-.linkText
-  color: #007bff
-  cursor: pointer
-  &:hover
+  a
+    color: $text-main
     text-decoration: underline
+    font-weight: 500
 
 .errorMessage
-  position: absolute
-  color: $form-error-color
-  top: 100%
-  right: 0
-  font-size: 11px
+  color: $error-color
+  font-size: 0.75rem
+  margin-top: 4px
 
+.formButton
+  width: 100%
+  height: 52px
+  margin-top: 15px
+  background-color: $btn-bg
+  color: $btn-text
+  border: none
+  border-radius: 4px 
+  font-size: 1rem
+  font-weight: 600
+  text-transform: uppercase
+  letter-spacing: 1px
+  cursor: pointer
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)
+
+  &:hover
+    background-color: lighten($btn-bg, 15%)
+    transform: translateY(-2px)
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15)
+
+  &:disabled
+    background-color: #ccc
+    cursor: not-allowed
+    transform: none
+    box-shadow: none
+
+.toggleLink
+  margin-top: 20px
+  text-align: center
+  font-size: 0.9rem
+  color: $text-light
+
+.linkText
+  color: $text-main
+  font-weight: 600
+  text-decoration: none
+  margin-left: 5px
+  border-bottom: 1px solid transparent
+  transition: border-bottom 0.2s
+
+  &:hover
+    border-bottom-color: $text-main
+
+@keyframes fadeIn
+  from
+    opacity: 0
+    transform: translateY(10px)
+  to
+    opacity: 1
+    transform: translateY(0)
+
+@media (max-width: 480px)
+  .formTitle
+    font-size: 1.75rem
+  
+  .formButton
+    height: 48px

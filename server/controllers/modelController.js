@@ -1,163 +1,89 @@
-const path = require('path');
-const fs = require('fs');
-const db = require('../models');
+const modelService = require('../services/modelService');
 const ServerError = require('../errors/ServerError');
+const { ROLES } = require('../utils/constants');
 
-exports.getProfile = async (req, res) => {
-  try {
-    const userId = req.user.id;
+module.exports = {
+  getProfile: async (req, res, next) => {
+    try {
+      if (req.user.role !== ROLES.MODEL) {
+        return next(new ServerError('Forbidden', 403));
+      }
 
-    const model = await db.Model.findOne({
-      where: { USR_ID: userId },
-      include: [
-        { model: db.User, as: 'User', attributes: ['USR_Email', 'USR_Role'] },
-      ],
-    });
+      const model = await modelService.getMyProfile(req.user.id);
+      res.json(model);
+    } catch (err) {
+      if (err.message === 'Profile not found')
+        return next(new ServerError(err.message, 404));
+      next(err);
+    }
+  },
 
-    if (!model) return res.status(404).json({ message: 'Profile not found' });
+  updateProfile: async (req, res, next) => {
+    try {
+      if (req.user.role !== ROLES.MODEL) {
+        return next(new ServerError('Forbidden', 403));
+      }
 
-    res.json(model);
-  } catch (err) {
-    console.error('Error in getProfile:', err);
-    res.status(500).json({ message: 'Server error' });
-  }
-};
-
-exports.updateProfile = async (req, res) => {
-  try {
-    const userId = req.user.id;
-
-    const model = await db.Model.findOne({ where: { USR_ID: userId } });
-    if (!model) return res.status(404).json({ message: 'Profile not found' });
-
-    const {
-      MOD_FirstName,
-      MOD_LastName,
-      MOD_Gender,
-      MOD_BirthDate,
-      MOD_Height,
-      MOD_Weight,
-      MOD_EyeColor,
-      MOD_HairColor,
-      MOD_Experience,
-      MOD_Skills,
-      MOD_Bio,
-    } = req.body;
-
-    await model.update({
-      MOD_FirstName,
-      MOD_LastName,
-      MOD_Gender,
-      MOD_BirthDate,
-      MOD_Height,
-      MOD_Weight,
-      MOD_EyeColor,
-      MOD_HairColor,
-      MOD_Experience,
-      MOD_Skills,
-      MOD_Bio,
-    });
-
-    res.json({ message: 'Profile updated successfully', model });
-  } catch (err) {
-    console.error('Error in updateProfile:', err);
-    res.status(500).json({ message: 'Server error' });
-  }
-};
-
-exports.updatePhoto = async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const model = await db.Model.findOne({ where: { USR_ID: userId } });
-    if (!model) return res.status(404).json({ message: 'Profile not found' });
-
-    if (!req.file) throw new ServerError('No file uploaded');
-
-    const photoPath = `/uploads/${req.file.filename}`;
-
-    if (model.MOD_Photo) {
-      const oldPath = path.resolve(
-        __dirname,
-        '..',
-        '..',
-        'public',
-        model.MOD_Photo
+      const updatedModel = await modelService.updateProfile(
+        req.user.id,
+        req.body
       );
-      if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+
+      res.json({
+        message: 'Profile updated successfully',
+        model: updatedModel,
+      });
+    } catch (err) {
+      if (err.message === 'Profile not found')
+        return next(new ServerError(err.message, 404));
+      next(err);
     }
+  },
 
-    await model.update({ MOD_Photo: photoPath });
+  updatePhoto: async (req, res, next) => {
+    try {
+      if (req.user.role !== ROLES.MODEL) {
+        return next(new ServerError('Forbidden', 403));
+      }
 
-    res.json({
-      message: 'Photo updated successfully',
-      photoUrl: photoPath,
-    });
-  } catch (err) {
-    console.error('Error in updatePhoto:', err);
-    res.status(500).json({ message: 'Server error' });
-  }
-};
+      if (!req.file) {
+        return next(new ServerError('No file uploaded', 400));
+      }
 
-exports.getModels = async (req, res) => {
-  try {
-    const models = await db.Model.findAll({
-      attributes: [
-        'MOD_ID',
-        'MOD_FirstName',
-        'MOD_LastName',
-        'MOD_Photo',
-        'MOD_Experience',
-        'MOD_Gender',
-        'MOD_BirthDate',
-        'MOD_Height',
-      ],
-      order: [['MOD_ID', 'DESC']],
-    });
+      const result = await modelService.updatePhoto(
+        req.user.id,
+        req.file.filename
+      );
 
-    res.json(models);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Failed to load models list' });
-  }
-};
-
-exports.getModel = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const model = await db.Model.findOne({
-      where: { MOD_ID: id },
-      attributes: [
-        'MOD_ID',
-        'MOD_FirstName',
-        'MOD_LastName',
-        'MOD_Gender',
-        'MOD_BirthDate',
-        'MOD_Height',
-        'MOD_Weight',
-        'MOD_EyeColor',
-        'MOD_HairColor',
-        'MOD_Experience',
-        'MOD_Skills',
-        'MOD_Bio',
-        'MOD_Photo',
-      ],
-      include: [
-        {
-          model: db.User,
-          as: 'User',
-          attributes: ['USR_Role', 'USR_Email'],
-        },
-      ],
-    });
-
-    if (!model) {
-      return res.status(404).json({ message: 'Model not found' });
+      res.json(result);
+    } catch (err) {
+      if (err.message === 'Profile not found')
+        return next(new ServerError(err.message, 404));
+      next(err);
     }
+  },
 
-    res.json(model);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Failed to load model info' });
-  }
+  getModels: async (req, res, next) => {
+    try {
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 12;
+
+      const models = await modelService.getAllPublicModels(page, limit);
+      res.json(models);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  getModel: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const model = await modelService.getPublicModelById(id);
+      res.json(model);
+    } catch (err) {
+      if (err.message === 'Model not found')
+        return next(new ServerError(err.message, 404));
+      next(err);
+    }
+  },
 };

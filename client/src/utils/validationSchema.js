@@ -163,12 +163,16 @@ export const profileValidationSchema = yup.object({
 
   MOD_Gender: yup
     .string()
-    .nullable()
-    .oneOf(['Male', 'Female', 'Other', null], 'Invalid gender'),
+    .required('Gender is required')
+    .oneOf(
+      ['male', 'female', 'non-binary', 'other', 'Male', 'Female', 'Other'],
+      'Invalid gender'
+    ),
 
   MOD_BirthDate: yup
     .date()
-    .nullable()
+    .typeError('Please enter a valid date')
+    .required('Birth date is required')
     .max(new Date(), 'Birth date cannot be in the future')
     .min(
       new Date(new Date().setFullYear(new Date().getFullYear() - 120)),
@@ -177,31 +181,34 @@ export const profileValidationSchema = yup.object({
 
   MOD_Height: yup
     .number()
-    .nullable()
+    .typeError('Height must be a number')
+    .required('Height is required')
     .min(50, 'Height must be at least 50 cm')
     .max(300, 'Height cannot exceed 300 cm'),
 
   MOD_Weight: yup
     .number()
-    .nullable()
+    .typeError('Weight must be a number')
+    .required('Weight is required')
     .min(20, 'Weight must be at least 20 kg')
     .max(300, 'Weight cannot exceed 300 kg'),
 
-  MOD_EyeColor: yup.string().nullable().min(2, 'Too short').max(20, 'Too long'),
+  MOD_EyeColor: yup.string().min(2, 'Too short').max(20, 'Too long'),
 
-  MOD_HairColor: yup
-    .string()
-    .nullable()
-    .min(2, 'Too short')
-    .max(20, 'Too long'),
+  MOD_HairColor: yup.string().min(2, 'Too short').max(20, 'Too long'),
 
   MOD_Experience: yup
     .number()
-    .nullable()
+    .typeError('Experience must be a number')
+    .required('Experience is required')
     .min(0, 'Cannot be negative')
     .max(100, 'Too much experience'),
 
-  MOD_Bio: yup.string().nullable().max(1000, 'Bio is too long'),
+  MOD_Bio: yup
+    .string()
+    .required('Bio is required')
+    .min(10, 'Please write at least a few words about yourself') // Добавил минимальную длину для солидности
+    .max(1000, 'Bio is too long'),
 });
 
 export const agencyProfileValidationSchema = yup.object({

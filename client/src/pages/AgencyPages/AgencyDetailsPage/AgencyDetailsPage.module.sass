@@ -1,0 +1,57 @@
+.pageContainer
+  max-width: 1200px
+  margin: 0 auto
+  padding: 3rem 2rem
+  display: flex
+  flex-direction: column
+  gap: 3rem
+
+.loadingContainer
+  display: flex
+  justify-content: center
+  align-items: center
+  height: 60vh
+
+.loadingText
+  font-size: 1.2rem
+  color: #666
+
+.castingsSection
+  display: flex
+  flex-direction: column
+  gap: 1.5rem
+
+.sectionTitle
+  font-size: 1.5rem
+  font-weight: 700
+  color: #111
+  text-transform: uppercase
+  letter-spacing: 0.5px
+  border-bottom: 2px solid #eaeaea
+  padding-bottom: 0.5rem
+
+.castingsGrid
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))
+  gap: 1.5rem
+
+.emptyState
+  background: #fafafa
+  border: 1px dashed #ccc
+  border-radius: 8px
+  padding: 3rem
+  text-align: center
+  color: #666
+  font-size: 1rem
+
+.castingItemFallback
+  padding: 1.5rem
+  border: 1px solid #eaeaea
+  border-radius: 8px
+  background: #fff
+  h4
+    margin-bottom: 0.5rem
+    color: #111
+  p
+    color: #666
+    font-size: 0.9rem

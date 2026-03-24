@@ -31,6 +31,11 @@ module.exports = {
       MOD_Experience: { type: Sequelize.STRING },
       MOD_Skills: { type: Sequelize.JSON },
       MOD_Bio: { type: Sequelize.TEXT },
+      MOD_Verified: { type: Sequelize.BOOLEAN, defaultValue: false },
+      MOD_Status: {
+        type: Sequelize.ENUM('active', 'blocked', 'pending'),
+        defaultValue: 'pending',
+      },
       MOD_Photo: { type: Sequelize.STRING },
       createdAt: {
         allowNull: false,

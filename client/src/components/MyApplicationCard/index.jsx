@@ -16,6 +16,7 @@ import {
   FaSpinner,
 } from 'react-icons/fa';
 import styles from './MyApplicationCard.module.sass';
+import CONSTANTS from '../../utils/constants';
 
 const getStatusInfo = status => {
   switch (status) {
@@ -72,7 +73,7 @@ export default function MyApplicationCard ({ application }) {
   const StatusIcon = statusInfo.icon;
 
   const coverImage = Casting.CST_CoverImage
-    ? `http://localhost:5001${Casting.CST_CoverImage}`
+    ? `${CONSTANTS.BASE_URL}${Casting.CST_CoverImage}`
     : `https://placehold.co/600x400/3498db/ffffff?text=${
         Casting.CST_Title.substring(0, 1) || 'C'
       }`;
@@ -231,7 +232,7 @@ export default function MyApplicationCard ({ application }) {
             </button>
           ) : (
             <Link
-              to={`/myCastings/${Casting.CST_ID}`}
+              to={`/castings/${Casting.CST_ID}`}
               className={styles.viewLink}
             >
               View Casting <FaExternalLinkAlt />

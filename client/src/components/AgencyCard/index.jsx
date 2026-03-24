@@ -1,10 +1,19 @@
 import React from 'react';
+import {
+  FiCamera,
+  FiGlobe,
+  FiPhone,
+  FiMail,
+  FiMessageSquare,
+} from 'react-icons/fi';
+import { toast } from 'react-toastify';
 import styles from './AgencyCard.module.sass';
-import { FaCamera, FaGlobe, FaPhone, FaEnvelope } from 'react-icons/fa';
+import defaultAvatarLocal from '../../../img/default-avatar.jpg';
+import CONSTANTS from '../../utils/constants';
 
 export default function AgencyCard ({
   agency,
-  isEditable,
+  isEditable = false,
   onEdit,
   onLogoChange,
 }) {
@@ -21,9 +30,19 @@ export default function AgencyCard ({
 
   const handleLogoChange = e => {
     const file = e.target.files[0];
-    if (file) {
+    if (file && onLogoChange) {
       onLogoChange(file);
     }
+  };
+
+  // Заглушка для будущего чата
+  const handleContactClick = () => {
+    toast.info('💬 In-app messaging is coming soon!', {
+      position: 'bottom-center',
+      autoClose: 3000,
+      hideProgressBar: true,
+      theme: 'dark', // Темная тема тоста отлично впишется в минимализм
+    });
   };
 
   const headerClass = `${styles.header} ${
@@ -36,16 +55,14 @@ export default function AgencyCard ({
         <div className={styles.logoWrapper}>
           <img
             src={
-              AGN_Logo
-                ? `http://localhost:5001${AGN_Logo}`
-                : '/default-logo.png'
+              AGN_Logo ? `${CONSTANTS.BASE_URL}${AGN_Logo}` : defaultAvatarLocal
             }
             alt='Agency Logo'
             className={styles.logo}
           />
           {isEditable && (
             <label className={styles.uploadButton}>
-              <FaCamera className={styles.icon} />
+              <FiCamera className={styles.icon} />
               <input
                 type='file'
                 accept='image/*'
@@ -55,13 +72,14 @@ export default function AgencyCard ({
             </label>
           )}
         </div>
+
         <div className={styles.titleGroup}>
           <h1 className={styles.name}>
             {AGN_Name}
             {AGN_Verified && <span className={styles.verifiedBadge}>✓</span>}
           </h1>
           <p className={styles.location}>
-            {AGN_City}, {AGN_Country}
+            {AGN_City || 'City'}, {AGN_Country || 'Country'}
           </p>
         </div>
       </header>
@@ -69,14 +87,15 @@ export default function AgencyCard ({
       <section className={styles.body}>
         <div className={styles.about}>
           <h4>About {AGN_Name}</h4>
-          <p>{AGN_Description || 'No description provided.'}</p>
+          <p>{AGN_Description || 'No description provided yet.'}</p>
         </div>
+
         <div className={styles.contact}>
           <h4>Contact Info</h4>
           <ul>
             {AGN_Website && (
               <li>
-                <FaGlobe className={styles.icon} />
+                <FiGlobe className={styles.icon} />
                 <a
                   href={
                     AGN_Website.startsWith('http')
@@ -86,27 +105,33 @@ export default function AgencyCard ({
                   target='_blank'
                   rel='noopener noreferrer'
                 >
-                  {AGN_Website}
+                  {AGN_Website.replace(/^https?:\/\//, '')}
                 </a>
               </li>
             )}
             {AGN_Phone && (
               <li>
-                <FaPhone className={styles.icon} />
+                <FiPhone className={styles.icon} />
                 <span>{AGN_Phone}</span>
               </li>
             )}
             {agency.User && (
               <li>
-                <FaEnvelope className={styles.icon} />
+                <FiMail className={styles.icon} />
                 <span>{agency.User.USR_Email}</span>
               </li>
             )}
           </ul>
 
-          {isEditable && (
+          {/* Логика кнопок: Если это мое агентство - кнопка Edit. Если чужое - кнопка Contact */}
+          {isEditable ? (
             <button className={styles.editButton} onClick={onEdit}>
               Edit Profile
+            </button>
+          ) : (
+            <button className={styles.contactBtn} onClick={handleContactClick}>
+              <FiMessageSquare className={styles.btnIcon} />
+              Message Agency
             </button>
           )}
         </div>

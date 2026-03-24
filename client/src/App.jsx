@@ -3,28 +3,32 @@ import './reset.css';
 import BasePage from './pages/BasePage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
-import HomePage from './pages/GuestPages/HomePage';
+import HomePage from './pages/HomePage';
+import ProfilePage from './pages/ProfilePage';
 import ModelsPage from './pages/GuestPages/ModelsPage';
-import ModelDetailsPage from './pages/GuestPages/ModelDetailsPage';
 import CastingsPage from './pages/GuestPages/CastingsPage';
 import AboutPage from './pages/GuestPages/AboutPage';
 import ContactsPage from './pages/GuestPages/ContactsPage';
-import RoleRoute from './components/RoleRoute';
-import DashboardPage from './pages/ModelPages/DashboardPage';
-import OfferPage from './pages/ModelPages/OfferPage';
-import ProfilePage from './pages/ProfilePage';
 import AgenciesPage from './pages/GuestPages/AgenciesPage';
-import MyCastings from './pages/AgencyPages/MyCastings';
 import CastingDetailsPage from './pages/GuestPages/CastingsPage/CastingDetailsPage';
-import Applicants from './pages/AgencyPages/Applicants';
+import OfferPage from './pages/ModelPages/OfferPage';
+import ModelDetailsPage from './pages/ModelPages/ModelDetailsPage';
 import MyApplications from './pages/ModelPages/MyApplicationsPage';
+import MyCastings from './pages/AgencyPages/MyCastings';
+import Applicants from './pages/AgencyPages/Applicants';
+import AgencyDetailsPage from './pages/AgencyPages/AgencyDetailsPage';
+import RoleRoute from './components/RoleRoute';
+import SignupRoleSelection from './components/SignupRoleSelection';
 
 function App () {
   return (
     <Router>
       <Routes>
+        <Route path='/signup' element={<SignupRoleSelection />} />
+        <Route path='/signup/model' element={<SignupPage role='model' />} />
+        <Route path='/signup/agency' element={<SignupPage role='agency' />} />
+
         <Route path='/login' element={<LoginPage />} />
-        <Route path='/signup' element={<SignupPage />} />
 
         <Route path='/' element={<BasePage />}>
           <Route index element={<HomePage />} />
@@ -35,10 +39,10 @@ function App () {
           <Route path='/contacts' element={<ContactsPage />} />
 
           <Route element={<RoleRoute allowedRoles={['model']} />}>
-            <Route path='/dashboard' element={<DashboardPage />} />
             <Route path='/offers' element={<OfferPage />} />
             <Route path='/myApplications' element={<MyApplications />} />
             <Route path='/castings/:id' element={<CastingDetailsPage />} />
+            <Route path='/agency/:id' element={<AgencyDetailsPage />} />
           </Route>
 
           <Route element={<RoleRoute allowedRoles={['agency']} />}>

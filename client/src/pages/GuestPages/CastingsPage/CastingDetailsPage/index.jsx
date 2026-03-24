@@ -11,6 +11,7 @@ import {
 } from '../../../../store/slices/applicationSlice';
 import AuthModal from '../../../../components/AuthModal';
 import styles from './CastingDetailsPage.module.sass';
+import CONSTANTS from '../../../../utils/constants';
 
 import {
   FaDollarSign,
@@ -169,7 +170,7 @@ export default function CastingDetailsPage () {
         style={{
           backgroundImage: `url(${
             CST_CoverImage
-              ? `http://localhost:5001${CST_CoverImage}`
+              ? `${CONSTANTS.BASE_URL}${CST_CoverImage}`
               : `https://placehold.co/1200x400/eee/ccc?text=Casting`
           })`,
         }}
@@ -202,7 +203,7 @@ export default function CastingDetailsPage () {
               <img
                 src={
                   Agency.AGN_Logo
-                    ? `http://localhost:5001${Agency.AGN_Logo}`
+                    ? `${CONSTANTS.BASE_URL}${Agency.AGN_Logo}`
                     : `https://placehold.co/50x50/eee/ccc?text=${Agency.AGN_Name.charAt(
                         0
                       )}`

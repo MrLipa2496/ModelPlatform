@@ -3,7 +3,8 @@ const serverIP = 'localhost';
 const serverPort = 5001;
 
 const CONSTANTS = {
-  BASE_URL: `http://${serverIP}:${serverPort}/`,
+  BASE_URL: `http://${serverIP}:${serverPort}`,
+  PAGINATION_LIMIT: 12,
   AUTH_MODE: {
     REGISTER: 'REGISTER',
     SIGNUP_MODEL: 'SIGNUP_MODEL',
@@ -105,12 +106,17 @@ const CONSTANTS = {
     model: [
       { to: '/castings', label: 'Castings' },
       { to: '/myApplications', label: 'My Applications' },
+      { to: '/agencies', label: 'Agencies' },
+      { to: '/about', label: 'About' },
+      { to: '/contacts', label: 'Contacts' },
       { to: '/profile', label: 'Profile' },
     ],
     agency: [
       { to: '/models', label: 'Models' },
       { to: '/myCastings', label: 'My Castings' },
       { to: '/applicants', label: 'Applicants' },
+      { to: '/about', label: 'About' },
+      { to: '/contacts', label: 'Contacts' },
       { to: '/profile', label: 'Profile' },
     ],
     admin: [
@@ -128,7 +134,12 @@ const CONSTANTS = {
   PROFILE_FIELDS: [
     { name: 'MOD_FirstName', label: 'First Name' },
     { name: 'MOD_LastName', label: 'Last Name' },
-    { name: 'MOD_Gender', label: 'Gender' },
+    {
+      name: 'MOD_Gender',
+      label: 'Gender',
+      as: 'select',
+      options: ['', 'Male', 'Female', 'Non-binary', 'Other'],
+    },
     { name: 'MOD_BirthDate', label: 'Date of Birth', type: 'date' },
     { name: 'MOD_Height', label: 'Height (cm)', type: 'number' },
     { name: 'MOD_Weight', label: 'Weight (kg)', type: 'number' },

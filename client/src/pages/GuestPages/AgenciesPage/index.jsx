@@ -1,24 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllAgencies } from '../../../store/slices/agencySlice';
+import Pagination from '../../../components/Pagination';
+import AuthModal from '../../../components/AuthModal';
 import styles from './AgenciesPage.module.sass';
+import CONSTANTS from '../../../utils/constants';
 
 export default function AgenciesPage () {
   const dispatch = useDispatch();
-  const { allAgencies, loading } = useSelector(state => state.agency);
+
+  const { allAgencies, loading, totalPages, currentPage } = useSelector(
+    state => state.agency
+  );
   const { user } = useSelector(state => state.auth);
+
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchAllAgencies());
+    dispatch(fetchAllAgencies({ page: 1, limit: CONSTANTS.PAGINATION_LIMIT }));
   }, [dispatch]);
+
+  const handlePageChange = pageNumber => {
+    if (pageNumber === currentPage) return;
+    dispatch(
+      fetchAllAgencies({ page: pageNumber, limit: CONSTANTS.PAGINATION_LIMIT })
+    );
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleCollaborate = agency => {
     if (!user) {
       setShowModal(true);
       return;
     }
-
     window.location.href = `/agency/${agency.AGN_ID}`;
   };
 
@@ -35,16 +49,17 @@ export default function AgenciesPage () {
       </section>
 
       <section className={styles.agencyList}>
-        {loading ? (
+        {loading && (!allAgencies || allAgencies.length === 0) ? (
           <p className={styles.loadingText}>Loading...</p>
         ) : (
+          Array.isArray(allAgencies) &&
           allAgencies.map(agency => (
             <div key={agency.AGN_ID} className={styles.agencyCard}>
               <div className={styles.logoWrapper}>
                 <img
                   src={
                     agency.AGN_Logo
-                      ? `http://localhost:5001${agency.AGN_Logo}`
+                      ? `${CONSTANTS.BASE_URL}${agency.AGN_Logo}`
                       : '/placeholder-agency.png'
                   }
                   alt={agency.AGN_Name}
@@ -61,33 +76,31 @@ export default function AgenciesPage () {
             </div>
           ))
         )}
+
+        {!loading && allAgencies.length === 0 && (
+          <p className={styles.noData}>No agencies found.</p>
+        )}
       </section>
 
-      {showModal && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modalBox}>
-            <h2 className={styles.modalTitle}>Create an Account</h2>
-            <p className={styles.modalText}>
-              Sign up or log in to view agency details, contact information, and
-              collaboration opportunities.
-            </p>
-            <div className={styles.modalActions}>
-              <button
-                className={styles.closeButton}
-                onClick={() => setShowModal(false)}
-              >
-                Close
-              </button>
-              <button
-                className={styles.signupButton}
-                onClick={() => (window.location.href = '/signup')}
-              >
-                Sign Up
-              </button>
-            </div>
-          </div>
-        </div>
+      {!loading && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       )}
+
+      <AuthModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        title='Create an Account'
+        signupPath='/signup'
+      >
+        <p>
+          Sign up or log in to view agency details, contact information, and
+          collaboration opportunities.
+        </p>
+      </AuthModal>
     </div>
   );
 }

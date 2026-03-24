@@ -1,232 +1,143 @@
-// --- Змінні для керування темою ---
-$primary-color: #6d55ff
-$danger-color: #e74c3c
-$text-color: #2c3e50
-$light-text-color: #95a5a6
-$border-color: #ecf0f1
-$background-light: #f9f9f9
-$border-radius: 12px
-$base-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)
+// --- Переменные ---
+$font-stack: "Roboto Slab", serif
+$card-bg: #fff
+$text-main: #111
+$text-secondary: #666
+$radius: 4px // Строгие углы
 
-// --- Анімації ---
-@keyframes liftUp
-  from
-    transform: translateY(0)
-    box-shadow: 0 4px 12px rgba($text-color, 0.05)
-  to
-    transform: translateY(-5px)
-    box-shadow: 0 8px 20px rgba($text-color, 0.1)
-
-// --- Основна картка ---
+// --- Основной контейнер карточки (ТЕПЕРЬ ШИРОКИЙ) ---
 .albumCard
-  background: #fff
-  border-radius: $border-radius
-  aspect-ratio: 1 / 1
+  position: relative
+  width: 100%
+  height: 380px // Фиксированная высота для единообразия
   display: flex
   flex-direction: column
-  box-shadow: 0 4px 12px rgba($text-color, 0.05)
-  border: 1px solid $border-color
+  background: $card-bg
+  border: 1px solid #eee
+  border-radius: $radius
   overflow: hidden
-  transition: $base-transition
-  width: 100%
-  max-width: 200px
-  margin: 0 auto
+  cursor: pointer
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1)
+  margin-bottom: 0 // Отступы будут у родителя
 
   &:hover
-    animation: liftUp 0.3s forwards
+    transform: translateY(-5px)
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08)
+    border-color: transparent
 
-  &.addNew
-    border: 2px dashed $border-color
-    background: transparent
-    box-shadow: none
-    cursor: pointer
+    .coverImage
+      transform: scale(1.03)
 
-    &:hover
-      border-color: $primary-color
-      background: #fff
-
-      .emptyAlbum .plus,
-      .emptyAlbum .label
-        color: $primary-color
-        transform: scale(1.05)
-
-.previewWrapper
-  flex-grow: 1
-  display: flex
-  height: 100%
-  cursor: pointer
-  position: relative
-  overflow: hidden
-
-.emptyAlbum
-  width: 100%
-  height: 100%
-  display: flex
-  flex-direction: column
+// --- Карточка "Добавить новый" ---
+.addNew
+  border: 1px dashed #ccc
+  background: #fafafa
   align-items: center
   justify-content: center
-  background: $background-light
-  transition: $base-transition
+  height: 150px // Делаем её ниже, чем альбомы, чтобы не занимала пол-экрана
+  
+  &:hover
+    background: #fff
+    border-color: #000
+    .plus
+      transform: scale(1.1) rotate(90deg)
+      color: #000
+
+  .emptyContent
+    display: flex
+    flex-direction: row // В ряд
+    align-items: center
+    gap: 15px
 
   .plus
-    font-size: 4.5rem
-    font-weight: 200
-    line-height: 1
-    color: $light-text-color
-    transition: $base-transition
+    font-size: 2rem
+    font-weight: 300
+    color: #999
+    transition: all 0.3s ease
 
   .label
-    font-size: 0.9rem
-    font-weight: 500
-    color: $light-text-color
-    margin-top: 8px
-    text-align: center
-    padding: 0 10px
-    transition: $base-transition
+    font-size: 1rem
+    font-weight: 600
+    text-transform: uppercase
+    color: #666
+    letter-spacing: 1px
 
-// --- Сітка фото 1+2 ---
-.photoGrid
-  display: flex
+.imageContainer
+  width: 100%
+  height: 80% 
+  position: relative
+  overflow: hidden
+  background: #f0f0f0
+
+.coverImage
   width: 100%
   height: 100%
-  background: $background-light
+  object-fit: cover
+  object-position: top center 
+  transition: transform 0.7s ease
+  display: block
 
-  img
-    width: 100%
-    height: 100%
-    object-fit: cover
-    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)
-
-  .previewWrapper:hover & img
-    transform: scale(1.05)
-
-  .mainPhoto
-    flex-basis: 66.66%
-    overflow: hidden
-    border-right: 3px solid #fff
-
-  .sidePhotos
-    flex-basis: 33.33%
-    display: flex
-    flex-direction: column
-    overflow: hidden
-
-    img
-      flex-basis: 50%
-      height: 50%
-      &:first-child
-        border-bottom: 3px solid #fff
-
-.controls
+.noPhotoPlaceholder
+  width: 100%
+  height: 100%
   display: flex
-  justify-content: center
   align-items: center
-  padding: 0.75rem 1rem
+  justify-content: center
+  color: #aaa
+  font-size: 0.9rem
+  text-transform: uppercase
+  letter-spacing: 2px
+  background: #f9f9f9
+
+.infoContainer
+  height: 20%
+  padding: 0 25px
+  display: flex
+  align-items: center
+  justify-content: space-between 
   background: #fff
-  flex-shrink: 0
-  border-top: 1px solid $border-color
+  border-top: 1px solid #f5f5f5
+  z-index: 2
+
+.textGroup
+  display: flex
+  flex-direction: column
 
 .albumTitle
-  font-weight: 600
-  font-size: 0.95rem
-  color: $text-color
-  white-space: nowrap
-  overflow: hidden
-  text-overflow: ellipsis
-  padding-right: 10px
-
-@keyframes fadeIn
-  from
-    opacity: 0
-  to
-    opacity: 1
-
-@keyframes scaleIn
-  from
-    opacity: 0
-    transform: scale(0.9)
-  to
-    opacity: 1
-    transform: scale(1)
-
-.deleteBtn
-  background: none
-  border: none
-  color: $light-text-color
-  font-size: 1.3rem
-  font-weight: bold
-  cursor: pointer
-  padding: 0 4px
+  font-family: $font-stack
+  font-size: 1.2rem 
+  font-weight: 800
+  color: $text-main
+  text-transform: uppercase
+  letter-spacing: -0.5px
+  margin: 0
   line-height: 1
-  transition: $base-transition
 
-  &:hover
-    color: $danger-color
-    transform: scale(1.2) rotate(90deg)
+.albumDesc
+  font-size: 0.8rem
+  color: #888
+  margin-top: 4px
+  font-weight: 500
+  text-transform: uppercase
+  letter-spacing: 1px
 
-.confirmOverlay
-  position: fixed
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
-  background: rgba(0, 0, 0, 0.6)
-  // Сучасний ефект розмиття фону
-  backdrop-filter: blur(8px)
-  display: flex
-  align-items: center
-  justify-content: center
-  z-index: 1001
-  animation: fadeIn 0.3s ease-out
+.photoCountBadge
+  font-size: 0.75rem
+  font-weight: 700
+  color: #fff
+  background: #000
+  padding: 4px 10px
+  border-radius: 20px
+  opacity: 0.1
+  transition: opacity 0.3s
 
-.confirmModal
-  background: #fff
-  padding: 2rem
-  border-radius: $border-radius
-  max-width: 400px
-  width: 90%
-  text-align: center
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1)
-  animation: scaleIn 0.3s ease-out 0.1s
-  animation-fill-mode: backwards // Починає анімацію з 0
+.albumCard:hover .photoCountBadge
+  opacity: 1
 
-  h4
-    font-size: 1.4rem
-    color: $text-color
-    margin: 0 0 0.5rem
-  p
-    margin: 0.5rem 0 1.5rem
-    color: $light-text-color
-    font-size: 1rem
+@media (max-width: 600px)
+  .albumCard
+    height: 300px
 
-.confirmActions
-  display: flex
-  justify-content: center
-  gap: 1rem
-
-  button
-    padding: 0.75rem 1.5rem
-    border: none
-    border-radius: 8px
-    font-weight: 600
-    cursor: pointer
-    transition: $base-transition
-
-  // Кнопка "Cancel"
-  button:first-child
-    background: $border-color
-    color: $text-color
-    &:hover
-      background: darken($border-color, 10%)
-
-  .confirmDeleteBtn
-    background: $danger-color
-    color: #fff
-    &:hover
-      opacity: 0.85
-      box-shadow: 0 4px 10px rgba($danger-color, 0.3)
-
-// --- Ключові кадри для анімацій ---
 @keyframes fadeIn
   from
     opacity: 0

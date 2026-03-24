@@ -52,6 +52,12 @@ module.exports = (sequelize, DataTypes) => {
       MOD_HairColor: { type: DataTypes.STRING },
       MOD_Experience: { type: DataTypes.STRING },
       MOD_Skills: { type: DataTypes.JSON },
+      MOD_Verified: { type: DataTypes.BOOLEAN, defaultValue: false },
+      MOD_Status: {
+        type: DataTypes.ENUM('active', 'blocked', 'pending'),
+        defaultValue: 'pending',
+      },
+
       MOD_Bio: { type: DataTypes.TEXT },
       MOD_Photo: { type: DataTypes.STRING },
     },

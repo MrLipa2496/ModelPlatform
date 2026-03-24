@@ -1,28 +1,27 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
-import ValidatedField from '../ValidatedField';
+import { IoMdEye, IoMdEyeOff, IoMdArrowBack } from 'react-icons/io';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import ValidatedField from '../ValidatedField';
 import { SIGNUP_VALIDATION_SCHEMA } from '../../utils/validationSchema';
 import { authenticateUser, clearAuthError } from '../../store/slices/authSlice';
 import CONSTANTS from '../../utils/constants';
 import styles from './SignupForm.module.sass';
 
-const { INITIAL_SIGNUP_VALUES, ROLE_OPTIONS, MODEL_FIELDS, AGENCY_FIELDS } =
-  CONSTANTS;
+const { ROLE_OPTIONS, MODEL_FIELDS, AGENCY_FIELDS } = CONSTANTS;
 
-const EyeButton = ({ show, onClick }) => (
-  <button type='button' className={styles.eyeBtn} onClick={onClick}>
-    {show ? <IoMdEye /> : <IoMdEyeOff />}
-  </button>
-);
-
-const SignupForm = () => {
+const SignupForm = ({ preselectedRole }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => setShowPassword(v => !v);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const initialValues = {
+    ...CONSTANTS.INITIAL_SIGNUP_VALUES,
+    role: preselectedRole,
+  };
+
+  const togglePasswordVisibility = () => setShowPassword(v => !v);
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
@@ -64,118 +63,107 @@ const SignupForm = () => {
     }
   };
 
+  const fieldsToShow =
+    preselectedRole === 'model' ? MODEL_FIELDS : AGENCY_FIELDS;
+  const pageTitle =
+    preselectedRole === 'model' ? 'Model Sign Up' : 'Agency Sign Up';
+
   return (
     <div className={styles.formWrapper}>
-      <h2 className={styles.formTitle}>Sign Up</h2>
+      <Link to='/signup' className={styles.backLink}>
+        <IoMdArrowBack /> Change Role
+      </Link>
+
+      <h2 className={styles.formTitle}>{pageTitle}</h2>
+
       <Formik
-        initialValues={INITIAL_SIGNUP_VALUES}
+        initialValues={initialValues}
         validationSchema={SIGNUP_VALIDATION_SCHEMA}
         onSubmit={handleSubmit}
+        enableReinitialize
       >
-        {({ values, isSubmitting }) => {
-          const roleFields =
-            values.role === 'model' ? MODEL_FIELDS : AGENCY_FIELDS;
-
-          return (
-            <Form className={styles.form}>
-              <div className={styles.roleSelect}>
-                {ROLE_OPTIONS.map(opt => (
-                  <label key={opt.value} className={styles.roleOption}>
-                    <ValidatedField
-                      type='radio'
-                      name='role'
-                      value={opt.value}
-                    />
-                    <span className={styles.roleLabelText}>{opt.label}</span>
-                  </label>
-                ))}
-              </div>
-
-              <ValidatedField
-                name='email'
-                type='email'
-                label='Email'
-                placeholder='your@mail.com'
-              />
-
-              <div className={styles.inputWrapper}>
-                <ValidatedField
-                  name='password'
-                  type={showPassword ? 'text' : 'password'}
-                  label='Password'
-                  placeholder='Password'
-                />
-                <EyeButton
-                  show={showPassword}
-                  onClick={togglePasswordVisibility}
-                />
-              </div>
-
-              {roleFields.map(f => {
-                if (f.as === 'select') {
-                  return (
-                    <ValidatedField
-                      key={f.name}
-                      name={f.name}
-                      as='select'
-                      label={f.label}
-                    >
-                      {f.options.map(opt => (
-                        <option key={opt} value={opt}>
-                          {opt === ''
-                            ? 'Select...'
-                            : opt.charAt(0).toUpperCase() + opt.slice(1)}
-                        </option>
-                      ))}
-                    </ValidatedField>
-                  );
-                }
-                return (
+        {({ isSubmitting }) => (
+          <Form className={styles.form}>
+            {fieldsToShow.map(f => (
+              <div key={f.name} className={styles.fieldRow}>
+                {f.as === 'select' ? (
+                  <ValidatedField name={f.name} as='select' label={f.label}>
+                    {f.options.map(opt => (
+                      <option key={opt} value={opt}>
+                        {opt === ''
+                          ? 'Select...'
+                          : opt.charAt(0).toUpperCase() + opt.slice(1)}
+                      </option>
+                    ))}
+                  </ValidatedField>
+                ) : (
                   <ValidatedField
-                    key={f.name}
                     name={f.name}
                     type={f.type}
                     label={f.label}
                     placeholder={f.placeholder}
                   />
-                );
-              })}
-
-              <label className={styles.formCheckBox}>
-                <div>
-                  <Field
-                    type='checkbox'
-                    name='agreed'
-                    className={styles.inputCheckBox}
-                  />
-                  <span className={styles.formSpan}>
-                    I agree to the terms and conditions
-                  </span>
-                </div>
-                <ErrorMessage
-                  name='agreed'
-                  component='div'
-                  className={styles.errorMessage}
-                />
-              </label>
-
-              <button
-                type='submit'
-                className={styles.formButton}
-                disabled={isSubmitting}
-              >
-                Sign Up
-              </button>
-
-              <div className={styles.toggleLink}>
-                Already have an account?{' '}
-                <a href='/login' className={styles.linkText}>
-                  Log In
-                </a>
+                )}
               </div>
-            </Form>
-          );
-        }}
+            ))}
+
+            <ValidatedField
+              name='email'
+              type='email'
+              label='Email'
+              placeholder='your@mail.com'
+            />
+
+            <div className={styles.inputWrapper}>
+              <ValidatedField
+                name='password'
+                type={showPassword ? 'text' : 'password'}
+                label='Password'
+                placeholder='Create a strong password'
+              />
+              <button
+                type='button'
+                className={styles.eyeBtn}
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <IoMdEye /> : <IoMdEyeOff />}
+              </button>
+            </div>
+
+            <label className={styles.formCheckBox}>
+              <div className={styles.checkContainer}>
+                <Field
+                  type='checkbox'
+                  name='agreed'
+                  className={styles.inputCheckBox}
+                />
+                <span className={styles.formSpan}>
+                  I agree to the <a href='/terms'>Terms & Conditions</a>
+                </span>
+              </div>
+              <ErrorMessage
+                name='agreed'
+                component='div'
+                className={styles.errorMessage}
+              />
+            </label>
+
+            <button
+              type='submit'
+              className={styles.formButton}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Processing...' : 'Create Account'}
+            </button>
+
+            <div className={styles.toggleLink}>
+              Already have an account?{' '}
+              <Link to='/login' className={styles.linkText}>
+                Log In
+              </Link>
+            </div>
+          </Form>
+        )}
       </Formik>
     </div>
   );

@@ -1,5 +1,5 @@
-import React from 'react';
 import styles from './CastingCard.module.sass';
+import CONSTANTS from '../../utils/constants';
 
 const formatPayment = payment => {
   if (!payment || payment === '0.00') return 'Negotiable';
@@ -29,11 +29,11 @@ export default function CastingCard ({ casting, onButtonClick }) {
   } = casting;
 
   const coverImage = CST_CoverImage
-    ? `http://localhost:5001${CST_CoverImage}`
+    ? `${CONSTANTS.BASE_URL}${CST_CoverImage}`
     : `https://placehold.co/600x400/eee/ccc?text=Casting`;
 
   const agencyLogo = Agency?.AGN_Logo
-    ? `http://localhost:5001${Agency.AGN_Logo}`
+    ? `${CONSTANTS.BASE_URL}${Agency.AGN_Logo}`
     : `https://placehold.co/40x40/eee/ccc?text=${getInitial(Agency?.AGN_Name)}`;
 
   const locationTag =

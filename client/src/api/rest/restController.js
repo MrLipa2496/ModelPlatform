@@ -16,11 +16,13 @@ export const updateModelPhotoRequest = formData =>
   http.patch('api/model/profile/photo', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
-export const getAllModelsRequest = () => http.get('api/model/models');
+export const getAllModelsRequest = (page, limit) =>
+  http.get('api/model/models', { params: { page, limit } });
 export const getModelByIdRequest = id => http.get(`api/model/model/${id}`);
 
 // AGENCY
-export const getAllAgenciesRequest = () => http.get('api/agency/agencies');
+export const getAllAgenciesRequest = (page, limit) =>
+  http.get('api/agency/agencies', { params: { page, limit } });
 export const getAgencyByIdRequest = id => http.get(`api/agency/agency/${id}`);
 export const getAgencyProfileRequest = () => http.get('api/agency/profile');
 export const updateAgencyProfileRequest = data =>
@@ -52,21 +54,23 @@ export const deleteAlbumRequest = albumId =>
   http.delete(`api/albums/${albumId}`);
 
 // CASTINGS (api/castings)
-export const getAllCastingsRequest = () => http.get('api/castings');
+export const getAllCastingsRequest = (page, limit) =>
+  http.get('api/castings', { params: { page, limit } });
 export const getCastingByIdRequest = id => http.get(`api/castings/${id}`);
 export const createCastingRequest = data => http.post('api/castings', data);
 export const updateCastingRequest = (id, data) =>
   http.put(`api/castings/${id}`, data);
 export const deleteCastingRequest = id => http.delete(`api/castings/${id}`);
-export const getMyCastingsRequest = () => http.get('api/castings/my/agencies');
+export const getMyCastingsRequest = (page, limit) =>
+  http.get('api/castings/my/agencies', { params: { page, limit } });
 
 // APPLICATIONS (api/applications)
 export const createApplicationRequest = data =>
   http.post('api/applications', data);
-export const getMyApplicationsRequest = () =>
-  http.get('api/applications/applications');
-export const getAgencyApplicationsRequest = () =>
-  http.get('api/applications/agency');
+export const getMyApplicationsRequest = (page, limit) =>
+  http.get('api/applications/applications', { params: { page, limit } });
+export const getAgencyApplicationsRequest = (page, limit) =>
+  http.get('api/applications/agency', { params: { page, limit } });
 export const getApplicationsForCastingRequest = castingId =>
   http.get(`api/applications/casting/${castingId}`);
 export const respondToApplicationRequest = (id, data) =>

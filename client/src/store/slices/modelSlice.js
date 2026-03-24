@@ -31,9 +31,14 @@ export const uploadPhoto = createAsyncThunk('model/uploadPhoto', async file => {
 
 export const fetchAllModels = createAsyncThunk(
   'model/fetchAllModels',
-  async () => {
-    const res = await getAllModelsRequest();
-    return res.data;
+  async ({ page = 1, limit = 12 } = {}, { rejectWithValue }) => {
+    try {
+      const res = await getAllModelsRequest(page, limit);
+
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
   }
 );
 
@@ -50,14 +55,23 @@ const modelSlice = createSlice({
   initialState: {
     data: null,
     allModels: [],
+    totalItems: 0,
+    totalPages: 0,
+    currentPage: 1,
     selectedModel: null,
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    clearModelsList: state => {
+      state.allModels = [];
+      state.currentPage = 1;
+      state.totalItems = 0;
+      state.totalPages = 0;
+    },
+  },
   extraReducers: builder => {
     builder
-      // --- Профіль ---
       .addCase(fetchProfile.pending, state => {
         state.loading = true;
       })
@@ -76,20 +90,24 @@ const modelSlice = createSlice({
         state.data = action.payload;
       })
 
-      // --- Усі моделі ---
       .addCase(fetchAllModels.pending, state => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(fetchAllModels.fulfilled, (state, action) => {
         state.loading = false;
-        state.allModels = action.payload;
+        const { data, totalItems, totalPages, currentPage } = action.payload;
+
+        state.allModels = data;
+        state.totalItems = totalItems;
+        state.totalPages = totalPages;
+        state.currentPage = Number(currentPage);
       })
       .addCase(fetchAllModels.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message;
       })
 
-      // --- Деталі конкретної моделі ---
       .addCase(fetchModelById.pending, state => {
         state.loading = true;
       })
@@ -104,4 +122,5 @@ const modelSlice = createSlice({
   },
 });
 
+export const { clearModelsList } = modelSlice.actions;
 export default modelSlice.reducer;

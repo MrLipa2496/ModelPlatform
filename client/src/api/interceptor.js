@@ -1,6 +1,5 @@
 import axios from 'axios';
 import CONTANTS from '../utils/constants';
-import history from '../browserHistory';
 
 const instance = axios.create({
   baseURL: CONTANTS.BASE_URL,
@@ -22,24 +21,26 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   response => {
-    if (response.data?.token) {
-      window.localStorage.setItem(CONTANTS.ACCESS_TOKEN, response.data.token);
+    if (response.data?.accessToken) {
+      window.localStorage.setItem(
+        CONTANTS.ACCESS_TOKEN,
+        response.data.accessToken
+      );
     }
+
     return response;
   },
   err => {
     const status = err.response?.status;
 
-    if ([401, 403].includes(status)) {
+    if (status === 401) {
       window.localStorage.removeItem(CONTANTS.ACCESS_TOKEN);
-      if (!['/login', '/signup', '/'].includes(history.location.pathname)) {
-        history.replace('/login');
-      }
-    }
 
-    if (status === 408) {
-      if (!['/login', '/signup', '/'].includes(history.location.pathname)) {
-        history.replace('/login');
+      const currentPath = window.location.pathname;
+      const safePaths = ['/login', '/signup', '/'];
+
+      if (!safePaths.includes(currentPath)) {
+        window.location.href = '/login';
       }
     }
 

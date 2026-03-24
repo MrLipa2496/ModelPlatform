@@ -2,65 +2,67 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createAlbum, uploadAlbumPhotos } from '../../store/slices/albumSlice';
 import AlbumUploadModal from '../AlbumUploadModal';
+import AlbumViewModal from '../AlbumViewModal/AlbumViewModal';
 import styles from './AlbumCard.module.sass';
 import defaultPhoto from '../../../img/defaultPhotoBG.jpg';
+import CONSTANTS from '../../utils/constants';
 
-const API_BASE_URL = 'http://localhost:5001';
-
-const PhotoUrl = ({ url, alt = 'album photo' }) => {
-  const [src, setSrc] = useState(url ? `${API_BASE_URL}${url}` : defaultPhoto);
-
+const PhotoUrl = ({ url, alt = 'album cover' }) => {
+  const [src, setSrc] = useState(
+    url ? `${CONSTANTS.BASE_URL}${url}` : defaultPhoto
+  );
   return (
     <img
       src={src}
       alt={alt}
+      className={styles.coverImage}
       onError={() => {
-        if (src !== defaultPhoto) {
-          setSrc(defaultPhoto);
-        }
+        if (src !== defaultPhoto) setSrc(defaultPhoto);
       }}
     />
   );
 };
 
-export default function AlbumCard ({ album, modelId, isAddNew = false }) {
+export default function AlbumCard ({
+  album,
+  modelId,
+  isAddNew = false,
+  isEditable = true,
+}) {
   const dispatch = useDispatch();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState('none');
 
   const handleCreateAlbum = async (values, files) => {
     const createAction = await dispatch(createAlbum({ modelId, values }));
-
     const newAlbumId = createAction.payload?.album?.ALB_ID;
+
     if (newAlbumId && files && files.length > 0) {
       await dispatch(uploadAlbumPhotos({ albumId: newAlbumId, files }));
     }
-    setIsModalOpen(false);
+    setModalMode('none');
   };
 
   const hasPhotos =
     album && Array.isArray(album.Photos) && album.Photos.length > 0;
-
-  const preview = hasPhotos ? album.Photos.slice(0, 3) : [];
-  const mainPhoto = preview[0];
-  const sidePhotos = preview.slice(1);
+  const coverPhoto = hasPhotos ? album.Photos[0] : null;
 
   if (isAddNew) {
     return (
       <>
         <div
           className={`${styles.albumCard} ${styles.addNew}`}
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => setModalMode('create')}
         >
-          <div className={styles.emptyAlbum}>
+          <div className={styles.emptyContent}>
             <span className={styles.plus}>+</span>
-            <div className={styles.label}>New album</div>
+            <div className={styles.label}>Create Album</div>
           </div>
         </div>
 
-        {isModalOpen && (
+        {modalMode === 'create' && (
           <AlbumUploadModal
             isCreateMode
-            onClose={() => setIsModalOpen(false)}
+            onClose={() => setModalMode('none')}
             onCreate={handleCreateAlbum}
             modelId={modelId}
           />
@@ -71,45 +73,43 @@ export default function AlbumCard ({ album, modelId, isAddNew = false }) {
 
   return (
     <>
-      <div className={styles.albumCard}>
-        <div
-          className={styles.previewWrapper}
-          onClick={() => setIsModalOpen(true)}
-        >
-          {!hasPhotos ? (
-            <div className={styles.emptyAlbum}>
-              <span className={styles.plus}>+</span>
-              <div className={styles.label}>{album.ALB_Title}</div>
-            </div>
+      <div className={styles.albumCard} onClick={() => setModalMode('view')}>
+        <div className={styles.imageContainer}>
+          {coverPhoto ? (
+            <PhotoUrl url={coverPhoto.PH_Url} alt={album.ALB_Title} />
           ) : (
-            <div className={styles.photoGrid}>
-              <div className={styles.mainPhoto}>
-                <PhotoUrl url={mainPhoto?.PH_Url} alt={mainPhoto?.PH_ID} />
-              </div>
-              <div className={styles.sidePhotos}>
-                <PhotoUrl
-                  url={sidePhotos[0]?.PH_Url}
-                  alt={sidePhotos[0]?.PH_ID}
-                />
-                <PhotoUrl
-                  url={sidePhotos[1]?.PH_Url}
-                  alt={sidePhotos[1]?.PH_ID}
-                />
-              </div>
+            <div className={styles.noPhotoPlaceholder}>
+              <span>No Photos</span>
             </div>
           )}
+
+          <div className={styles.cardOverlay}>
+            <span className={styles.photoCount}>
+              {album.Photos ? album.Photos.length : 0} items
+            </span>
+          </div>
         </div>
 
-        <div className={styles.controls}>
-          <span className={styles.albumTitle}>{album.ALB_Title}</span>
+        <div className={styles.infoContainer}>
+          <h4 className={styles.albumTitle}>{album.ALB_Title}</h4>
         </div>
       </div>
 
-      {isModalOpen && (
+      {modalMode === 'view' && (
+        <AlbumViewModal
+          album={album}
+          isEditable={isEditable}
+          onClose={() => setModalMode('none')}
+          onEdit={() => setModalMode('edit')}
+        />
+      )}
+
+      {modalMode === 'edit' && (
         <AlbumUploadModal
           album={album}
           modelId={modelId}
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => setModalMode('view')}
+          onPreview={() => setModalMode('view')}
         />
       )}
     </>

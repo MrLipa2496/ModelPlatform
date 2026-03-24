@@ -8,11 +8,12 @@ import {
 } from '../../store/slices/albumSlice';
 import styles from './AlbumUploadModal.module.sass';
 import defaultPhoto from '../../../img/defaultPhotoBG.jpg';
-
-const API_BASE_URL = 'http://localhost:5001';
+import CONSTANTS from '../../utils/constants';
 
 const PhotoUrl = ({ url, alt = 'album photo', className = '' }) => {
-  const [src, setSrc] = useState(url ? `${API_BASE_URL}${url}` : defaultPhoto);
+  const [src, setSrc] = useState(
+    url ? `${CONSTANTS.BASE_URL}${url}` : defaultPhoto
+  );
 
   return (
     <img
@@ -44,6 +45,7 @@ export default function AlbumUploadModal ({
   isCreateMode = false,
   onClose,
   onCreate,
+  onPreview,
   album,
   modelId,
 }) {
@@ -131,11 +133,6 @@ export default function AlbumUploadModal ({
     onClose();
   };
 
-  const handleViewPhoto = (e, photoUrl) => {
-    e.preventDefault();
-    alert(`Режим перегляду (ще не реалізовано): ${photoUrl}`);
-  };
-
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={e => e.stopPropagation()}>
@@ -170,13 +167,6 @@ export default function AlbumUploadModal ({
                 <>
                   <PhotoUrl url={slot.data.PH_Url} alt={slot.data.PH_Title} />
                   <div className={styles.slotOverlay}>
-                    <button
-                      type='button'
-                      className={`${styles.overlayBtn} ${styles.overlayBtnView}`}
-                      onClick={e => handleViewPhoto(e, slot.data.PH_Url)}
-                    >
-                      View
-                    </button>
                     <label
                       htmlFor={`file-replace-${i}`}
                       className={`${styles.overlayBtn} ${styles.overlayBtnReplace}`}
@@ -238,10 +228,7 @@ export default function AlbumUploadModal ({
               >
                 Delete Album
               </button>
-              <button
-                className={styles.previewBtn}
-                onClick={() => alert('Режим перегляду (ще не реалізовано)')}
-              >
+              <button className={styles.previewBtn} onClick={onPreview}>
                 Preview
               </button>
             </>

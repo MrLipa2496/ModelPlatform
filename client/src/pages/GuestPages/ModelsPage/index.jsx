@@ -2,20 +2,35 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllModels } from '../../../store/slices/modelSlice';
 import Card from '../../../components/Card';
+import Pagination from '../../../components/Pagination';
+import defaultAvatarLocal from '../../../../img/default-avatar.jpg';
 import AuthModal from '../../../components/AuthModal';
 import styles from './ModelsPage.module.sass';
+import CONSTANTS from '../../../utils/constants';
 
 export default function ModelsPage () {
   const dispatch = useDispatch();
 
-  const { allModels, loading } = useSelector(state => state.model);
+  const { allModels, loading, totalPages, currentPage } = useSelector(
+    state => state.model
+  );
   const { user } = useSelector(state => state.auth);
 
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchAllModels());
+    dispatch(fetchAllModels({ page: 1, limit: CONSTANTS.PAGINATION_LIMIT }));
   }, [dispatch]);
+
+  const handlePageChange = pageNumber => {
+    if (pageNumber === currentPage) return;
+
+    dispatch(
+      fetchAllModels({ page: pageNumber, limit: CONSTANTS.PAGINATION_LIMIT })
+    );
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleLearnMore = model => {
     if (!user) {
@@ -32,7 +47,7 @@ export default function ModelsPage () {
   };
 
   const calculateAge = birthDate => {
-    if (!birthDate) return 'Unknown age';
+    if (!birthDate) return 'Unknown';
     const birth = new Date(birthDate);
     const diff = Date.now() - birth.getTime();
     const ageDate = new Date(diff);
@@ -50,9 +65,10 @@ export default function ModelsPage () {
       </section>
 
       <section className={styles.modelsGrid}>
-        {loading ? (
+        {loading && allModels.length === 0 ? (
           <p className={styles.loadingText}>Loading...</p>
         ) : (
+          Array.isArray(allModels) &&
           allModels.map(model => {
             const items = [
               model.MOD_Experience
@@ -70,7 +86,11 @@ export default function ModelsPage () {
             return (
               <Card
                 key={model.MOD_ID}
-                image={`http://localhost:5001${model.MOD_Photo}`}
+                image={
+                  model.MOD_Photo
+                    ? `${CONSTANTS.BASE_URL}${model.MOD_Photo}`
+                    : defaultAvatarLocal
+                }
                 title={`${model.MOD_FirstName} ${model.MOD_LastName}`}
                 items={items}
                 buttonText='Learn More'
@@ -80,6 +100,14 @@ export default function ModelsPage () {
           })
         )}
       </section>
+
+      {!loading && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
 
       <AuthModal
         isOpen={showModal}
