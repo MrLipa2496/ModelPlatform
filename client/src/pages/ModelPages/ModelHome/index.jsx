@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchProfile } from '../../../store/slices/modelSlice';
 import { fetchModelAlbums } from '../../../store/slices/albumSlice';
+import { fetchMyApplications } from '../../../store/slices/applicationSlice';
 import {
   FiBriefcase,
   FiUser,
@@ -13,6 +14,8 @@ import {
   FiInfo,
   FiMail,
   FiArrowRight,
+  FiClock,
+  FiXCircle,
 } from 'react-icons/fi';
 import defaultAvatarLocal from '../../../../img/default-avatar.jpg';
 import styles from './ModelHome.module.sass';
@@ -25,12 +28,16 @@ export default function ModelHome () {
   );
   const { albums } = useSelector(state => state.album);
 
+  const { myApplications } = useSelector(state => state.application);
+
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     if (!profile) {
       dispatch(fetchProfile());
     }
+
+    dispatch(fetchMyApplications({ page: 1, limit: 3 }));
   }, [dispatch, profile]);
 
   useEffect(() => {
@@ -144,7 +151,7 @@ export default function ModelHome () {
       </section>
 
       <div className={styles.dashboardContent}>
-        {/* 2. OVERVIEW SECTION (Прогресс и Алерты) */}
+        {/* 2. OVERVIEW SECTION  */}
         <div className={styles.overviewGrid}>
           <div className={styles.widgetCard}>
             <h2 className={styles.sectionTitle}>Profile Setup</h2>
@@ -222,9 +229,53 @@ export default function ModelHome () {
               )}
             </div>
           </div>
+
+          <div className={styles.widgetCard}>
+            <div className={styles.widgetHeader}>
+              <h2 className={styles.sectionTitle}>Recent Applications</h2>
+              {myApplications && myApplications.length > 0 && (
+                <Link to='/myApplications' className={styles.viewAllLink}>
+                  View All
+                </Link>
+              )}
+            </div>
+
+            <div className={styles.applicationsList}>
+              {myApplications && myApplications.length > 0 ? (
+                myApplications.map(app => (
+                  <div key={app.APP_ID} className={styles.appItem}>
+                    <div className={styles.appInfo}>
+                      <h4>{app.Casting?.CST_Title || 'Casting Position'}</h4>
+                      <span className={styles.appDate}>
+                        {new Date(app.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
+
+                    <div
+                      className={`${styles.appStatusBadge} ${
+                        styles[app.APP_Status?.toLowerCase()] || styles.pending
+                      }`}
+                    >
+                      {app.APP_Status === 'pending' && <FiClock />}
+                      {app.APP_Status === 'approved' && <FiCheckCircle />}
+                      {app.APP_Status === 'rejected' && <FiXCircle />}
+                      <span>{app.APP_Status || 'Pending'}</span>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className={styles.emptyApps}>
+                  <p>You haven't applied to any castings yet.</p>
+                  <Link to='/castings' className={styles.primaryBtn}>
+                    Find Castings
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
-        {/* 3. OPPORTUNITIES (Главное меню дашборда) */}
+        {/* 3. OPPORTUNITIES  */}
         <section className={styles.opportunitiesSection}>
           <h2 className={styles.sectionTitle}>Manage Career</h2>
           <div className={styles.actionGrid}>
@@ -283,7 +334,7 @@ export default function ModelHome () {
           </div>
         </section>
 
-        {/* 4. PLATFORM RESOURCES (Информационная секция) */}
+        {/* 4. PLATFORM RESOURCES*/}
         <section className={styles.resourcesSection}>
           <h2 className={styles.sectionTitle}>Resources</h2>
           <div className={styles.resourceGrid}>
