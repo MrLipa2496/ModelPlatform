@@ -88,6 +88,8 @@ class ModelService {
         'MOD_Skills',
         'MOD_Bio',
         'MOD_Photo',
+        'MOD_Status',
+        'MOD_Verified',
       ],
       include: [
         {
