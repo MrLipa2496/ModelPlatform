@@ -19,6 +19,8 @@ import Applicants from './pages/AgencyPages/Applicants';
 import AgencyDetailsPage from './pages/AgencyPages/AgencyDetailsPage';
 import RoleRoute from './components/RoleRoute';
 import SignupRoleSelection from './components/SignupRoleSelection';
+import AdminUsersPage from './pages/AdminPages/AdminUsersPage';
+import AdminCastingsPage from './pages/AdminPages/AdminCastingsPage';
 
 function App () {
   return (
@@ -50,6 +52,11 @@ function App () {
             <Route path='/myCastings/:id' element={<CastingDetailsPage />} />
             <Route path='/myCastings' element={<MyCastings />} />
             <Route path='/applicants' element={<Applicants />} />
+          </Route>
+
+          <Route element={<RoleRoute allowedRoles={['admin']} />}>
+            <Route path='/admin/users' element={<AdminUsersPage />} />
+            <Route path='/admin/castings' element={<AdminCastingsPage />} />
           </Route>
 
           <Route element={<RoleRoute allowedRoles={['model', 'agency']} />}>
