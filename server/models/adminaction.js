@@ -1,11 +1,11 @@
-'use strict'
-const { Model: SequelizeModel } = require('sequelize')
+'use strict';
+const { Model: SequelizeModel } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class AdminAction extends SequelizeModel {
     static associate (models) {
       // Адміністратор (User)
-      AdminAction.belongsTo(models.User, { foreignKey: 'USR_ID', as: 'Admin' })
+      AdminAction.belongsTo(models.User, { foreignKey: 'USR_ID', as: 'Admin' });
     }
   }
 
@@ -14,33 +14,41 @@ module.exports = (sequelize, DataTypes) => {
       ACT_ID: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
       },
       USR_ID: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: 'Users',
-          key: 'USR_ID'
+          key: 'USR_ID',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       ACT_Type: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+      },
+      ACT_TargetType: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       ACT_TargetID: {
         type: DataTypes.INTEGER,
-        allowNull: false
-      }
+        allowNull: false,
+      },
+      ACT_Details: {
+        type: DataTypes.JSON,
+        allowNull: true,
+      },
     },
     {
       sequelize,
       modelName: 'AdminAction',
-      tableName: 'AdminActions'
+      tableName: 'AdminActions',
     }
-  )
+  );
 
-  return AdminAction
-}
+  return AdminAction;
+};

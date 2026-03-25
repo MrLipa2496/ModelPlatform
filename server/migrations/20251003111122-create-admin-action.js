@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -7,40 +7,48 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       USR_ID: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Users',
-          key: 'USR_ID'
+          key: 'USR_ID',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       ACT_Type: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+      },
+      ACT_TargetType: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       ACT_TargetID: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+      },
+      ACT_Details: {
+        type: Sequelize.JSON,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      }
-    })
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
+    });
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('AdminActions')
-  }
-}
+    await queryInterface.dropTable('AdminActions');
+  },
+};
