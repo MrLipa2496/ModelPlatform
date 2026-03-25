@@ -4,6 +4,7 @@ import {
   changeAdminUserStatusRequest,
   getAdminCastingsRequest,
   changeAdminCastingStatusRequest,
+  getAdminStatsRequest,
 } from '../../api/rest/restController';
 
 export const fetchAdminUsers = createAsyncThunk(
@@ -11,6 +12,18 @@ export const fetchAdminUsers = createAsyncThunk(
   async ({ role, status, page = 1, limit = 12 } = {}, { rejectWithValue }) => {
     try {
       const res = await getAdminUsersRequest(role, status, page, limit);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+export const fetchAdminStats = createAsyncThunk(
+  'admin/fetchAdminStats',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await getAdminStatsRequest();
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
@@ -69,6 +82,12 @@ const adminSlice = createSlice({
 
     loading: false,
     error: null,
+    stats: {
+      totalModels: 0,
+      activeAgencies: 0,
+      activeCastings: 0,
+      pendingUsers: 0,
+    },
   },
   reducers: {
     clearAdminUsersList: state => {
@@ -133,7 +152,9 @@ const adminSlice = createSlice({
         state.loading = false;
         state.error = action.payload || action.error.message;
       })
-
+      .addCase(fetchAdminStats.fulfilled, (state, action) => {
+        state.stats = action.payload;
+      })
       .addCase(changeAdminCastingStatus.fulfilled, (state, action) => {
         const { castingId, status } = action.payload;
         const index = state.castings.findIndex(c => c.CST_ID === castingId);

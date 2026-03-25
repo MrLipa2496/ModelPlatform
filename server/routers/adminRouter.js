@@ -22,4 +22,6 @@ adminRouter.patch('/users/:id/status', adminController.changeUserStatus);
 adminRouter.get('/castings', adminController.getCastings);
 adminRouter.patch('/castings/:id/status', adminController.changeCastingStatus);
 
+adminRouter.get('/stats', adminController.getStats);
+
 module.exports = adminRouter;

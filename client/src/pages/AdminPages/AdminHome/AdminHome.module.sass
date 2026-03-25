@@ -1,0 +1,274 @@
+.dashboardContainer
+  width: 100%
+  min-height: 100vh
+  background-color: #fafafa
+  padding-bottom: 4rem
+
+.workspaceHeader
+  background-color: #ffffff
+  border-bottom: 1px solid #eaeaea
+  padding: 3rem 5%
+
+.headerInner
+  max-width: 1200px
+  margin: 0 auto
+
+.identityText
+  display: flex
+  flex-direction: column
+
+.subtitle
+  font-size: 0.75rem
+  color: #888
+  letter-spacing: 2px
+  text-transform: uppercase
+  margin-bottom: 0.5rem
+
+.welcomeTitle
+  font-size: 2.2rem
+  font-weight: 800
+  color: #111
+  margin-bottom: 1rem
+  letter-spacing: -0.5px
+
+.adminBadge
+  display: inline-flex
+  align-items: center
+  gap: 8px
+  background: #111
+  color: #fff
+  padding: 4px 10px
+  border-radius: 4px
+  font-size: 0.75rem
+  font-weight: 600
+  text-transform: uppercase
+  letter-spacing: 1px
+  align-self: flex-start
+  .shieldIcon
+    font-size: 0.9rem
+
+.dashboardContent
+  max-width: 1200px
+  margin: 0 auto
+  padding: 3rem 2rem 0
+  display: flex
+  flex-direction: column
+  gap: 3.5rem
+
+.sectionTitle
+  font-size: 1rem
+  font-weight: 700
+  color: #888
+  text-transform: uppercase
+  letter-spacing: 1px
+  margin-bottom: 1.5rem
+
+.statsGrid
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr))
+  gap: 1.5rem
+
+.statCard
+  background: #fff
+  border: 1px solid #eaeaea
+  border-radius: 8px
+  padding: 1.5rem
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+
+.highlightCard
+  border-color: #111
+  background: #111
+
+.statHeader
+  display: flex
+  align-items: center
+  gap: 8px
+  margin-bottom: 1rem
+
+.statIcon
+  font-size: 1.1rem
+  color: #888
+
+.statLabel
+  font-size: 0.9rem
+  color: #666
+  font-weight: 500
+
+.statValue
+  font-size: 2.2rem
+  font-weight: 700
+  color: #111
+
+.statLabelHighlight
+  font-size: 0.9rem
+  color: #eaeaea
+  font-weight: 500
+
+.statValueHighlight
+  font-size: 2.2rem
+  font-weight: 700
+  color: #fff
+
+.indicatorPulse
+  width: 8px
+  height: 8px
+  background-color: #f9ab00
+  border-radius: 50%
+  box-shadow: 0 0 0 0 rgba(249, 171, 0, 0.7)
+  animation: pulse 2s infinite
+
+@keyframes pulse
+  0%
+    transform: scale(0.95)
+    box-shadow: 0 0 0 0 rgba(249, 171, 0, 0.7)
+  70%
+    transform: scale(1)
+    box-shadow: 0 0 0 6px rgba(249, 171, 0, 0)
+  100%
+    transform: scale(0.95)
+    box-shadow: 0 0 0 0 rgba(249, 171, 0, 0)
+
+.modulesGrid
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr))
+  gap: 1.2rem
+  align-items: start 
+
+.moduleCard
+  display: flex
+  flex-direction: column
+  background: #fff
+  border: 1px solid #eaeaea
+  border-radius: 12px
+  padding: 1.2rem
+  text-decoration: none
+  color: #111
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) 
+  overflow: hidden
+  
+  &:hover
+    border-color: #111
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06)
+    transform: translateY(-2px)
+    .moduleIconWrapper
+      background: #111
+      color: #fff
+    .moduleArrow
+      transform: translateX(4px)
+      color: #111
+
+.moduleVisible
+  display: flex
+  align-items: center
+  width: 100%
+
+.moduleIconWrapper
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 46px
+  height: 46px
+  background: #f5f5f5
+  border-radius: 8px
+  color: #111
+  transition: all 0.3s ease
+  margin-right: 1rem
+
+.moduleIcon
+  font-size: 1.3rem
+
+.moduleInfo
+  flex-grow: 1
+  display: flex
+  flex-direction: column
+  justify-content: center
+  h3
+    font-size: 1.1rem
+    font-weight: 600
+    margin-bottom: 2px
+  span
+    font-size: 0.85rem
+    color: #888
+
+.moduleArrow
+  font-size: 1.2rem
+  color: #ccc
+  transition: transform 0.2s ease
+
+.moduleHidden
+  max-height: 0
+  opacity: 0
+  overflow: hidden
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1)
+
+.expanded .moduleHidden
+  max-height: 250px 
+  opacity: 1
+  margin-top: 1.2rem
+  border-top: 1px dashed #eaeaea
+  padding-top: 1.2rem
+
+.moduleDesc
+  font-size: 0.85rem
+  color: #666
+  line-height: 1.5
+  margin-bottom: 1rem
+
+.recentList
+  display: flex
+  flex-direction: column
+  gap: 8px
+
+.recentTitle
+  font-size: 0.75rem
+  text-transform: uppercase
+  letter-spacing: 0.5px
+  font-weight: 700
+  color: #888
+  margin-bottom: 4px
+
+.recentItem
+  display: flex
+  justify-content: space-between
+  align-items: center
+  background: #fafafa
+  padding: 6px 10px
+  border-radius: 6px
+  font-size: 0.85rem
+
+.recentItemLabel
+  font-weight: 500
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  max-width: 180px
+
+.recentItemStatus
+  font-size: 0.7rem
+  font-weight: 700
+  text-transform: uppercase
+  padding: 3px 6px
+  border-radius: 4px
+  background: #eaeaea
+  color: #666
+
+.recentItemStatus.pending, .recentItemStatus.Pending
+  background: rgba(249, 171, 0, 0.1)
+  color: #f9ab00
+.recentItemStatus.active, .recentItemStatus.Active
+  background: rgba(46, 204, 113, 0.1)
+  color: #2ecc71
+
+.disabledCard
+  opacity: 0.6
+  pointer-events: none
+  background: #fafafa
+  border-style: dashed
+  .moduleIconWrapper
+    background: #eaeaea
+    color: #888
+  .comingSoon
+    color: #111
+    font-weight: 600

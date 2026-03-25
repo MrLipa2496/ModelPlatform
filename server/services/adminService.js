@@ -132,6 +132,56 @@ class AdminService {
       status: newStatus,
     };
   }
+
+  async getDashboardStats () {
+    const totalModels = await db.Model.count();
+    const activeAgencies = await db.Agency.count({
+      where: { AGN_Status: 'active' },
+    });
+    const activeCastings = await db.Casting.count({
+      where: { CST_Status: 'active' },
+    });
+    const pendingModelsCount = await db.Model.count({
+      where: { MOD_Status: 'pending' },
+    });
+    const pendingAgenciesCount = await db.Agency.count({
+      where: { AGN_Status: 'pending' },
+    });
+    const pendingUsers = pendingModelsCount + pendingAgenciesCount;
+
+    const recentPending = await db.Model.findAll({
+      where: { MOD_Status: 'pending' },
+      attributes: ['MOD_ID', 'MOD_FirstName', 'MOD_LastName', 'createdAt'],
+      order: [['createdAt', 'DESC']],
+      limit: 3,
+    });
+
+    const recentUsers = await db.Model.findAll({
+      attributes: ['MOD_ID', 'MOD_FirstName', 'MOD_LastName', 'MOD_Status'],
+      order: [['createdAt', 'DESC']],
+      limit: 3,
+    });
+
+    const recentCastings = await db.Casting.findAll({
+      attributes: ['CST_ID', 'CST_Title', 'CST_Status'],
+      order: [['createdAt', 'DESC']],
+      limit: 3,
+    });
+
+    return {
+      stats: {
+        totalModels,
+        activeAgencies,
+        activeCastings,
+        pendingUsers,
+      },
+      recent: {
+        pending: recentPending,
+        users: recentUsers,
+        castings: recentCastings,
+      },
+    };
+  }
 }
 
 module.exports = new AdminService();

@@ -120,7 +120,6 @@ const CONSTANTS = {
       { to: '/profile', label: 'Profile' },
     ],
     admin: [
-      { to: '/admin', label: 'Admin Panel' },
       { to: '/users', label: 'Users' },
       { to: '/offers', label: 'Offers' },
       { to: '/verify', label: 'Verify' },

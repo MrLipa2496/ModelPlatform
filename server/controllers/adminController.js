@@ -97,4 +97,16 @@ module.exports = {
       next(err);
     }
   },
+
+  getStats: async (req, res, next) => {
+    try {
+      if (req.user.role !== 'admin') {
+        return next(new ServerError('Forbidden', 403));
+      }
+      const stats = await adminService.getDashboardStats();
+      res.json(stats);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
