@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import GuestHome from '../GuestPages/GuestHome';
 import ModelHome from '../ModelPages/ModelHome';
 import AgencyHome from '../AgencyPages/AgencyHome';
+import AdminHome from '../AdminPages/AdminHome';
 
 export default function HomePage () {
   const { user } = useSelector(state => state.auth);
@@ -17,6 +18,10 @@ export default function HomePage () {
 
   if (userRole === 'agency') {
     return <AgencyHome />;
+  }
+
+  if (userRole === 'admin') {
+    return <AdminHome />;
   }
 
   return <GuestHome />;
