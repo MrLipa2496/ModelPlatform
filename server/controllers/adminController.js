@@ -10,8 +10,8 @@ module.exports = {
 
       const page = parseInt(req.query.page) || 1;
       const limit = parseInt(req.query.limit) || 12;
-      const role = req.query.role; // 'model' или 'agency'
-      const status = req.query.status; // 'pending', 'active', 'blocked'
+      const role = req.query.role;
+      const status = req.query.status;
 
       if (!role) {
         return next(new ServerError('Role query parameter is required', 400));
@@ -30,7 +30,7 @@ module.exports = {
         return next(new ServerError('Forbidden', 403));
       }
 
-      const { id } = req.params; // USR_ID
+      const { id } = req.params;
       const { status, reason } = req.body;
 
       if (!['active', 'blocked', 'pending'].includes(status)) {
@@ -38,7 +38,7 @@ module.exports = {
       }
 
       const result = await adminService.changeUserStatus(
-        req.user.id, // ID админа для логов
+        req.user.id,
         id,
         status,
         reason
@@ -79,7 +79,7 @@ module.exports = {
         return next(new ServerError('Forbidden', 403));
       }
 
-      const { id } = req.params; // CST_ID
+      const { id } = req.params;
       const { status, reason } = req.body;
 
       const result = await adminService.changeCastingStatus(
