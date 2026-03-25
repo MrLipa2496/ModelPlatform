@@ -1,0 +1,137 @@
+const db = require('../models');
+
+class AdminService {
+  async getUsers ({ role, status, page = 1, limit = 12 }) {
+    const offset = (page - 1) * limit;
+    let count, rows;
+
+    if (role === 'model') {
+      const whereClause = {};
+      if (status) whereClause.MOD_Status = status;
+
+      const result = await db.Model.findAndCountAll({
+        where: whereClause,
+        include: [
+          { model: db.User, as: 'User', attributes: ['USR_Email', 'USR_Role'] },
+        ],
+        limit: limit,
+        offset: offset,
+        order: [['createdAt', 'DESC']],
+      });
+      count = result.count;
+      rows = result.rows;
+    } else if (role === 'agency') {
+      const whereClause = {};
+      if (status) whereClause.AGN_Status = status;
+
+      const result = await db.Agency.findAndCountAll({
+        where: whereClause,
+        include: [
+          { model: db.User, as: 'User', attributes: ['USR_Email', 'USR_Role'] },
+        ],
+        limit: limit,
+        offset: offset,
+        order: [['createdAt', 'DESC']],
+      });
+      count = result.count;
+      rows = result.rows;
+    } else {
+      throw new Error('Invalid role specified');
+    }
+
+    return {
+      data: rows,
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+    };
+  }
+
+  async changeUserStatus (adminId, targetUserId, newStatus, reason = '') {
+    const user = await db.User.findByPk(targetUserId);
+    if (!user) throw new Error('User not found');
+
+    let targetType = '';
+    const isVerified = newStatus === 'active';
+
+    if (user.USR_Role === 'model') {
+      const model = await db.Model.findOne({ where: { USR_ID: targetUserId } });
+      if (!model) throw new Error('Profile not found');
+
+      await model.update({ MOD_Status: newStatus, MOD_Verified: isVerified });
+      targetType = 'Model';
+    } else if (user.USR_Role === 'agency') {
+      const agency = await db.Agency.findOne({
+        where: { USR_ID: targetUserId },
+      });
+      if (!agency) throw new Error('Profile not found');
+
+      await agency.update({ AGN_Status: newStatus, AGN_Verified: isVerified });
+      targetType = 'Agency';
+    }
+
+    await db.AdminAction.create({
+      USR_ID: adminId,
+      ACT_Type: `UPDATE_STATUS_${newStatus.toUpperCase()}`,
+      ACT_TargetType: targetType,
+      ACT_TargetID: targetUserId,
+      ACT_Details: { reason, previousRole: user.USR_Role },
+    });
+
+    return {
+      message: `${targetType} status updated to ${newStatus} successfully`,
+      userId: targetUserId,
+      status: newStatus,
+    };
+  }
+
+  async getCastings ({ status, page = 1, limit = 12 }) {
+    const offset = (page - 1) * limit;
+    const whereClause = {};
+    if (status) whereClause.CST_Status = status;
+
+    const { count, rows } = await db.Casting.findAndCountAll({
+      where: whereClause,
+      include: [
+        {
+          model: db.Agency,
+          as: 'Agency',
+          attributes: ['AGN_Name', 'AGN_Logo'],
+        },
+      ],
+      limit: limit,
+      offset: offset,
+      order: [['createdAt', 'DESC']],
+    });
+
+    return {
+      data: rows,
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+    };
+  }
+
+  async changeCastingStatus (adminId, castingId, newStatus, reason = '') {
+    const casting = await db.Casting.findByPk(castingId);
+    if (!casting) throw new Error('Casting not found');
+
+    await casting.update({ CST_Status: newStatus });
+
+    await db.AdminAction.create({
+      USR_ID: adminId,
+      ACT_Type: `UPDATE_CASTING_${newStatus.toUpperCase()}`,
+      ACT_TargetType: 'Casting',
+      ACT_TargetID: castingId,
+      ACT_Details: { reason, previousStatus: casting.CST_Status },
+    });
+
+    return {
+      message: `Casting status updated to ${newStatus} successfully`,
+      castingId,
+      status: newStatus,
+    };
+  }
+}
+
+module.exports = new AdminService();
