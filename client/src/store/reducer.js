@@ -7,8 +7,10 @@ import castingReducer from './slices/castingSlice';
 import applicationReducer from './slices/applicationSlice';
 import invitationReducer from './slices/invitationSlice';
 import messageReducer from './slices/messageSlice';
+import adminReducer from './slices/adminSlice';
 
 const rootReducer = combineReducers({
+  admin: adminReducer,
   agency: agencyReducer,
   auth: authReducer,
   model: modelReducer,
