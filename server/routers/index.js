@@ -7,6 +7,7 @@ const castingRouter = require('./castingRouter');
 const invitationRouter = require('./invitationRouter');
 const applicationRouter = require('./applicationRouter');
 const messageRouter = require('./messageRouter');
+const adminRouter = require('./adminRouter');
 
 const router = Router();
 
@@ -18,5 +19,6 @@ router.use('/castings', castingRouter);
 router.use('/invitations', invitationRouter);
 router.use('/applications', applicationRouter);
 router.use('/messages', messageRouter);
+router.use('/admin', adminRouter);
 
 module.exports = router;

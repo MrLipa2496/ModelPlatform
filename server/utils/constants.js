@@ -9,6 +9,7 @@ module.exports = {
     BAD_REQUEST: 400,
     UNAUTHORIZED: 401,
     SERVER_ERROR: 500,
+    FORBIDDEN: 403,
   },
   LIMITS: {
     MAX_ALBUMS_PER_MODEL: 3,
