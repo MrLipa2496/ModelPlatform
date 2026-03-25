@@ -152,6 +152,69 @@ const CONSTANTS = {
       placeholder: 'Tell something about yourself...',
     },
   ],
+
+  DEFAULT_ADMIN_STATS: {
+    totalModels: 0,
+    activeAgencies: 0,
+    activeCastings: 0,
+    pendingUsers: 0,
+  },
+
+  DEFAULT_ADMIN_RECENT: {
+    pending: [],
+    users: [],
+    castings: [],
+  },
+
+  ADMIN_DASHBOARD_MODULES: [
+    {
+      id: 'verify',
+      path: '/verify',
+      title: 'Verification',
+      subtitle: 'KYC & Approvals',
+      description:
+        'Review and approve pending registrations for new models and agencies.',
+    },
+    {
+      id: 'users',
+      path: '/users',
+      title: 'Users',
+      subtitle: 'Manage Accounts',
+      description: 'Search, manage, and block active users on the platform.',
+    },
+    {
+      id: 'castings',
+      path: '/castings',
+      title: 'Castings',
+      subtitle: 'Content Control',
+      description:
+        'Monitor all active job postings and remove inappropriate content.',
+    },
+    {
+      id: 'offers',
+      path: '/offers',
+      title: 'Offers',
+      subtitle: 'Direct Collaborations',
+      description:
+        'Audit direct collaboration offers between agencies and models.',
+    },
+    {
+      id: 'reports',
+      path: '/reports',
+      title: 'Reports',
+      subtitle: 'User Complaints',
+      description:
+        'Handle user-submitted reports regarding inappropriate behavior.',
+    },
+    {
+      id: 'statistics',
+      path: '/statistics',
+      title: 'Statistics',
+      subtitle: 'Platform Analytics',
+      description:
+        'View detailed analytics on platform growth and user engagement.',
+    },
+  ],
 };
 
 export default CONSTANTS;

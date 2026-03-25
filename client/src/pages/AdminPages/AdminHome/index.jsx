@@ -14,107 +14,60 @@ import {
   FiChevronRight,
 } from 'react-icons/fi';
 import { fetchAdminStats } from '../../../store/slices/adminSlice';
+import CONSTANTS from '../../../utils/constants';
 import styles from './AdminHome.module.sass';
+
+const MODULE_ICONS = {
+  verify: FiCheckSquare,
+  users: FiUsers,
+  castings: FiBriefcase,
+  offers: FiSend,
+  reports: FiFlag,
+  statistics: FiBarChart2,
+};
+
+const getRecentDataForModule = (moduleId, recentData) => {
+  switch (moduleId) {
+    case 'verify':
+      return recentData.pending.map(m => ({
+        label: `${m.MOD_FirstName} ${m.MOD_LastName}`,
+        status: 'Pending',
+      }));
+    case 'users':
+      return recentData.users.map(u => ({
+        label: `${u.MOD_FirstName} ${u.MOD_LastName}`,
+        status: u.MOD_Status,
+      }));
+    case 'castings':
+      return recentData.castings.map(c => ({
+        label: c.CST_Title,
+        status: c.CST_Status,
+      }));
+    default:
+      return [];
+  }
+};
 
 export default function AdminHome () {
   const dispatch = useDispatch();
   const { stats: dashboardData } = useSelector(state => state.admin);
-
-  // Состояние для хранения ID карточки, на которую навели мышку
   const [hoveredModule, setHoveredModule] = useState(null);
 
   useEffect(() => {
     dispatch(fetchAdminStats());
   }, [dispatch]);
 
-  // Разбираем данные с бэкенда (защита от undefined при первой загрузке)
-  const stats = dashboardData?.stats || {
-    totalModels: 0,
-    activeAgencies: 0,
-    activeCastings: 0,
-    pendingUsers: 0,
-  };
-  const recent = dashboardData?.recent || {
-    pending: [],
-    users: [],
-    castings: [],
-  };
+  const stats = dashboardData?.stats || CONSTANTS.DEFAULT_ADMIN_STATS;
+  const recent = dashboardData?.recent || CONSTANTS.DEFAULT_ADMIN_RECENT;
 
-  // Конфигурация наших модулей
-  const adminModules = [
-    {
-      id: 'verify',
-      path: '/admin/verify',
-      icon: FiCheckSquare,
-      title: 'Verification',
-      subtitle: 'KYC & Approvals',
-      description:
-        'Review and approve pending registrations for new models and agencies.',
-      recentData: recent.pending.map(m => ({
-        label: `${m.MOD_FirstName} ${m.MOD_LastName}`,
-        status: 'Pending',
-      })),
-    },
-    {
-      id: 'users',
-      path: '/admin/users',
-      icon: FiUsers,
-      title: 'Users',
-      subtitle: 'Manage Accounts',
-      description: 'Search, manage, and block active users on the platform.',
-      recentData: recent.users.map(u => ({
-        label: `${u.MOD_FirstName} ${u.MOD_LastName}`,
-        status: u.MOD_Status,
-      })),
-    },
-    {
-      id: 'castings',
-      path: '/admin/castings',
-      icon: FiBriefcase,
-      title: 'Castings',
-      subtitle: 'Content Control',
-      description:
-        'Monitor all active job postings and remove inappropriate content.',
-      recentData: recent.castings.map(c => ({
-        label: c.CST_Title,
-        status: c.CST_Status,
-      })),
-    },
-    {
-      id: 'offers',
-      path: '/admin/offers',
-      icon: FiSend,
-      title: 'Offers',
-      subtitle: 'Direct Collaborations',
-      description:
-        'Audit direct collaboration offers between agencies and models.',
-      recentData: [], // Пока нет данных
-    },
-    {
-      id: 'reports',
-      path: '/admin/reports',
-      icon: FiFlag,
-      title: 'Reports',
-      subtitle: 'User Complaints',
-      description:
-        'Handle user-submitted reports regarding inappropriate behavior.',
-      recentData: [],
-    },
-    {
-      id: 'statistics',
-      path: '/admin/statistics',
-      icon: FiBarChart2,
-      title: 'Statistics',
-      subtitle: 'Platform Analytics',
-      description:
-        'View detailed analytics on platform growth and user engagement.',
-      recentData: [],
-    },
-  ];
+  const adminModules = CONSTANTS.ADMIN_DASHBOARD_MODULES.map(mod => ({
+    ...mod,
+    icon: MODULE_ICONS[mod.id] || FiActivity,
+    recentData: getRecentDataForModule(mod.id, recent),
+  }));
 
   return (
     <div className={styles.dashboardContainer}>
-      {/* ... Секция HEADER остается без изменений ... */}
       <header className={styles.workspaceHeader}>
         <div className={styles.headerInner}>
           <div className={styles.identityText}>
@@ -129,9 +82,47 @@ export default function AdminHome () {
       </header>
 
       <div className={styles.dashboardContent}>
-        {/* ... Секция OVERVIEW STATS (4 карточки) остается без изменений ... */}
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Overview</h2>
+          <div className={styles.statsGrid}>
+            <div className={styles.statCard}>
+              <div className={styles.statHeader}>
+                <FiUsers className={styles.statIcon} />
+                <span className={styles.statLabel}>Models</span>
+              </div>
+              <div className={styles.statValue}>{stats.totalModels}</div>
+            </div>
 
-        {/* QUICK ACCESS MODULES */}
+            <div className={styles.statCard}>
+              <div className={styles.statHeader}>
+                <FiBriefcase className={styles.statIcon} />
+                <span className={styles.statLabel}>Agencies</span>
+              </div>
+              <div className={styles.statValue}>{stats.activeAgencies}</div>
+            </div>
+
+            <div className={styles.statCard}>
+              <div className={styles.statHeader}>
+                <FiActivity className={styles.statIcon} />
+                <span className={styles.statLabel}>Castings</span>
+              </div>
+              <div className={styles.statValue}>{stats.activeCastings}</div>
+            </div>
+
+            <div className={`${styles.statCard} ${styles.highlightCard}`}>
+              <div className={styles.statHeader}>
+                <span className={styles.indicatorPulse}></span>
+                <span className={styles.statLabelHighlight}>
+                  Pending Approval
+                </span>
+              </div>
+              <div className={styles.statValueHighlight}>
+                {stats.pendingUsers}
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Modules</h2>
 
@@ -146,7 +137,6 @@ export default function AdminHome () {
                 onMouseEnter={() => setHoveredModule(mod.id)}
                 onMouseLeave={() => setHoveredModule(null)}
               >
-                {/* Видимая часть карточки (всегда) */}
                 <div className={styles.moduleVisible}>
                   <div className={styles.moduleIconWrapper}>
                     <mod.icon className={styles.moduleIcon} />
@@ -158,7 +148,6 @@ export default function AdminHome () {
                   <FiChevronRight className={styles.moduleArrow} />
                 </div>
 
-                {/* Скрытая часть карточки (появляется при наведении) */}
                 <div className={styles.moduleHidden}>
                   <p className={styles.moduleDesc}>{mod.description}</p>
 
@@ -187,7 +176,6 @@ export default function AdminHome () {
               </Link>
             ))}
 
-            {/* Карточка PAYMENTS (Отключена) */}
             <div className={`${styles.moduleCard} ${styles.disabledCard}`}>
               <div className={styles.moduleVisible}>
                 <div className={styles.moduleIconWrapper}>
