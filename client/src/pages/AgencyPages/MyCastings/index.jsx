@@ -8,7 +8,7 @@ import {
 } from '../../../store/slices/castingSlice';
 import { fetchAgencyProfile } from '../../../store/slices/agencySlice';
 import MyCastingCard from '../../../components/MyCastingCard';
-import ConfirmModal from '../../../components/InfoModal';
+import InfoModal from '../../../components/InfoModal';
 import CastingFormModal from '../../../components/CastingFormModal';
 import styles from './MyCastings.module.sass';
 
@@ -32,6 +32,7 @@ export default function MyCastings () {
   const [formError, setFormError] = useState(null);
 
   const [showVerifyModal, setShowVerifyModal] = useState(false);
+  const [showBlockedModal, setShowBlockedModal] = useState(false);
 
   useEffect(() => {
     if (user?.role === 'agency') {
@@ -40,8 +41,17 @@ export default function MyCastings () {
     }
   }, [dispatch, user]);
 
+  const currentStatus =
+    agencyProfile?.AGN_Status ||
+    (agencyProfile?.AGN_Verified ? 'active' : 'pending');
+
   const handleCreate = () => {
-    if (!agencyProfile?.AGN_Verified) {
+    if (currentStatus === 'blocked') {
+      setShowBlockedModal(true);
+      return;
+    }
+
+    if (currentStatus === 'pending') {
       setShowVerifyModal(true);
       return;
     }
@@ -99,20 +109,20 @@ export default function MyCastings () {
     return <div className={styles.error}>Error: {error}</div>;
   }
 
-  const isVerified = agencyProfile?.AGN_Verified;
-
   return (
     <div className={styles.dashboard}>
       <header className={styles.header}>
         <h1 className={styles.title}>My Castings</h1>
         <button
           className={`${styles.createButton} ${
-            !isVerified ? styles.buttonDisabled : ''
+            currentStatus !== 'active' ? styles.buttonDisabled : ''
           }`}
           onClick={handleCreate}
           title={
-            !isVerified
-              ? 'Your account is pending verification'
+            currentStatus === 'blocked'
+              ? 'Account blocked'
+              : currentStatus === 'pending'
+              ? 'Pending verification'
               : 'Create new casting'
           }
         >
@@ -147,7 +157,7 @@ export default function MyCastings () {
       />
 
       {showDeleteModal && (
-        <ConfirmModal
+        <InfoModal
           title='Delete Casting?'
           isOpen={showDeleteModal}
           onClose={() => setShowDeleteModal(false)}
@@ -157,20 +167,51 @@ export default function MyCastings () {
             Are you sure you want to delete "{castingToDelete?.CST_Title}"? This
             action cannot be undone.
           </p>
-        </ConfirmModal>
+        </InfoModal>
       )}
 
       {showVerifyModal && (
-        <ConfirmModal
-          title='Account Not Verified'
+        <InfoModal
+          title='Account Under Review'
           isOpen={showVerifyModal}
           onClose={() => setShowVerifyModal(false)}
+          showSignupBtn={false}
         >
-          <p>
-            Your account is not verified. Please wait while we check your
-            account, this may take up to 24 hours.
-          </p>
-        </ConfirmModal>
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ marginBottom: '1rem', color: '#666' }}>
+              Your account is currently waiting for administrator approval.
+            </p>
+            <p>
+              Please wait while we check your account, this may take up to 24
+              hours.
+            </p>
+          </div>
+        </InfoModal>
+      )}
+
+      {showBlockedModal && (
+        <InfoModal
+          title='Account Blocked'
+          isOpen={showBlockedModal}
+          onClose={() => setShowBlockedModal(false)}
+          showSignupBtn={false}
+        >
+          <div style={{ textAlign: 'center' }}>
+            <p
+              style={{
+                marginBottom: '1rem',
+                color: '#dc3545',
+                fontWeight: 'bold',
+              }}
+            >
+              Your profile has been blocked by the administration.
+            </p>
+            <p style={{ color: '#666', fontSize: '0.9rem' }}>
+              Please check your dashboard for details or contact support to
+              resolve this issue. You cannot create new castings at this time.
+            </p>
+          </div>
+        </InfoModal>
       )}
     </div>
   );

@@ -15,6 +15,7 @@ import {
   FiArrowRight,
   FiSettings,
   FiTrendingUp,
+  FiFileText, // <-- Добавили иконку для текста причины
 } from 'react-icons/fi';
 import styles from './AgencyHome.module.sass';
 import CONSTANTS from '../../../utils/constants';
@@ -47,6 +48,9 @@ export default function AgencyHome () {
   const agencyName = agencyProfile?.AGN_Name || 'My Agency';
   const status = agencyProfile?.AGN_Status || 'pending';
   const agencyLogo = agencyProfile?.AGN_Logo || null;
+  const rejectionReason =
+    agencyProfile?.AGN_RejectionReason ||
+    'No specific reason provided. Please contact support.';
 
   const stats = {
     activeCastings: totalCastings || 0,
@@ -55,7 +59,6 @@ export default function AgencyHome () {
 
   return (
     <div className={styles.dashboardContainer}>
-      {/* --- WORKSPACE HEADER --- */}
       <header className={styles.workspaceHeader}>
         <div className={styles.headerInner}>
           <div className={styles.agencyIdentity}>
@@ -143,10 +146,40 @@ export default function AgencyHome () {
                   <FiAlertCircle className={styles.alertIcon} />
                   <div>
                     <h3>Account Declined</h3>
-                    <p>
+                    <p style={{ marginBottom: '8px' }}>
                       Your registration was declined. Please contact support for
                       more details.
                     </p>
+                    <div
+                      style={{
+                        background: 'rgba(255,0,0,0.05)',
+                        padding: '10px 12px',
+                        borderRadius: '6px',
+                        borderLeft: '3px solid #dc3545',
+                        display: 'flex',
+                        gap: '8px',
+                        alignItems: 'flex-start',
+                        marginTop: '8px',
+                      }}
+                    >
+                      <FiFileText
+                        style={{
+                          color: '#dc3545',
+                          marginTop: '3px',
+                          flexShrink: 0,
+                        }}
+                      />
+                      <p
+                        style={{
+                          margin: 0,
+                          fontSize: '0.85rem',
+                          color: '#b02a37',
+                          fontWeight: '500',
+                        }}
+                      >
+                        Admin Note: {rejectionReason}
+                      </p>
+                    </div>
                   </div>
                 </div>
               ) : (
