@@ -17,7 +17,9 @@ exports.getAgencies = async (req, res, next) => {
 exports.getAgency = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const agency = await agencyService.getAgencyWithCastings(id);
+    const isAdmin = req.user && req.user.role === 'admin';
+
+    const agency = await agencyService.getAgencyWithCastings(id, isAdmin);
     res.json(agency);
   } catch (err) {
     if (err.message === 'Agency not found') {

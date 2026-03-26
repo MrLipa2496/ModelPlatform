@@ -39,12 +39,15 @@ class AgencyService {
     };
   }
 
-  async getAgencyWithCastings (id) {
+  async getAgencyWithCastings (id, isAdmin = false) {
+    const whereClause = { AGN_ID: id };
+
+    if (!isAdmin) {
+      whereClause.AGN_Status = STATUS.ACTIVE;
+    }
+
     const agency = await db.Agency.findOne({
-      where: {
-        AGN_ID: id,
-        AGN_Status: STATUS.ACTIVE,
-      },
+      where: whereClause,
       attributes: [
         'AGN_ID',
         'AGN_Name',

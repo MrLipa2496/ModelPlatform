@@ -78,7 +78,9 @@ module.exports = {
   getModel: async (req, res, next) => {
     try {
       const { id } = req.params;
-      const model = await modelService.getPublicModelById(id);
+      const isAdmin = req.user && req.user.role === 'admin';
+
+      const model = await modelService.getPublicModelById(id, isAdmin);
       res.json(model);
     } catch (err) {
       if (err.message === 'Model not found')

@@ -68,12 +68,15 @@ class ModelService {
       currentPage: page,
     };
   }
-  async getPublicModelById (modelId) {
+
+  async getPublicModelById (modelId, isAdmin = false) {
+    const whereClause = { MOD_ID: modelId };
+
+    if (!isAdmin) {
+      whereClause.MOD_Verified = true;
+    }
     const model = await db.Model.findOne({
-      where: {
-        MOD_ID: modelId,
-        MOD_Verified: true,
-      },
+      where: whereClause,
       attributes: [
         'MOD_ID',
         'MOD_FirstName',
