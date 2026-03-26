@@ -58,6 +58,7 @@ class AgencyService {
         'AGN_Country',
         'AGN_City',
         'AGN_Verified',
+        'AGN_Status',
       ],
       include: [
         {

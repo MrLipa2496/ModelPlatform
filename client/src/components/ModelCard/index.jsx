@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { saveProfile } from '../../store/slices/modelSlice';
 import ModalWindow from '../ModalWindow';
-import { FiEdit } from 'react-icons/fi';
+import { FiEdit, FiArrowLeft } from 'react-icons/fi';
 import defaultAvatarLocal from '../../../img/default-avatar.jpg';
 import styles from './ModelCard.module.sass';
 import CONSTANTS from '../../utils/constants';
@@ -14,6 +15,12 @@ export default function ModelCard ({
   onPhotoChange,
 }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { user } = useSelector(state => state.auth);
+  const currentUserRole = (user?.role || user?.USR_Role || '').toLowerCase();
+  const isAdmin = currentUserRole === 'admin';
+
   const [photoPreview, setPhotoPreview] = useState(null);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -253,6 +260,32 @@ export default function ModelCard ({
                     : 'Complete Profile'}
                 </button>
               </div>
+            ) : isAdmin ? (
+              <>
+                <h2>Admin Actions</h2>
+                <p>Return to the dashboard to moderate this profile.</p>
+                <div className={styles.backButtons}>
+                  <button
+                    className={styles.portfolioBtn}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                    }}
+                    onClick={e => {
+                      e.stopPropagation();
+                      if (currentStatus === 'pending') {
+                        navigate('/verify');
+                      } else {
+                        navigate('/users');
+                      }
+                    }}
+                  >
+                    <FiArrowLeft /> Back to Moderation
+                  </button>
+                </div>
+              </>
             ) : (
               <>
                 <h2>Agency Actions</h2>

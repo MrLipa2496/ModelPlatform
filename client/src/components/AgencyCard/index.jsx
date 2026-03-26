@@ -1,10 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   FiCamera,
   FiGlobe,
   FiPhone,
   FiMail,
   FiMessageSquare,
+  FiArrowLeft,
 } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import styles from './AgencyCard.module.sass';
@@ -17,6 +20,12 @@ export default function AgencyCard ({
   onEdit,
   onLogoChange,
 }) {
+  const navigate = useNavigate();
+
+  const { user } = useSelector(state => state.auth);
+  const currentUserRole = (user?.role || user?.USR_Role || '').toLowerCase();
+  const isAdmin = currentUserRole === 'admin';
+
   const {
     AGN_Logo,
     AGN_Name,
@@ -26,6 +35,7 @@ export default function AgencyCard ({
     AGN_Website,
     AGN_Phone,
     AGN_Verified,
+    AGN_Status,
   } = agency;
 
   const handleLogoChange = e => {
@@ -35,14 +45,21 @@ export default function AgencyCard ({
     }
   };
 
-  // Заглушка для будущего чата
   const handleContactClick = () => {
-    toast.info('💬 In-app messaging is coming soon!', {
+    toast.info('In-app messaging is coming soon!', {
       position: 'bottom-center',
       autoClose: 3000,
       hideProgressBar: true,
-      theme: 'dark', // Темная тема тоста отлично впишется в минимализм
+      theme: 'dark',
     });
+  };
+
+  const handleAdminBack = () => {
+    if (AGN_Status === 'pending') {
+      navigate('/verify');
+    } else {
+      navigate('/users');
+    }
   };
 
   const headerClass = `${styles.header} ${
@@ -123,8 +140,12 @@ export default function AgencyCard ({
             )}
           </ul>
 
-          {/* Логика кнопок: Если это мое агентство - кнопка Edit. Если чужое - кнопка Contact */}
-          {isEditable ? (
+          {isAdmin ? (
+            <button className={styles.adminBackBtn} onClick={handleAdminBack}>
+              <FiArrowLeft className={styles.btnIcon} />
+              Back to Moderation
+            </button>
+          ) : isEditable ? (
             <button className={styles.editButton} onClick={onEdit}>
               Edit Profile
             </button>
