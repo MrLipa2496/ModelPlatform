@@ -10,6 +10,8 @@ export default function ModalWindow ({
   onClose,
   onSubmit,
   inline = false,
+  title = 'Edit Profile',
+  submitLabel = 'Save',
 }) {
   const containerClass = inline ? styles.inlineContent : styles.modalContent;
   const overlayClass = inline ? styles.inlineWrapper : styles.modalOverlay;
@@ -17,12 +19,14 @@ export default function ModalWindow ({
   const isFullWidth = field =>
     field.type === 'textarea' ||
     field.name === 'description' ||
-    field.name === 'about';
+    field.name === 'about' ||
+    field.name === 'reason';
 
   return (
     <div className={overlayClass} onClick={onClose}>
       <div className={containerClass} onClick={e => e.stopPropagation()}>
-        <h2 className={styles.title}>Edit Profile</h2>
+        <h2 className={styles.title}>{title}</h2>
+
         <Formik
           enableReinitialize
           initialValues={fields.reduce((acc, f) => {
@@ -40,11 +44,10 @@ export default function ModalWindow ({
             });
 
             await onSubmit(sanitizedValues);
-
             onClose();
           }}
         >
-          {() => (
+          {({ setFieldValue, values }) => (
             <Form className={styles.profileForm}>
               {fields.map(field => (
                 <div
@@ -69,12 +72,29 @@ export default function ModalWindow ({
                   ) : (
                     <ValidatedField {...field} />
                   )}
+
+                  {field.quickOptions && field.quickOptions.length > 0 && (
+                    <div className={styles.quickOptionsContainer}>
+                      {field.quickOptions.map(opt => (
+                        <button
+                          key={opt}
+                          type='button'
+                          className={styles.quickOptionBtn}
+                          onClick={() => {
+                            setFieldValue(field.name, opt);
+                          }}
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
 
               <div className={styles.modalButtons}>
                 <button type='submit' className={styles.saveBtn}>
-                  Save
+                  {submitLabel}
                 </button>
                 <button
                   type='button'

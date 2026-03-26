@@ -14,6 +14,11 @@ import {
   changeAdminUserStatus,
 } from '../../../store/slices/adminSlice';
 import CONSTANTS from '../../../utils/constants';
+import {
+  ADMIN_APPROVE_VALIDATION,
+  ADMIN_REJECT_VALIDATION,
+} from '../../../utils/validationSchema';
+import ModalWindow from '../../../components/ModalWindow';
 import styles from './AdminVerifyPage.module.sass';
 
 export default function AdminVerifyPage () {
@@ -21,6 +26,8 @@ export default function AdminVerifyPage () {
   const { users, loading } = useSelector(state => state.admin);
 
   const [activeTab, setActiveTab] = useState('model');
+  const [approvingUserId, setApprovingUserId] = useState(null);
+  const [rejectingUserId, setRejectingUserId] = useState(null);
 
   useEffect(() => {
     dispatch(
@@ -33,29 +40,30 @@ export default function AdminVerifyPage () {
     );
   }, [dispatch, activeTab]);
 
-  const handleApprove = userId => {
-    if (window.confirm('Are you sure you want to approve this account?')) {
-      dispatch(
+  const handleApproveSubmit = async () => {
+    if (approvingUserId) {
+      await dispatch(
         changeAdminUserStatus({
-          id: userId,
+          id: approvingUserId,
           data: { status: 'active', reason: 'Passed KYC verification' },
         })
       );
+      setApprovingUserId(null);
     }
   };
 
-  const handleReject = userId => {
-    const reason = window.prompt('Please provide a reason for rejection:');
-    if (reason !== null) {
-      dispatch(
+  const handleRejectSubmit = async values => {
+    if (rejectingUserId) {
+      await dispatch(
         changeAdminUserStatus({
-          id: userId,
+          id: rejectingUserId,
           data: {
             status: 'blocked',
-            reason: reason || 'Failed KYC verification',
+            reason: values.reason || 'Failed KYC verification',
           },
         })
       );
+      setRejectingUserId(null);
     }
   };
 
@@ -130,14 +138,14 @@ export default function AdminVerifyPage () {
           <div className={styles.actionButtons}>
             <button
               className={styles.approveBtn}
-              onClick={() => handleApprove(user.USR_ID)}
+              onClick={() => setApprovingUserId(user.USR_ID)}
               title='Approve User'
             >
               <FiCheck /> Approve
             </button>
             <button
               className={styles.rejectBtn}
-              onClick={() => handleReject(user.USR_ID)}
+              onClick={() => setRejectingUserId(user.USR_ID)}
               title='Reject User'
             >
               <FiX /> Reject
@@ -147,6 +155,7 @@ export default function AdminVerifyPage () {
       </tr>
     );
   };
+
   const pendingUsers = users.filter(u => {
     const status = activeTab === 'model' ? u.MOD_Status : u.AGN_Status;
     return status === 'pending';
@@ -215,6 +224,39 @@ export default function AdminVerifyPage () {
           )}
         </div>
       </div>
+
+      {approvingUserId && (
+        <ModalWindow
+          title='Approve User'
+          submitLabel='Confirm Approval'
+          model={{}}
+          fields={[]}
+          validationSchema={ADMIN_APPROVE_VALIDATION}
+          onClose={() => setApprovingUserId(null)}
+          onSubmit={handleApproveSubmit}
+        />
+      )}
+
+      {rejectingUserId && (
+        <ModalWindow
+          title='Reject User'
+          submitLabel='Reject & Block'
+          model={{ reason: '' }}
+          fields={[
+            {
+              name: 'reason',
+              label: 'Reason for rejection',
+              type: 'textarea',
+              placeholder:
+                'Please detail why this profile is being rejected...',
+              quickOptions: CONSTANTS.REJECTION_REASONS,
+            },
+          ]}
+          validationSchema={ADMIN_REJECT_VALIDATION}
+          onClose={() => setRejectingUserId(null)}
+          onSubmit={handleRejectSubmit}
+        />
+      )}
     </div>
   );
 }

@@ -215,6 +215,15 @@ const CONSTANTS = {
         'View detailed analytics on platform growth and user engagement.',
     },
   ],
+
+  REJECTION_REASONS: [
+    'Incomplete profile: Please fill in all required fields and parameters.',
+    'Low-quality or heavily edited photos. Please upload natural digitals/polaroids.',
+    'Inappropriate or explicit content violating platform guidelines.',
+    'Unable to verify identity or agency credentials.',
+    'Suspicious activity or suspected fake profile.',
+    'Age requirement not met or missing parental consent.',
+  ],
 };
 
 export default CONSTANTS;
