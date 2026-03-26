@@ -8,7 +8,7 @@ import {
 } from '../../../store/slices/castingSlice';
 import { fetchAgencyProfile } from '../../../store/slices/agencySlice';
 import MyCastingCard from '../../../components/MyCastingCard';
-import ConfirmModal from '../../../components/AuthModal';
+import ConfirmModal from '../../../components/InfoModal';
 import CastingFormModal from '../../../components/CastingFormModal';
 import styles from './MyCastings.module.sass';
 

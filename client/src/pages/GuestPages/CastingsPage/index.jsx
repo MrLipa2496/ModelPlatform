@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllCastings } from '../../../store/slices/castingSlice';
 import CastingCard from '../../../components/CastingCard';
-import Pagination from '../../../components/Pagination'; // 1. Импортируем компонент
-import AuthModal from '../../../components/AuthModal';
+import Pagination from '../../../components/Pagination';
+import InfoModal from '../../../components/InfoModal';
 import styles from './CastingsPage.module.sass';
 import CONSTANTS from '../../../utils/constants';
 
@@ -95,14 +95,14 @@ export default function CastingsPage () {
         />
       )}
 
-      <AuthModal
+      <InfoModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
         title={modalTitle}
         signupPath='/signup'
       >
         <p>{modalText}</p>
-      </AuthModal>
+      </InfoModal>
     </div>
   );
 }

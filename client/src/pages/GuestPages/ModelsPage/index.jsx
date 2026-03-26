@@ -4,7 +4,7 @@ import { fetchAllModels } from '../../../store/slices/modelSlice';
 import Card from '../../../components/Card';
 import Pagination from '../../../components/Pagination';
 import defaultAvatarLocal from '../../../../img/default-avatar.jpg';
-import AuthModal from '../../../components/AuthModal';
+import InfoModal from '../../../components/InfoModal';
 import styles from './ModelsPage.module.sass';
 import CONSTANTS from '../../../utils/constants';
 
@@ -109,7 +109,7 @@ export default function ModelsPage () {
         />
       )}
 
-      <AuthModal
+      <InfoModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         title='Sign up to see more'
@@ -119,7 +119,7 @@ export default function ModelsPage () {
           Create an account to view detailed model profiles including biography,
           skills, and portfolio.
         </p>
-      </AuthModal>
+      </InfoModal>
     </div>
   );
 }

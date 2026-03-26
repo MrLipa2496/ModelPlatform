@@ -1,13 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './AuthModal.module.sass';
+import styles from './InfoModal.module.sass';
 
-export default function AuthModal ({
+export default function InfoModal ({
   isOpen,
   onClose,
   title,
   children,
   signupPath = '/signup',
+  showSignupBtn = true,
+  primaryBtnText = 'Sign Up',
 }) {
   const navigate = useNavigate();
 
@@ -34,9 +36,11 @@ export default function AuthModal ({
           <button className={styles.closeButton} onClick={onClose}>
             Close
           </button>
-          <button className={styles.signupButton} onClick={handleSignupClick}>
-            Sign Up
-          </button>
+          {showSignupBtn && (
+            <button className={styles.signupButton} onClick={handleSignupClick}>
+              {primaryBtnText}
+            </button>
+          )}
         </div>
       </div>
     </div>
