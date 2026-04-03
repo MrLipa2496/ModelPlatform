@@ -119,9 +119,12 @@ export default function AdminUsersPage () {
 
   const renderUserRow = user => {
     const isModel = activeTab === 'model';
+
     const name = isModel
-      ? `${user.MOD_FirstName} ${user.MOD_LastName}`
-      : user.AGN_Name;
+      ? `${user.MOD_FirstName || ''} ${user.MOD_LastName || ''}`.trim() ||
+        'Unknown Model'
+      : user.AGN_Name || 'Unknown Agency';
+
     const email = user.User?.USR_Email || 'No email';
     const status = isModel ? user.MOD_Status : user.AGN_Status;
     const profileLink = isModel
@@ -141,6 +144,9 @@ export default function AdminUsersPage () {
                   className={styles.avatarImage}
                   onError={e => {
                     e.target.style.display = 'none';
+                    e.target.parentNode.innerText = name
+                      .charAt(0)
+                      .toUpperCase();
                   }}
                 />
               ) : (
