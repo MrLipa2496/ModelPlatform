@@ -13,7 +13,21 @@ class ModelService {
     });
 
     if (!model) throw new Error('Profile not found');
-    return model;
+
+    const modelData = model.toJSON();
+
+    if (modelData.MOD_Status === 'blocked') {
+      const lastAction = await db.AdminAction.findOne({
+        where: { ACT_TargetID: userId },
+        order: [['createdAt', 'DESC']],
+      });
+
+      modelData.MOD_RejectionReason =
+        lastAction?.ACT_Details?.reason ||
+        'No specific reason provided. Please contact support.';
+    }
+
+    return modelData;
   }
 
   async updateProfile (userId, updateData) {

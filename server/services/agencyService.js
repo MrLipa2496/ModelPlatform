@@ -93,7 +93,21 @@ class AgencyService {
     if (!agency) {
       throw new Error('Agency profile not found');
     }
-    return agency;
+
+    const agencyData = agency.toJSON();
+
+    if (agencyData.AGN_Status === 'blocked') {
+      const lastAction = await db.AdminAction.findOne({
+        where: { ACT_TargetID: userId },
+        order: [['createdAt', 'DESC']],
+      });
+
+      agencyData.AGN_RejectionReason =
+        lastAction?.ACT_Details?.reason ||
+        'No specific reason provided. Please contact support.';
+    }
+
+    return agencyData;
   }
 
   async updateAgencyProfile (userId, updateData) {

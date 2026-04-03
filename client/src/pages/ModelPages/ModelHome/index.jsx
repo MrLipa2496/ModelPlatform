@@ -242,7 +242,7 @@ export default function ModelHome () {
                           fontWeight: '500',
                         }}
                       >
-                        Admin Note: {rejectionReason}
+                        {rejectionReason}
                       </p>
                     </div>
                   </div>

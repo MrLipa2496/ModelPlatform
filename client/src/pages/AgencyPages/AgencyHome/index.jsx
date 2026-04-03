@@ -177,7 +177,7 @@ export default function AgencyHome () {
                           fontWeight: '500',
                         }}
                       >
-                        Admin Note: {rejectionReason}
+                        {rejectionReason}
                       </p>
                     </div>
                   </div>
