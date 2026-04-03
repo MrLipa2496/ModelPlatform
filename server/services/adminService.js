@@ -135,9 +135,8 @@ class AdminService {
 
   async getDashboardStats () {
     const totalModels = await db.Model.count();
-    const activeAgencies = await db.Agency.count({
-      where: { AGN_Status: 'active' },
-    });
+    const totalAgencies = await db.Agency.count();
+
     const activeCastings = await db.Casting.count({
       where: { CST_Status: 'active' },
     });
@@ -171,7 +170,7 @@ class AdminService {
     return {
       stats: {
         totalModels,
-        activeAgencies,
+        totalAgencies,
         activeCastings,
         pendingUsers,
       },

@@ -84,7 +84,7 @@ const adminSlice = createSlice({
     error: null,
     stats: {
       totalModels: 0,
-      activeAgencies: 0,
+      totalAgencies: 0,
       activeCastings: 0,
       pendingUsers: 0,
     },

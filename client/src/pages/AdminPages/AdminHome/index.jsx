@@ -98,7 +98,7 @@ export default function AdminHome () {
                 <FiBriefcase className={styles.statIcon} />
                 <span className={styles.statLabel}>Agencies</span>
               </div>
-              <div className={styles.statValue}>{stats.activeAgencies}</div>
+              <div className={styles.statValue}>{stats.totalAgencies}</div>
             </div>
 
             <div className={styles.statCard}>
