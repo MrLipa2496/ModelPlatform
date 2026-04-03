@@ -42,28 +42,56 @@ export default function AdminVerifyPage () {
 
   const handleApproveSubmit = async () => {
     if (approvingUserId) {
-      await dispatch(
-        changeAdminUserStatus({
-          id: approvingUserId,
-          data: { status: 'active', reason: 'Passed KYC verification' },
-        })
-      );
-      setApprovingUserId(null);
+      try {
+        await dispatch(
+          changeAdminUserStatus({
+            id: approvingUserId,
+            data: { status: 'active', reason: 'Passed KYC verification' },
+          })
+        ).unwrap();
+
+        setApprovingUserId(null);
+
+        dispatch(
+          fetchAdminUsers({
+            role: activeTab,
+            status: 'pending',
+            page: 1,
+            limit: CONSTANTS.PAGINATION_LIMIT,
+          })
+        );
+      } catch (error) {
+        console.error('Failed to approve user:', error);
+      }
     }
   };
 
   const handleRejectSubmit = async values => {
     if (rejectingUserId) {
-      await dispatch(
-        changeAdminUserStatus({
-          id: rejectingUserId,
-          data: {
-            status: 'blocked',
-            reason: values.reason || 'Failed KYC verification',
-          },
-        })
-      );
-      setRejectingUserId(null);
+      try {
+        await dispatch(
+          changeAdminUserStatus({
+            id: rejectingUserId,
+            data: {
+              status: 'blocked',
+              reason: values.reason || 'Failed KYC verification',
+            },
+          })
+        ).unwrap();
+
+        setRejectingUserId(null);
+
+        dispatch(
+          fetchAdminUsers({
+            role: activeTab,
+            status: 'pending',
+            page: 1,
+            limit: CONSTANTS.PAGINATION_LIMIT,
+          })
+        );
+      } catch (error) {
+        console.error('Failed to reject user:', error);
+      }
     }
   };
 
