@@ -15,7 +15,7 @@ import {
 } from 'react-icons/fi';
 import { fetchAdminStats } from '../../../store/slices/adminSlice';
 import CONSTANTS from '../../../utils/constants';
-import styles from './AdminHome.module.sass';
+import styles from './AdminHomePage.module.sass';
 
 const MODULE_ICONS = {
   verify: FiCheckSquare,
@@ -48,7 +48,7 @@ const getRecentDataForModule = (moduleId, recentData) => {
   }
 };
 
-export default function AdminHome () {
+export default function AdminHomePage () {
   const dispatch = useDispatch();
   const { stats: dashboardData } = useSelector(state => state.admin);
   const [hoveredModule, setHoveredModule] = useState(null);

@@ -195,11 +195,11 @@ export default function AdminVerifyPage () {
         <div className={styles.headerTitles}>
           <p className={styles.subtitle}>MODERATION</p>
           <h1 className={styles.title}>Verification Center</h1>
+          <p className={styles.description}>
+            Review and process new account registrations. Approved users will
+            gain full platform access.
+          </p>
         </div>
-        <p className={styles.description}>
-          Review and process new account registrations. Approved users will gain
-          full platform access.
-        </p>
       </header>
 
       <div className={styles.content}>

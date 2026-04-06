@@ -22,6 +22,10 @@ import SignupRoleSelection from './components/SignupRoleSelection';
 import AdminUsersPage from './pages/AdminPages/AdminUsersPage';
 import AdminCastingsPage from './pages/AdminPages/AdminCastingsPage';
 import AdminVerifyPage from './pages/AdminPages/AdminVerifyPage';
+import AdminOffersPage from './pages/AdminPages/AdminOffersPage';
+import AdminPaymentsPage from './pages/AdminPages/AdminPaymentsPage';
+import AdminReportsPage from './pages/AdminPages/AdminReportsPage';
+import AdminStatisticsPage from './pages/AdminPages/AdminStatisticsPage';
 
 function App () {
   return (
@@ -42,7 +46,6 @@ function App () {
           <Route path='/contacts' element={<ContactsPage />} />
 
           <Route element={<RoleRoute allowedRoles={['model', 'admin']} />}>
-            <Route path='/offers' element={<OfferPage />} />
             <Route path='/myApplications' element={<MyApplications />} />
             <Route path='/castings/:id' element={<CastingDetailsPage />} />
             <Route path='/agency/:id' element={<AgencyDetailsPage />} />
@@ -59,6 +62,10 @@ function App () {
             <Route path='/users' element={<AdminUsersPage />} />
             <Route path='/castings' element={<AdminCastingsPage />} />
             <Route path='/verify' element={<AdminVerifyPage />} />
+            <Route path='/offers' element={<AdminOffersPage />} />
+            <Route path='/payments' element={<AdminPaymentsPage />} />
+            <Route path='/reports' element={<AdminReportsPage />} />
+            <Route path='/statistics' element={<AdminStatisticsPage />} />
           </Route>
 
           <Route element={<RoleRoute allowedRoles={['model', 'agency']} />}>
