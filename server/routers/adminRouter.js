@@ -20,7 +20,7 @@ adminRouter.get('/users', adminController.getUsers);
 adminRouter.patch('/users/:id/status', adminController.changeUserStatus);
 
 adminRouter.get('/castings', adminController.getCastings);
-adminRouter.patch('/castings/:id/status', adminController.changeCastingStatus);
+adminRouter.patch('/castings/:id/status', adminController.moderateCasting);
 
 adminRouter.get('/stats', adminController.getStats);
 

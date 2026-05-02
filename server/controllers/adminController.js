@@ -58,43 +58,28 @@ module.exports = {
 
   getCastings: async (req, res, next) => {
     try {
-      if (req.user.role !== 'admin') {
-        return next(new ServerError('Forbidden', 403));
-      }
-
-      const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || 12;
-      const status = req.query.status;
-
-      const castings = await adminService.getCastings({ status, page, limit });
-      res.json(castings);
-    } catch (err) {
-      next(err);
+      const castingsData = await adminService.getCastings(req.query);
+      return res.json(castingsData);
+    } catch (error) {
+      next(error);
     }
   },
 
-  changeCastingStatus: async (req, res, next) => {
+  moderateCasting: async (req, res, next) => {
     try {
-      if (req.user.role !== 'admin') {
-        return next(new ServerError('Forbidden', 403));
-      }
-
       const { id } = req.params;
       const { status, reason } = req.body;
+      const adminId = req.user.id;
 
       const result = await adminService.changeCastingStatus(
-        req.user.id,
+        adminId,
         id,
         status,
         reason
       );
-
-      res.json(result);
-    } catch (err) {
-      if (err.message === 'Casting not found') {
-        return next(new ServerError(err.message, 404));
-      }
-      next(err);
+      return res.json(result);
+    } catch (error) {
+      next(error);
     }
   },
 

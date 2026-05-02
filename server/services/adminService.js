@@ -14,8 +14,8 @@ class AdminService {
         include: [
           { model: db.User, as: 'User', attributes: ['USR_Email', 'USR_Role'] },
         ],
-        limit: limit,
-        offset: offset,
+        limit: parseInt(limit, 10),
+        offset: parseInt(offset, 10),
         order: [['createdAt', 'DESC']],
       });
       count = result.count;
@@ -29,8 +29,8 @@ class AdminService {
         include: [
           { model: db.User, as: 'User', attributes: ['USR_Email', 'USR_Role'] },
         ],
-        limit: limit,
-        offset: offset,
+        limit: parseInt(limit, 10),
+        offset: parseInt(offset, 10),
         order: [['createdAt', 'DESC']],
       });
       count = result.count;
@@ -43,7 +43,7 @@ class AdminService {
       data: rows,
       totalItems: count,
       totalPages: Math.ceil(count / limit),
-      currentPage: page,
+      currentPage: parseInt(page, 10),
     };
   }
 
@@ -85,10 +85,19 @@ class AdminService {
     };
   }
 
-  async getCastings ({ status, page = 1, limit = 12 }) {
+  async getCastings (query) {
+    const { page = 1, limit = 12, status = 'all', search = '' } = query;
     const offset = (page - 1) * limit;
+
     const whereClause = {};
-    if (status) whereClause.CST_Status = status;
+
+    if (status && status !== 'all') {
+      whereClause.CST_Status = status;
+    }
+
+    if (search) {
+      whereClause.CST_Title = { [db.Sequelize.Op.iLike]: `%${search}%` };
+    }
 
     const { count, rows } = await db.Casting.findAndCountAll({
       where: whereClause,
@@ -96,11 +105,11 @@ class AdminService {
         {
           model: db.Agency,
           as: 'Agency',
-          attributes: ['AGN_Name', 'AGN_Logo'],
+          attributes: ['AGN_ID', 'AGN_Name', 'AGN_Logo'],
         },
       ],
-      limit: limit,
-      offset: offset,
+      limit: parseInt(limit, 10),
+      offset: parseInt(offset, 10),
       order: [['createdAt', 'DESC']],
     });
 
@@ -108,14 +117,18 @@ class AdminService {
       data: rows,
       totalItems: count,
       totalPages: Math.ceil(count / limit),
-      currentPage: page,
+      currentPage: parseInt(page, 10),
     };
   }
 
   async changeCastingStatus (adminId, castingId, newStatus, reason = '') {
     const casting = await db.Casting.findByPk(castingId);
-    if (!casting) throw new Error('Casting not found');
 
+    if (!casting) {
+      throw new Error('Casting not found');
+    }
+
+    const previousStatus = casting.CST_Status;
     await casting.update({ CST_Status: newStatus });
 
     await db.AdminAction.create({
@@ -123,7 +136,10 @@ class AdminService {
       ACT_Type: `UPDATE_CASTING_${newStatus.toUpperCase()}`,
       ACT_TargetType: 'Casting',
       ACT_TargetID: castingId,
-      ACT_Details: { reason, previousStatus: casting.CST_Status },
+      ACT_Details: {
+        reason: reason || 'Violation of platform rules',
+        previousStatus,
+      },
     });
 
     return {
