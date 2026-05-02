@@ -31,34 +31,28 @@ export default function AcceptanceModal ({
   const [isPreviewing, setIsPreviewing] = useState(false);
   const [invitationText, setInvitationText] = useState('');
 
-  // Заготовка тексту запрошення
   const defaultText = `We are thrilled to inform you that your application for the casting "${casting.CST_Title}" has been successful! We believe your profile perfectly matches the requirements for this project and would love to get in touch. Please confirm your contact information to receive scheduling details.`;
 
-  // Ефект для блокування скролу на body
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add(styles.modalOpenBody);
     } else {
       document.body.classList.remove(styles.modalOpenBody);
     }
-    // Очищення при розмонтуванні
     return () => {
       document.body.classList.remove(styles.modalOpenBody);
     };
   }, [isOpen]);
 
-  // Якщо модальне вікно закрите, не рендеримо нічого
   if (!isOpen) return null;
 
   const handleConfirm = () => {
-    // Передаємо об'єкт з текстом запрошення
     onConfirm({
       invitationText: invitationText || defaultText,
     });
     onClose();
   };
 
-  // Визначаємо клас для модального вікна (звичайний або великий)
   const modalClass = isPreviewing
     ? styles.modalContentLarge
     : styles.modalContent;
@@ -79,7 +73,6 @@ export default function AcceptanceModal ({
         </div>
 
         <div className={styles.modalBody}>
-          {/* Умовний рендеринг: Прев'ю PDF чи Форма */}
           {isPreviewing ? (
             <div className={styles.pdfViewer}>
               <InviteTemplate

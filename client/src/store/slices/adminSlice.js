@@ -45,9 +45,12 @@ export const changeAdminUserStatus = createAsyncThunk(
 
 export const fetchAdminCastings = createAsyncThunk(
   'admin/fetchAdminCastings',
-  async ({ status, page = 1, limit = 12 } = {}, { rejectWithValue }) => {
+  async (
+    { status, page = 1, limit = 12, search = '' } = {},
+    { rejectWithValue }
+  ) => {
     try {
-      const res = await getAdminCastingsRequest(status, page, limit);
+      const res = await getAdminCastingsRequest(status, page, limit, search);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
@@ -122,7 +125,6 @@ const adminSlice = createSlice({
         state.loading = false;
         state.error = action.payload || action.error.message;
       })
-
       .addCase(changeAdminUserStatus.fulfilled, (state, action) => {
         const { userId, status } = action.payload;
         const index = state.users.findIndex(u => u.USR_ID === userId);
@@ -152,15 +154,16 @@ const adminSlice = createSlice({
         state.loading = false;
         state.error = action.payload || action.error.message;
       })
-      .addCase(fetchAdminStats.fulfilled, (state, action) => {
-        state.stats = action.payload;
-      })
       .addCase(changeAdminCastingStatus.fulfilled, (state, action) => {
         const { castingId, status } = action.payload;
         const index = state.castings.findIndex(c => c.CST_ID === castingId);
         if (index !== -1) {
           state.castings[index].CST_Status = status;
         }
+      })
+
+      .addCase(fetchAdminStats.fulfilled, (state, action) => {
+        state.stats = action.payload;
       });
   },
 });

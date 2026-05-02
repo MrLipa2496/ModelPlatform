@@ -26,7 +26,7 @@ module.exports = {
   AUTH: {
     SALT_ROUNDS: 10,
     TOKEN_EXPIRES_IN: '3h',
-    SECRET_KEY: process.env.JWT_SECRET || 'supersecretkey',
+    SECRET_KEY: process.env.SECRET_KEY || 'supersecretkey',
   },
   UPLOAD_CONFIG: {
     MAX_FILE_SIZE: 15 * 1024 * 1024,

@@ -58,14 +58,14 @@ function App () {
             <Route path='/applicants' element={<Applicants />} />
           </Route>
 
-          <Route element={<RoleRoute allowedRoles={['admin']} />}>
-            <Route path='/users' element={<AdminUsersPage />} />
-            <Route path='/castings' element={<AdminCastingsPage />} />
-            <Route path='/verify' element={<AdminVerifyPage />} />
-            <Route path='/offers' element={<AdminOffersPage />} />
-            <Route path='/payments' element={<AdminPaymentsPage />} />
-            <Route path='/reports' element={<AdminReportsPage />} />
-            <Route path='/statistics' element={<AdminStatisticsPage />} />
+          <Route path='/admin' element={<RoleRoute allowedRoles={['admin']} />}>
+            <Route path='users' element={<AdminUsersPage />} />
+            <Route path='castings' element={<AdminCastingsPage />} />
+            <Route path='verify' element={<AdminVerifyPage />} />
+            <Route path='offers' element={<AdminOffersPage />} />
+            <Route path='payments' element={<AdminPaymentsPage />} />
+            <Route path='reports' element={<AdminReportsPage />} />
+            <Route path='statistics' element={<AdminStatisticsPage />} />
           </Route>
 
           <Route element={<RoleRoute allowedRoles={['model', 'agency']} />}>

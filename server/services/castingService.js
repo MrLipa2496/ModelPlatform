@@ -84,6 +84,31 @@ class CastingService {
     return casting;
   }
 
+  async getCastingByIdUnfiltered (castingId) {
+    const casting = await db.Casting.findByPk(castingId, {
+      include: [
+        {
+          model: db.Agency,
+          as: 'Agency',
+          attributes: [
+            'AGN_ID',
+            'AGN_Name',
+            'AGN_Logo',
+            'AGN_Country',
+            'AGN_City',
+            'AGN_Description',
+          ],
+        },
+      ],
+    });
+
+    if (!casting) {
+      throw new Error('Casting not found');
+    }
+
+    return casting;
+  }
+
   async getMyCastings (userId, page = 1, limit = 12) {
     const agency = await this._getAgencyProfile(userId);
     const offset = (page - 1) * limit;

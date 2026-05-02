@@ -106,8 +106,8 @@ export const getAdminUsersRequest = (role, status, page, limit) =>
   http.get('api/admin/users', { params: { role, status, page, limit } });
 export const changeAdminUserStatusRequest = (id, data) =>
   http.patch(`api/admin/users/${id}/status`, data);
-export const getAdminCastingsRequest = (status, page, limit) =>
-  http.get('api/admin/castings', { params: { status, page, limit } });
+export const getAdminCastingsRequest = (status, page, limit, search = '') =>
+  http.get('api/admin/castings', { params: { status, page, limit, search } });
 export const changeAdminCastingStatusRequest = (id, data) =>
   http.patch(`api/admin/castings/${id}/status`, data);
 export const getAdminStatsRequest = () => http.get('api/admin/stats');
