@@ -22,6 +22,7 @@ module.exports = {
       MOD_FirstName: { type: Sequelize.STRING, allowNull: false },
       MOD_LastName: { type: Sequelize.STRING, allowNull: false },
       MOD_Country: { type: Sequelize.STRING },
+      MOD_City: { type: Sequelize.STRING },
       MOD_Gender: { type: Sequelize.STRING },
       MOD_BirthDate: { type: Sequelize.DATE },
       MOD_Height: { type: Sequelize.INTEGER },

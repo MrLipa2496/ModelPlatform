@@ -22,7 +22,8 @@ const CONSTANTS = {
     birthDate: '',
     agencyName: '',
     phone: '',
-    location: '',
+    country: '',
+    city: '',
   },
 
   ROLE_OPTIONS: [
@@ -56,6 +57,13 @@ const CONSTANTS = {
       placeholder: 'Birth Date',
       label: 'Birth Date',
     },
+    {
+      name: 'country',
+      type: 'text',
+      label: 'Country',
+      placeholder: 'e.g. France',
+    },
+    { name: 'city', type: 'text', label: 'City', placeholder: 'e.g. Paris' },
   ],
 
   AGENCY_FIELDS: [
@@ -67,11 +75,12 @@ const CONSTANTS = {
     },
     { name: 'phone', type: 'text', placeholder: 'Phone', label: 'Phone' },
     {
-      name: 'location',
+      name: 'country',
       type: 'text',
-      placeholder: 'Location',
-      label: 'Location',
+      label: 'Country',
+      placeholder: 'e.g. Italy',
     },
+    { name: 'city', type: 'text', label: 'City', placeholder: 'e.g. Milan' },
   ],
 
   AGENCY_PROFILE_FIELDS: [
@@ -145,6 +154,8 @@ const CONSTANTS = {
     { name: 'MOD_EyeColor', label: 'Eye Color' },
     { name: 'MOD_HairColor', label: 'Hair Color' },
     { name: 'MOD_Experience', label: 'Experience' },
+    { name: 'MOD_Country', label: 'Country' },
+    { name: 'MOD_City', label: 'City' },
     {
       name: 'MOD_Bio',
       label: 'About Me',

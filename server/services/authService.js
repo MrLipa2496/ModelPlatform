@@ -44,6 +44,8 @@ class AuthService {
             MOD_LastName: profileData.lastName,
             MOD_Gender: profileData.gender,
             MOD_BirthDate: profileData.birthDate,
+            MOD_Country: profileData.country,
+            MOD_City: profileData.city,
           },
           { transaction }
         );
@@ -53,7 +55,8 @@ class AuthService {
             USR_ID: newUser.USR_ID,
             AGN_Name: profileData.agencyName,
             AGN_Phone: profileData.phone,
-            AGN_Country: profileData.location,
+            AGN_Country: profileData.country,
+            AGN_City: profileData.city,
           },
           { transaction }
         );

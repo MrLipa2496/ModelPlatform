@@ -134,16 +134,8 @@ export const SIGNUP_VALIDATION_SCHEMA = yup.object().shape({
     otherwise: schema => schema.notRequired(),
   }),
 
-  location: yup.string().when('role', {
-    is: 'agency',
-    then: schema =>
-      schema
-        .trim()
-        .min(2, 'Location is too short')
-        .max(100, 'Location is too long')
-        .required('Location is required'),
-    otherwise: schema => schema.notRequired(),
-  }),
+  country: yup.string().required('Country is required'),
+  city: yup.string().required('City is required'),
 });
 
 export const profileValidationSchema = yup.object({

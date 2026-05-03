@@ -6,6 +6,7 @@ import {
   FiX,
   FiClock,
   FiUser,
+  FiEye,
   FiBriefcase,
   FiCheckSquare,
 } from 'react-icons/fi';
@@ -96,16 +97,18 @@ export default function AdminVerifyPage () {
   };
 
   const renderUserRow = user => {
+    console.log('Данные пользователя:', user);
     const isModel = activeTab === 'model';
 
     const name = isModel
-      ? `${user.MOD_FirstName} ${user.MOD_LastName}`
+      ? `${user.MOD_FirstName || ''} ${user.MOD_LastName || ''}`.trim()
       : user.AGN_Name;
 
-    const location = isModel
-      ? user.MOD_City
-      : `${user.AGN_City || ''}, ${user.AGN_Country || ''}`;
+    const locationArray = isModel
+      ? [user.MOD_City, user.MOD_Country]
+      : [user.AGN_City, user.AGN_Country];
 
+    const location = locationArray.filter(Boolean).join(', ');
     const email = user.User?.USR_Email || 'No email provided';
     const date = new Date(user.createdAt).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -121,37 +124,29 @@ export default function AdminVerifyPage () {
     return (
       <tr key={user.USR_ID} className={styles.tableRow}>
         <td className={styles.cellName}>
-          <Link
-            to={profileLink}
-            className={styles.profileLink}
-            target='_blank'
-            rel='noopener noreferrer'
-            title='View Full Profile'
-          >
-            <div className={styles.nameWrapper}>
-              <div className={styles.avatarPlaceholder}>
-                {avatarImg ? (
-                  <img
-                    src={`${CONSTANTS.BASE_URL}${avatarImg}`}
-                    alt={name}
-                    className={styles.avatarImage}
-                    onError={e => {
-                      e.target.style.display = 'none';
-                      e.target.parentNode.innerText = name
-                        .charAt(0)
-                        .toUpperCase();
-                    }}
-                  />
-                ) : (
-                  name.charAt(0).toUpperCase()
-                )}
-              </div>
-              <div>
-                <p className={styles.primaryText}>{name}</p>
-                <p className={styles.secondaryText}>{email}</p>
-              </div>
+          <div className={styles.nameWrapper}>
+            <div className={styles.avatarPlaceholder}>
+              {avatarImg ? (
+                <img
+                  src={`${CONSTANTS.BASE_URL}${avatarImg}`}
+                  alt={name}
+                  className={styles.avatarImage}
+                  onError={e => {
+                    e.target.style.display = 'none';
+                    e.target.parentNode.innerText = name
+                      .charAt(0)
+                      .toUpperCase();
+                  }}
+                />
+              ) : (
+                name.charAt(0).toUpperCase()
+              )}
             </div>
-          </Link>
+            <div>
+              <p className={styles.primaryText}>{name || 'Unknown User'}</p>
+              <p className={styles.secondaryText}>{email}</p>
+            </div>
+          </div>
         </td>
         <td className={styles.cellLocation}>
           <p className={styles.primaryText}>{location || 'Not specified'}</p>
@@ -164,6 +159,27 @@ export default function AdminVerifyPage () {
         </td>
         <td className={styles.cellActions}>
           <div className={styles.actionButtons}>
+            <Link
+              to={profileLink}
+              rel='noopener noreferrer'
+              className={styles.viewBtn}
+              title='View Profile in new tab'
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px',
+                padding: '6px 12px',
+                border: '1px solid #ccc',
+                borderRadius: '6px',
+                color: '#333',
+                textDecoration: 'none',
+                background: '#fff',
+                marginRight: '8px',
+              }}
+            >
+              <FiEye />
+            </Link>
+
             <button
               className={styles.approveBtn}
               onClick={() => setApprovingUserId(user.USR_ID)}

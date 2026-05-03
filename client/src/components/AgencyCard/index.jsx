@@ -56,9 +56,9 @@ export default function AgencyCard ({
 
   const handleAdminBack = () => {
     if (AGN_Status === 'pending') {
-      navigate('/verify');
+      navigate('/admin/verify');
     } else {
-      navigate('/users');
+      navigate('/admin/users');
     }
   };
 

@@ -276,9 +276,9 @@ export default function ModelCard ({
                     onClick={e => {
                       e.stopPropagation();
                       if (currentStatus === 'pending') {
-                        navigate('/verify');
+                        navigate('/admin/verify');
                       } else {
-                        navigate('/users');
+                        navigate('/admin/users');
                       }
                     }}
                   >
