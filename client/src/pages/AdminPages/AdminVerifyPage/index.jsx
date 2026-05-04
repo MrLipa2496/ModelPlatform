@@ -97,7 +97,6 @@ export default function AdminVerifyPage () {
   };
 
   const renderUserRow = user => {
-    console.log('Данные пользователя:', user);
     const isModel = activeTab === 'model';
 
     const name = isModel
