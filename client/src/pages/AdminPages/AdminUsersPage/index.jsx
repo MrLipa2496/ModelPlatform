@@ -136,21 +136,33 @@ export default function AdminUsersPage () {
       <tr key={user.USR_ID} className={styles.tableRow}>
         <td className={styles.cellName}>
           <div className={styles.nameWrapper}>
-            <div className={styles.avatarPlaceholder}>
-              {avatarImg ? (
+            <div
+              className={styles.avatarPlaceholder}
+              style={{
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <span style={{ position: 'absolute' }}>
+                {name.charAt(0).toUpperCase()}
+              </span>
+
+              {avatarImg && (
                 <img
                   src={`${CONSTANTS.BASE_URL}${avatarImg}`}
                   alt={name}
                   className={styles.avatarImage}
+                  style={{
+                    position: 'relative',
+                    zIndex: 1,
+                    backgroundColor: '#fff',
+                  }}
                   onError={e => {
                     e.target.style.display = 'none';
-                    e.target.parentNode.innerText = name
-                      .charAt(0)
-                      .toUpperCase();
                   }}
                 />
-              ) : (
-                name.charAt(0).toUpperCase()
               )}
             </div>
             <div>
