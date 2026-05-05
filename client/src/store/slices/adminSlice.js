@@ -5,6 +5,7 @@ import {
   getAdminCastingsRequest,
   changeAdminCastingStatusRequest,
   getAdminStatsRequest,
+  getAdminStatisticsRequest,
 } from '../../api/rest/restController';
 
 export const fetchAdminUsers = createAsyncThunk(
@@ -70,6 +71,18 @@ export const changeAdminCastingStatus = createAsyncThunk(
   }
 );
 
+export const fetchAdminStatistics = createAsyncThunk(
+  'admin/fetchAdminStatistics',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await getAdminStatisticsRequest();
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
 const adminSlice = createSlice({
   name: 'admin',
   initialState: {
@@ -85,11 +98,38 @@ const adminSlice = createSlice({
 
     loading: false,
     error: null,
+
     stats: {
       totalModels: 0,
       totalAgencies: 0,
       activeCastings: 0,
       pendingUsers: 0,
+    },
+
+    statistics: {
+      kpi: {
+        totalUsers: 0,
+        totalModels: 0,
+        totalAgencies: 0,
+        activeCastings: 0,
+        totalConnections: 0,
+      },
+      users: {
+        modelsByStatus: {},
+        agenciesByStatus: {},
+      },
+      demographics: {
+        genderRatio: {},
+      },
+      economy: {
+        castingsByStatus: {},
+        applicationsByStatus: {},
+        invitationsByStatus: {},
+      },
+      content: {
+        totalAlbums: 0,
+        totalPhotos: 0,
+      },
     },
   },
   reducers: {
@@ -164,6 +204,19 @@ const adminSlice = createSlice({
 
       .addCase(fetchAdminStats.fulfilled, (state, action) => {
         state.stats = action.payload;
+      })
+
+      .addCase(fetchAdminStatistics.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAdminStatistics.fulfilled, (state, action) => {
+        state.loading = false;
+        state.statistics = action.payload;
+      })
+      .addCase(fetchAdminStatistics.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || action.error.message;
       });
   },
 });

@@ -47,7 +47,7 @@ const CONSTANTS = {
     {
       name: 'gender',
       as: 'select',
-      options: ['', 'male', 'female', 'other'],
+      options: ['', 'Male', 'Female', 'Non-binary', 'Other'],
       placeholder: 'Select Gender',
       label: 'Gender',
     },

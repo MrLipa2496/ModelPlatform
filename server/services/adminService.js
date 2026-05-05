@@ -197,6 +197,122 @@ class AdminService {
       },
     };
   }
+
+  async getPlatformStatistics () {
+    const [
+      modelsCount,
+      agenciesCount,
+      modelsByStatus,
+      agenciesByStatus,
+      modelsByGender,
+      castingsByStatus,
+      applicationsByStatus,
+      invitationsByStatus,
+      albumsCount,
+      photosCount,
+    ] = await Promise.all([
+      db.Model.count(),
+      db.Agency.count(),
+
+      db.Model.findAll({
+        attributes: [
+          'MOD_Status',
+          [db.sequelize.fn('COUNT', db.sequelize.col('MOD_Status')), 'count'],
+        ],
+        group: ['MOD_Status'],
+        raw: true,
+      }),
+      db.Agency.findAll({
+        attributes: [
+          'AGN_Status',
+          [db.sequelize.fn('COUNT', db.sequelize.col('AGN_Status')), 'count'],
+        ],
+        group: ['AGN_Status'],
+        raw: true,
+      }),
+      db.Model.findAll({
+        attributes: [
+          'MOD_Gender',
+          [db.sequelize.fn('COUNT', db.sequelize.col('MOD_Gender')), 'count'],
+        ],
+        group: ['MOD_Gender'],
+        raw: true,
+      }),
+      db.Casting.findAll({
+        attributes: [
+          'CST_Status',
+          [db.sequelize.fn('COUNT', db.sequelize.col('CST_Status')), 'count'],
+        ],
+        group: ['CST_Status'],
+        raw: true,
+      }),
+      db.Application.findAll({
+        attributes: [
+          'APP_Status',
+          [db.sequelize.fn('COUNT', db.sequelize.col('APP_Status')), 'count'],
+        ],
+        group: ['APP_Status'],
+        raw: true,
+      }),
+      db.Invitation.findAll({
+        attributes: [
+          'INV_Status',
+          [db.sequelize.fn('COUNT', db.sequelize.col('INV_Status')), 'count'],
+        ],
+        group: ['INV_Status'],
+        raw: true,
+      }),
+
+      db.Album.count(),
+      db.Photo.count(),
+    ]);
+
+    const formatCounts = (data, keyField) => {
+      return data.reduce((acc, item) => {
+        acc[item[keyField]] = parseInt(item.count, 10);
+        return acc;
+      }, {});
+    };
+
+    const parsedCastings = formatCounts(castingsByStatus, 'CST_Status');
+    const parsedApps = formatCounts(applicationsByStatus, 'APP_Status');
+    const parsedInvs = formatCounts(invitationsByStatus, 'INV_Status');
+
+    const totalApplications = Object.values(parsedApps).reduce(
+      (a, b) => a + b,
+      0
+    );
+    const totalInvitations = Object.values(parsedInvs).reduce(
+      (a, b) => a + b,
+      0
+    );
+
+    return {
+      kpi: {
+        totalUsers: modelsCount + agenciesCount,
+        totalModels: modelsCount,
+        totalAgencies: agenciesCount,
+        activeCastings: parsedCastings['active'] || 0,
+        totalConnections: totalApplications + totalInvitations,
+      },
+      users: {
+        modelsByStatus: formatCounts(modelsByStatus, 'MOD_Status'),
+        agenciesByStatus: formatCounts(agenciesByStatus, 'AGN_Status'),
+      },
+      demographics: {
+        genderRatio: formatCounts(modelsByGender, 'MOD_Gender'),
+      },
+      economy: {
+        castingsByStatus: parsedCastings,
+        applicationsByStatus: parsedApps,
+        invitationsByStatus: parsedInvs,
+      },
+      content: {
+        totalAlbums: albumsCount,
+        totalPhotos: photosCount,
+      },
+    };
+  }
 }
 
 module.exports = new AdminService();

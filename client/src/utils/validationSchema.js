@@ -92,7 +92,10 @@ export const SIGNUP_VALIDATION_SCHEMA = yup.object().shape({
     is: 'model',
     then: schema =>
       schema
-        .oneOf(['male', 'female', 'other'], 'Select a valid gender')
+        .oneOf(
+          ['Male', 'Female', 'Non-binary', 'Other'],
+          'Select a valid gender'
+        )
         .required('Gender is required'),
     otherwise: schema => schema.notRequired(),
   }),

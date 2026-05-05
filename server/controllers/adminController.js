@@ -94,4 +94,14 @@ module.exports = {
       next(err);
     }
   },
+
+  getStatistics: async (req, res) => {
+    try {
+      const stats = await adminService.getPlatformStatistics();
+      res.status(200).json(stats);
+    } catch (error) {
+      console.error('Error fetching statistics:', error);
+      res.status(500).json({ message: 'Failed to load platform statistics' });
+    }
+  },
 };

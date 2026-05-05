@@ -111,3 +111,4 @@ export const getAdminCastingsRequest = (status, page, limit, search = '') =>
 export const changeAdminCastingStatusRequest = (id, data) =>
   http.patch(`api/admin/castings/${id}/status`, data);
 export const getAdminStatsRequest = () => http.get('api/admin/stats');
+export const getAdminStatisticsRequest = () => http.get('api/admin/statistics');
