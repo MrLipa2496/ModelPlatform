@@ -11,7 +11,7 @@ import AboutPage from './pages/GuestPages/AboutPage';
 import ContactsPage from './pages/GuestPages/ContactsPage';
 import AgenciesPage from './pages/GuestPages/AgenciesPage';
 import CastingDetailsPage from './pages/GuestPages/CastingsPage/CastingDetailsPage';
-import OfferPage from './pages/ModelPages/OfferPage';
+import ModelOffersPage from './pages/ModelPages/ModelOffersPage';
 import ModelDetailsPage from './pages/ModelPages/ModelDetailsPage';
 import MyApplications from './pages/ModelPages/MyApplicationsPage';
 import MyCastings from './pages/AgencyPages/MyCastings';
@@ -49,6 +49,7 @@ function App () {
             <Route path='/myApplications' element={<MyApplications />} />
             <Route path='/castings/:id' element={<CastingDetailsPage />} />
             <Route path='/agency/:id' element={<AgencyDetailsPage />} />
+            <Route path='/offers' element={<ModelOffersPage />} />
           </Route>
 
           <Route element={<RoleRoute allowedRoles={['agency', 'admin']} />}>

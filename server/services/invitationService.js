@@ -118,7 +118,7 @@ class InvitationService {
             {
               MOD_ID: model.MOD_ID,
               CST_ID: invitation.CST_ID,
-              APP_Status: STATUS.PENDING,
+              APP_Status: STATUS.ACCEPTED,
             },
             { transaction: t }
           );
@@ -132,7 +132,6 @@ class InvitationService {
       throw err;
     }
   }
-
   async _getAgencyProfile (userId) {
     const agency = await db.Agency.findOne({ where: { USR_ID: userId } });
     if (!agency) throw new Error('Agency profile not found for this user');

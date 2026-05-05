@@ -397,6 +397,93 @@
   -webkit-text-fill-color: transparent
   animation: textGradientAnim 6s linear infinite
 
+/* --- INVITATION MENU STYLES --- */
+.inviteMenu
+  display: flex
+  flex-direction: column
+  align-items: center
+  width: 100%
+  gap: 15px
+  animation: fadeIn 0.3s ease
+
+  p
+    margin: 0
+    font-size: 0.9rem
+    color: #555
+
+.castingSelect
+  width: 90%
+  padding: 10px
+  border-radius: 8px
+  border: 1px solid #ccc
+  font-size: 0.95rem
+  background-color: #f9f9f9
+  cursor: pointer
+  outline: none
+  &:focus
+    border-color: #000
+
+.inviteActions
+  display: flex
+  gap: 10px
+  width: 90%
+
+.submitInviteBtn
+  flex: 2
+  padding: 10px
+  background-color: #000
+  color: #fff
+  border: none
+  border-radius: 8px
+  font-weight: 600
+  cursor: pointer
+  transition: 0.2s
+  &:hover
+    background-color: #333
+  &:disabled
+    background-color: #ccc
+    cursor: not-allowed
+
+.successBtn
+  flex: 2
+  padding: 10px
+  background-color: #10b981 // Зеленый цвет успеха
+  color: #fff
+  border: none
+  border-radius: 8px
+  font-weight: 600
+  display: flex
+  justify-content: center
+  align-items: center
+  gap: 5px
+
+.cancelBtn
+  flex: 1
+  padding: 10px
+  background-color: transparent
+  color: #000
+  border: 1px solid #000
+  border-radius: 8px
+  font-weight: 600
+  cursor: pointer
+  transition: 0.2s
+  &:hover
+    background-color: #f0f0f0
+
+.errorText
+  color: #ef4444
+  font-size: 0.8rem
+  margin: 0
+  text-align: center
+
+.noCastingsMsg
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 15px
+  color: #ef4444
+  font-weight: 500
+
 @keyframes textGradientAnim
   0%
     background-position: 0% 50%

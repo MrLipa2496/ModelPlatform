@@ -2,8 +2,10 @@ import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { saveProfile } from '../../store/slices/modelSlice';
+import { createInvitation } from '../../store/slices/invitationSlice';
+import { fetchMyCastings } from '../../store/slices/castingSlice';
 import ModalWindow from '../ModalWindow';
-import { FiEdit, FiArrowLeft } from 'react-icons/fi';
+import { FiEdit, FiArrowLeft, FiCheck } from 'react-icons/fi';
 import defaultAvatarLocal from '../../../img/default-avatar.jpg';
 import styles from './ModelCard.module.sass';
 import CONSTANTS from '../../utils/constants';
@@ -18,13 +20,31 @@ export default function ModelCard ({
   const navigate = useNavigate();
 
   const { user } = useSelector(state => state.auth);
+  const { myCastings } = useSelector(
+    state => state.casting || { myCastings: [] }
+  );
+
   const currentUserRole = (user?.role || user?.USR_Role || '').toLowerCase();
   const isAdmin = currentUserRole === 'admin';
+  const isAgency = currentUserRole === 'agency';
 
   const [photoPreview, setPhotoPreview] = useState(null);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+
+  const [showInviteMenu, setShowInviteMenu] = useState(false);
+  const [selectedCasting, setSelectedCasting] = useState('');
+  const [inviteStatus, setInviteStatus] = useState({
+    loading: false,
+    success: false,
+    error: null,
+  });
+
   const fileInputRef = useRef(null);
+
+  const activeCastings = useMemo(() => {
+    return myCastings?.filter(c => c.CST_Status === 'active') || [];
+  }, [myCastings]);
 
   useEffect(() => {
     if (isEditing) {
@@ -36,6 +56,20 @@ export default function ModelCard ({
       document.body.style.overflow = '';
     };
   }, [isEditing]);
+
+  useEffect(() => {
+    if (!isFlipped) {
+      setShowInviteMenu(false);
+      setSelectedCasting('');
+      setInviteStatus({ loading: false, success: false, error: null });
+    }
+  }, [isFlipped]);
+
+  useEffect(() => {
+    if (isAgency && showInviteMenu) {
+      dispatch(fetchMyCastings({ page: 1, limit: 100 }));
+    }
+  }, [isAgency, showInviteMenu, dispatch]);
 
   const progressStats = useMemo(() => {
     const textFields = CONSTANTS.PROFILE_FIELDS;
@@ -114,6 +148,27 @@ export default function ModelCard ({
         return 'Pending';
       default:
         return 'Pending';
+    }
+  };
+
+  const handleSendInvite = async e => {
+    e.stopPropagation();
+    if (!selectedCasting) return;
+
+    setInviteStatus({ loading: true, success: false, error: null });
+
+    try {
+      await dispatch(
+        createInvitation({
+          CST_ID: selectedCasting,
+          MOD_ID: model.MOD_ID,
+        })
+      ).unwrap();
+
+      setInviteStatus({ loading: false, success: true, error: null });
+      setTimeout(() => setShowInviteMenu(false), 2000); // Закрываем меню через 2 сек после успеха
+    } catch (error) {
+      setInviteStatus({ loading: false, success: false, error });
     }
   };
 
@@ -286,26 +341,119 @@ export default function ModelCard ({
                   </button>
                 </div>
               </>
-            ) : (
+            ) : isAgency ? (
               <>
                 <h2>Agency Actions</h2>
-                <p>Select an action for this model:</p>
-                <div className={styles.backButtons}>
-                  <button
-                    className={styles.contactBtn}
+
+                {!showInviteMenu ? (
+                  <>
+                    <p>Select an action for this model:</p>
+                    <div className={styles.backButtons}>
+                      <button
+                        className={styles.contactBtn}
+                        onClick={e => e.stopPropagation()}
+                      >
+                        Message
+                      </button>
+                      <button
+                        className={styles.portfolioBtn}
+                        onClick={e => {
+                          e.stopPropagation();
+                          setShowInviteMenu(true);
+                        }}
+                      >
+                        Invite to Casting
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <div
+                    className={styles.inviteMenu}
                     onClick={e => e.stopPropagation()}
                   >
-                    Contact
-                  </button>
-                  <button
-                    className={styles.portfolioBtn}
-                    onClick={e => e.stopPropagation()}
-                  >
-                    Request Portfolio
-                  </button>
-                </div>
+                    <p>Select an active casting to invite this model:</p>
+
+                    {activeCastings.length > 0 ? (
+                      <>
+                        <select
+                          className={styles.castingSelect}
+                          value={selectedCasting}
+                          onChange={e => setSelectedCasting(e.target.value)}
+                        >
+                          <option value='' disabled>
+                            -- Select a casting --
+                          </option>
+                          {activeCastings.map(c => (
+                            <option key={c.CST_ID} value={c.CST_ID}>
+                              {c.CST_Title}
+                            </option>
+                          ))}
+                        </select>
+
+                        {inviteStatus.error && (
+                          <p className={styles.errorText}>
+                            {inviteStatus.error}
+                          </p>
+                        )}
+
+                        <div className={styles.inviteActions}>
+                          <button
+                            className={
+                              inviteStatus.success
+                                ? styles.successBtn
+                                : styles.submitInviteBtn
+                            }
+                            onClick={handleSendInvite}
+                            disabled={
+                              !selectedCasting ||
+                              inviteStatus.loading ||
+                              inviteStatus.success
+                            }
+                          >
+                            {inviteStatus.loading ? (
+                              'Sending...'
+                            ) : inviteStatus.success ? (
+                              <>
+                                <FiCheck /> Sent!
+                              </>
+                            ) : (
+                              'Send Invitation'
+                            )}
+                          </button>
+
+                          <button
+                            className={styles.cancelBtn}
+                            onClick={() => {
+                              setShowInviteMenu(false);
+                              setInviteStatus({
+                                loading: false,
+                                success: false,
+                                error: null,
+                              });
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <div className={styles.noCastingsMsg}>
+                        <p>
+                          You don't have any active castings to invite models
+                          to.
+                        </p>
+                        <button
+                          className={styles.cancelBtn}
+                          onClick={() => setShowInviteMenu(false)}
+                        >
+                          Go Back
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
               </>
-            )}
+            ) : null}
 
             {isEditable && (
               <button
