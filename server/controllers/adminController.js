@@ -104,4 +104,18 @@ module.exports = {
       res.status(500).json({ message: 'Failed to load platform statistics' });
     }
   },
+
+  getInvitations: async (req, res, next) => {
+    try {
+      const { page, limit, status } = req.query;
+      const invitations = await adminService.getAllInvitations(
+        page ? parseInt(page) : 1,
+        limit ? parseInt(limit) : 12,
+        status
+      );
+      res.status(200).json(invitations);
+    } catch (err) {
+      next(err);
+    }
+  },
 };

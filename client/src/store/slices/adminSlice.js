@@ -6,6 +6,7 @@ import {
   changeAdminCastingStatusRequest,
   getAdminStatsRequest,
   getAdminStatisticsRequest,
+  getAdminInvitationsRequest,
 } from '../../api/rest/restController';
 
 export const fetchAdminUsers = createAsyncThunk(
@@ -83,6 +84,18 @@ export const fetchAdminStatistics = createAsyncThunk(
   }
 );
 
+export const fetchAdminInvitations = createAsyncThunk(
+  'admin/fetchAdminInvitations',
+  async ({ page = 1, limit = 12, status = '' } = {}, { rejectWithValue }) => {
+    try {
+      const res = await getAdminInvitationsRequest(page, limit, status);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
 const adminSlice = createSlice({
   name: 'admin',
   initialState: {
@@ -95,6 +108,11 @@ const adminSlice = createSlice({
     castingsTotalItems: 0,
     castingsTotalPages: 0,
     castingsCurrentPage: 1,
+
+    invitations: [],
+    invitationsTotalItems: 0,
+    invitationsTotalPages: 0,
+    invitationsCurrentPage: 1,
 
     loading: false,
     error: null,
@@ -144,6 +162,12 @@ const adminSlice = createSlice({
       state.castingsCurrentPage = 1;
       state.castingsTotalItems = 0;
       state.castingsTotalPages = 0;
+    },
+    clearAdminInvitationsList: state => {
+      state.invitations = [];
+      state.invitationsCurrentPage = 1;
+      state.invitationsTotalItems = 0;
+      state.invitationsTotalPages = 0;
     },
   },
   extraReducers: builder => {
@@ -202,10 +226,27 @@ const adminSlice = createSlice({
         }
       })
 
+      .addCase(fetchAdminInvitations.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAdminInvitations.fulfilled, (state, action) => {
+        state.loading = false;
+        const { data, totalItems, totalPages, currentPage } = action.payload;
+
+        state.invitations = data;
+        state.invitationsTotalItems = totalItems;
+        state.invitationsTotalPages = totalPages;
+        state.invitationsCurrentPage = Number(currentPage);
+      })
+      .addCase(fetchAdminInvitations.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || action.error.message;
+      })
+
       .addCase(fetchAdminStats.fulfilled, (state, action) => {
         state.stats = action.payload;
       })
-
       .addCase(fetchAdminStatistics.pending, state => {
         state.loading = true;
         state.error = null;
@@ -221,6 +262,9 @@ const adminSlice = createSlice({
   },
 });
 
-export const { clearAdminUsersList, clearAdminCastingsList } =
-  adminSlice.actions;
+export const {
+  clearAdminUsersList,
+  clearAdminCastingsList,
+  clearAdminInvitationsList,
+} = adminSlice.actions;
 export default adminSlice.reducer;

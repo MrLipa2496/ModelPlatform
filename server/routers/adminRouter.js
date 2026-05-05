@@ -26,4 +26,6 @@ adminRouter.get('/stats', adminController.getStats);
 
 adminRouter.get('/statistics', adminController.getStatistics);
 
+adminRouter.get('/invitations', adminController.getInvitations);
+
 module.exports = adminRouter;

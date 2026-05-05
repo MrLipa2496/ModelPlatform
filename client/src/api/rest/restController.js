@@ -94,6 +94,8 @@ export const getMySentInvitationsRequest = () =>
 export const getMyInvitationsRequest = () => http.get('api/invitations/my');
 export const respondToInvitationRequest = (id, data) =>
   http.patch(`api/invitations/${id}/respond`, data);
+export const getAdminInvitationsRequest = (page, limit, status) =>
+  http.get('api/admin/invitations', { params: { page, limit, status } });
 
 // MESSAGES (api/messages)
 export const sendMessageRequest = data => http.post('api/messages', data);

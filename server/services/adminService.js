@@ -313,6 +313,42 @@ class AdminService {
       },
     };
   }
+
+  async getAllInvitations (page = 1, limit = 12, status = '') {
+    const offset = (page - 1) * limit;
+    const where = status ? { INV_Status: status } : {};
+
+    const { count, rows } = await db.Invitation.findAndCountAll({
+      where,
+      include: [
+        {
+          model: db.Model,
+          as: 'Model',
+          attributes: ['MOD_ID', 'MOD_FirstName', 'MOD_LastName', 'MOD_Photo'],
+        },
+        {
+          model: db.Agency,
+          as: 'Agency',
+          attributes: ['AGN_ID', 'AGN_Name', 'AGN_Logo'],
+        },
+        {
+          model: db.Casting,
+          as: 'Casting',
+          attributes: ['CST_ID', 'CST_Title'],
+        },
+      ],
+      limit,
+      offset,
+      order: [['INV_SentAt', 'DESC']],
+    });
+
+    return {
+      data: rows,
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+    };
+  }
 }
 
 module.exports = new AdminService();
