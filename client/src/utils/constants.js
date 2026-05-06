@@ -181,7 +181,7 @@ const CONSTANTS = {
   ADMIN_DASHBOARD_MODULES: [
     {
       id: 'verify',
-      path: '/verify',
+      path: '/admin/verify',
       title: 'Verification',
       subtitle: 'KYC & Approvals',
       description:
@@ -189,14 +189,14 @@ const CONSTANTS = {
     },
     {
       id: 'users',
-      path: '/users',
+      path: '/admin/users',
       title: 'Users',
       subtitle: 'Manage Accounts',
       description: 'Search, manage, and block active users on the platform.',
     },
     {
       id: 'castings',
-      path: '/castings',
+      path: '/admin/castings',
       title: 'Castings',
       subtitle: 'Content Control',
       description:
@@ -204,7 +204,7 @@ const CONSTANTS = {
     },
     {
       id: 'offers',
-      path: '/offers',
+      path: '/admin/offers',
       title: 'Offers',
       subtitle: 'Direct Collaborations',
       description:
@@ -212,7 +212,7 @@ const CONSTANTS = {
     },
     {
       id: 'reports',
-      path: '/reports',
+      path: '/admin/reports',
       title: 'Reports',
       subtitle: 'User Complaints',
       description:
@@ -220,7 +220,7 @@ const CONSTANTS = {
     },
     {
       id: 'statistics',
-      path: '/statistics',
+      path: '/admin/statistics',
       title: 'Statistics',
       subtitle: 'Platform Analytics',
       description:
