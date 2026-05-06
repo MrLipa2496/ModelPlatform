@@ -349,6 +349,50 @@ class AdminService {
       currentPage: page,
     };
   }
+
+  async getAllReports (page = 1, limit = 12, status = '') {
+    const offset = (page - 1) * limit;
+    const where = status ? { RPT_Status: status } : {};
+
+    const { count, rows } = await db.Report.findAndCountAll({
+      where,
+      include: [
+        {
+          model: db.User,
+          as: 'Sender',
+          attributes: ['USR_ID', 'USR_Email', 'USR_Role'], // Кто отправил
+        },
+        {
+          model: db.User,
+          as: 'ReportedUser',
+          attributes: ['USR_ID', 'USR_Email', 'USR_Role'],
+        },
+      ],
+      limit,
+      offset,
+      order: [['createdAt', 'DESC']],
+    });
+
+    return {
+      data: rows,
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+    };
+  }
+
+  async updateReportStatus (reportId, status, adminNotes) {
+    const report = await db.Report.findByPk(reportId);
+    if (!report) {
+      throw new Error('Report not found');
+    }
+
+    if (status) report.RPT_Status = status;
+    if (adminNotes !== undefined) report.RPT_AdminNotes = adminNotes;
+
+    await report.save();
+    return report;
+  }
 }
 
 module.exports = new AdminService();

@@ -8,6 +8,7 @@ const invitationRouter = require('./invitationRouter');
 const applicationRouter = require('./applicationRouter');
 const messageRouter = require('./messageRouter');
 const adminRouter = require('./adminRouter');
+const reportRouter = require('./reportRouter');
 
 const router = Router();
 
@@ -20,5 +21,6 @@ router.use('/invitations', invitationRouter);
 router.use('/applications', applicationRouter);
 router.use('/messages', messageRouter);
 router.use('/admin', adminRouter);
+router.use('/reports', reportRouter);
 
 module.exports = router;

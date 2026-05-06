@@ -118,4 +118,33 @@ module.exports = {
       next(err);
     }
   },
+
+  getReports: async (req, res, next) => {
+    try {
+      const { page, limit, status } = req.query;
+      const reports = await adminService.getAllReports(
+        page ? parseInt(page) : 1,
+        limit ? parseInt(limit) : 12,
+        status
+      );
+      res.status(200).json(reports);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  updateReportStatus: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const { status, adminNotes } = req.body;
+      const updatedReport = await adminService.updateReportStatus(
+        id,
+        status,
+        adminNotes
+      );
+      res.status(200).json(updatedReport);
+    } catch (err) {
+      next(err);
+    }
+  },
 };

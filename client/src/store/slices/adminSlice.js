@@ -7,6 +7,8 @@ import {
   getAdminStatsRequest,
   getAdminStatisticsRequest,
   getAdminInvitationsRequest,
+  getAdminReportsRequest,
+  updateAdminReportStatusRequest,
 } from '../../api/rest/restController';
 
 export const fetchAdminUsers = createAsyncThunk(
@@ -96,6 +98,30 @@ export const fetchAdminInvitations = createAsyncThunk(
   }
 );
 
+export const fetchAdminReports = createAsyncThunk(
+  'admin/fetchAdminReports',
+  async ({ page = 1, limit = 12, status = '' } = {}, { rejectWithValue }) => {
+    try {
+      const res = await getAdminReportsRequest(page, limit, status);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+export const changeAdminReportStatus = createAsyncThunk(
+  'admin/changeAdminReportStatus',
+  async ({ id, data }, { rejectWithValue }) => {
+    try {
+      const res = await updateAdminReportStatusRequest(id, data);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
 const adminSlice = createSlice({
   name: 'admin',
   initialState: {
@@ -113,6 +139,11 @@ const adminSlice = createSlice({
     invitationsTotalItems: 0,
     invitationsTotalPages: 0,
     invitationsCurrentPage: 1,
+
+    reports: [],
+    reportsTotalItems: 0,
+    reportsTotalPages: 0,
+    reportsCurrentPage: 1,
 
     loading: false,
     error: null,
@@ -169,9 +200,17 @@ const adminSlice = createSlice({
       state.invitationsTotalItems = 0;
       state.invitationsTotalPages = 0;
     },
+    // --- CLEAR REPORTS ---
+    clearAdminReportsList: state => {
+      state.reports = [];
+      state.reportsCurrentPage = 1;
+      state.reportsTotalItems = 0;
+      state.reportsTotalPages = 0;
+    },
   },
   extraReducers: builder => {
     builder
+      // USERS
       .addCase(fetchAdminUsers.pending, state => {
         state.loading = true;
         state.error = null;
@@ -179,7 +218,6 @@ const adminSlice = createSlice({
       .addCase(fetchAdminUsers.fulfilled, (state, action) => {
         state.loading = false;
         const { data, totalItems, totalPages, currentPage } = action.payload;
-
         state.users = data;
         state.usersTotalItems = totalItems;
         state.usersTotalPages = totalPages;
@@ -201,6 +239,7 @@ const adminSlice = createSlice({
         }
       })
 
+      // CASTINGS
       .addCase(fetchAdminCastings.pending, state => {
         state.loading = true;
         state.error = null;
@@ -208,7 +247,6 @@ const adminSlice = createSlice({
       .addCase(fetchAdminCastings.fulfilled, (state, action) => {
         state.loading = false;
         const { data, totalItems, totalPages, currentPage } = action.payload;
-
         state.castings = data;
         state.castingsTotalItems = totalItems;
         state.castingsTotalPages = totalPages;
@@ -226,6 +264,7 @@ const adminSlice = createSlice({
         }
       })
 
+      // INVITATIONS
       .addCase(fetchAdminInvitations.pending, state => {
         state.loading = true;
         state.error = null;
@@ -233,7 +272,6 @@ const adminSlice = createSlice({
       .addCase(fetchAdminInvitations.fulfilled, (state, action) => {
         state.loading = false;
         const { data, totalItems, totalPages, currentPage } = action.payload;
-
         state.invitations = data;
         state.invitationsTotalItems = totalItems;
         state.invitationsTotalPages = totalPages;
@@ -244,6 +282,35 @@ const adminSlice = createSlice({
         state.error = action.payload || action.error.message;
       })
 
+      // --- REPORTS ---
+      .addCase(fetchAdminReports.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAdminReports.fulfilled, (state, action) => {
+        state.loading = false;
+        const { data, totalItems, totalPages, currentPage } = action.payload;
+        state.reports = data;
+        state.reportsTotalItems = totalItems;
+        state.reportsTotalPages = totalPages;
+        state.reportsCurrentPage = Number(currentPage);
+      })
+      .addCase(fetchAdminReports.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || action.error.message;
+      })
+      .addCase(changeAdminReportStatus.fulfilled, (state, action) => {
+        const updatedReport = action.payload;
+        const index = state.reports.findIndex(
+          r => r.RPT_ID === updatedReport.RPT_ID
+        );
+        if (index !== -1) {
+          state.reports[index].RPT_Status = updatedReport.RPT_Status;
+          state.reports[index].RPT_AdminNotes = updatedReport.RPT_AdminNotes;
+        }
+      })
+
+      // STATS
       .addCase(fetchAdminStats.fulfilled, (state, action) => {
         state.stats = action.payload;
       })
@@ -266,5 +333,7 @@ export const {
   clearAdminUsersList,
   clearAdminCastingsList,
   clearAdminInvitationsList,
+  clearAdminReportsList,
 } = adminSlice.actions;
+
 export default adminSlice.reducer;

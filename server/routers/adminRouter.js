@@ -28,4 +28,7 @@ adminRouter.get('/statistics', adminController.getStatistics);
 
 adminRouter.get('/invitations', adminController.getInvitations);
 
+adminRouter.get('/reports', adminController.getReports);
+adminRouter.patch('/reports/:id', adminController.updateReportStatus);
+
 module.exports = adminRouter;

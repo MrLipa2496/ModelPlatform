@@ -114,3 +114,11 @@ export const changeAdminCastingStatusRequest = (id, data) =>
   http.patch(`api/admin/castings/${id}/status`, data);
 export const getAdminStatsRequest = () => http.get('api/admin/stats');
 export const getAdminStatisticsRequest = () => http.get('api/admin/statistics');
+export const getAdminReportsRequest = (page, limit, status) =>
+  http.get('api/admin/reports', { params: { page, limit, status } });
+export const updateAdminReportStatusRequest = (id, data) =>
+  http.patch(`api/admin/reports/${id}`, data);
+
+// REPORTS & COMPLAINTS (api/reports)
+export const createReportRequest = data => http.post('api/reports', data);
+export const getMyReportsRequest = () => http.get('api/reports/my');
