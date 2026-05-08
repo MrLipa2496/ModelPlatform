@@ -8,7 +8,11 @@ class ModelService {
     const model = await db.Model.findOne({
       where: { USR_ID: userId },
       include: [
-        { model: db.User, as: 'User', attributes: ['USR_Email', 'USR_Role'] },
+        {
+          model: db.User,
+          as: 'User',
+          attributes: ['USR_Email', 'USR_Role', 'USR_ID'],
+        },
       ],
     });
 
@@ -92,6 +96,7 @@ class ModelService {
     const model = await db.Model.findOne({
       where: whereClause,
       attributes: [
+        'USR_ID',
         'MOD_ID',
         'MOD_FirstName',
         'MOD_LastName',
@@ -112,7 +117,7 @@ class ModelService {
         {
           model: db.User,
           as: 'User',
-          attributes: ['USR_Role', 'USR_Email'],
+          attributes: ['USR_Role', 'USR_Email', 'USR_ID'],
         },
       ],
     });

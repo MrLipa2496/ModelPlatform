@@ -9,6 +9,7 @@ class AgencyService {
 
     const { count, rows } = await db.Agency.findAndCountAll({
       attributes: [
+        'USR_ID',
         'AGN_ID',
         'AGN_Name',
         'AGN_Logo',
@@ -49,6 +50,7 @@ class AgencyService {
     const agency = await db.Agency.findOne({
       where: whereClause,
       attributes: [
+        'USR_ID',
         'AGN_ID',
         'AGN_Name',
         'AGN_Logo',
@@ -61,6 +63,11 @@ class AgencyService {
         'AGN_Status',
       ],
       include: [
+        {
+          model: db.User,
+          as: 'User',
+          attributes: ['USR_ID', 'USR_Email', 'USR_Role'],
+        },
         {
           model: db.Casting,
           as: 'Castings',
@@ -85,7 +92,7 @@ class AgencyService {
         {
           model: db.User,
           as: 'User',
-          attributes: ['USR_Email'],
+          attributes: ['USR_ID', 'USR_Email', 'USR_Role'],
         },
       ],
     });

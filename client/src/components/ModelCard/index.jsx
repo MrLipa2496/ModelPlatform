@@ -5,7 +5,8 @@ import { saveProfile } from '../../store/slices/modelSlice';
 import { createInvitation } from '../../store/slices/invitationSlice';
 import { fetchMyCastings } from '../../store/slices/castingSlice';
 import ModalWindow from '../ModalWindow';
-import { FiEdit, FiArrowLeft, FiCheck } from 'react-icons/fi';
+import ReportUserModal from '../ReportUserModal';
+import { FiEdit, FiArrowLeft, FiCheck, FiFlag } from 'react-icons/fi';
 import defaultAvatarLocal from '../../../img/default-avatar.jpg';
 import styles from './ModelCard.module.sass';
 import CONSTANTS from '../../utils/constants';
@@ -32,6 +33,8 @@ export default function ModelCard ({
   const [isFlipped, setIsFlipped] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+
   const [showInviteMenu, setShowInviteMenu] = useState(false);
   const [selectedCasting, setSelectedCasting] = useState('');
   const [inviteStatus, setInviteStatus] = useState({
@@ -39,6 +42,7 @@ export default function ModelCard ({
     success: false,
     error: null,
   });
+  console.log('Данные модели в карточке:', model);
 
   const fileInputRef = useRef(null);
 
@@ -102,7 +106,7 @@ export default function ModelCard ({
   };
 
   const handleCardClick = () => {
-    if (!isEditing) setIsFlipped(!isFlipped);
+    if (!isEditing && !isReportModalOpen) setIsFlipped(!isFlipped);
   };
 
   const handlePhotoClick = e => {
@@ -166,7 +170,7 @@ export default function ModelCard ({
       ).unwrap();
 
       setInviteStatus({ loading: false, success: true, error: null });
-      setTimeout(() => setShowInviteMenu(false), 2000); // Закрываем меню через 2 сек после успеха
+      setTimeout(() => setShowInviteMenu(false), 2000);
     } catch (error) {
       setInviteStatus({ loading: false, success: false, error });
     }
@@ -176,6 +180,13 @@ export default function ModelCard ({
 
   return (
     <>
+      <ReportUserModal
+        isOpen={isReportModalOpen}
+        onClose={() => setIsReportModalOpen(false)}
+        reportedUserId={model.USR_ID}
+        reportedUserName={`${model.MOD_FirstName} ${model.MOD_LastName}`}
+      />
+
       {isEditing && (
         <div className={styles.overlay} onClick={handleCloseEditMode} />
       )}
@@ -363,6 +374,16 @@ export default function ModelCard ({
                         }}
                       >
                         Invite to Casting
+                      </button>
+
+                      <button
+                        className={styles.reportBtn}
+                        onClick={e => {
+                          e.stopPropagation();
+                          setIsReportModalOpen(true);
+                        }}
+                      >
+                        <FiFlag /> Report
                       </button>
                     </div>
                   </>

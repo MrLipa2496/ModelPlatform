@@ -12,7 +12,11 @@ class AdminService {
       const result = await db.Model.findAndCountAll({
         where: whereClause,
         include: [
-          { model: db.User, as: 'User', attributes: ['USR_Email', 'USR_Role'] },
+          {
+            model: db.User,
+            as: 'User',
+            attributes: ['USR_Email', 'USR_Role', 'USR_ID'],
+          },
         ],
         limit: parseInt(limit, 10),
         offset: parseInt(offset, 10),
@@ -27,7 +31,11 @@ class AdminService {
       const result = await db.Agency.findAndCountAll({
         where: whereClause,
         include: [
-          { model: db.User, as: 'User', attributes: ['USR_Email', 'USR_Role'] },
+          {
+            model: db.User,
+            as: 'User',
+            attributes: ['USR_Email', 'USR_Role', 'USR_ID'],
+          },
         ],
         limit: parseInt(limit, 10),
         offset: parseInt(offset, 10),
@@ -360,12 +368,12 @@ class AdminService {
         {
           model: db.User,
           as: 'Sender',
-          attributes: ['USR_ID', 'USR_Email', 'USR_Role'], // Кто отправил
+          attributes: ['USR_ID', 'USR_Email', 'USR_Role', 'USR_ID'],
         },
         {
           model: db.User,
           as: 'ReportedUser',
-          attributes: ['USR_ID', 'USR_Email', 'USR_Role'],
+          attributes: ['USR_ID', 'USR_Email', 'USR_Role', 'USR_ID'],
         },
       ],
       limit,
