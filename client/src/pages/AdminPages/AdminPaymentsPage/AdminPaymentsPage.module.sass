@@ -1,185 +1,111 @@
+$bg-color: #f8fafc
+$card-bg: #ffffff
+$text-main: #0f172a
+$text-light: #64748b
+$border-color: #e2e8f0
+
 .pageContainer
-  padding: 2rem
+  width: 100%
+  padding: 30px 40px
   max-width: 1400px
   margin: 0 auto
-  width: 100%
 
 .pageHeader
-  margin-bottom: 2.5rem
   display: flex
   justify-content: space-between
   align-items: flex-end
+  margin-bottom: 30px
   flex-wrap: wrap
-  gap: 1rem
-
-.headerText
-  max-width: 600px
+  gap: 15px
 
 .subtitle
-  font-size: 0.85rem
-  color: #888
+  font-size: 0.8rem
+  font-weight: 700
+  color: $text-light
   letter-spacing: 1px
-  margin-bottom: 0.5rem
-  font-weight: 600
+  margin-bottom: 5px
+  text-transform: uppercase
 
 .title
-  font-size: 2rem
-  font-weight: 700
-  color: #111
-  margin: 0 0 0.5rem 0
+  font-size: 2.2rem
+  font-weight: 800
+  color: $text-main
+  margin: 0 0 10px 0
 
 .description
-  color: #666
   font-size: 1rem
-  line-height: 1.5
+  color: $text-light
   margin: 0
+  max-width: 650px
 
-.gatewayBtn
-  display: flex
-  align-items: center
-  gap: 8px
-  padding: 12px 24px
-  background: #111
-  color: #fff
-  border: none
-  border-radius: 8px
-  font-weight: 600
-  font-size: 0.95rem
-  cursor: pointer
-  transition: all 0.2s ease
-  &:hover
-    background: #333
-    transform: translateY(-2px)
-
-.financeGrid
+.kpiGrid
   display: grid
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
-  gap: 1.5rem
-  margin-bottom: 2rem
+  gap: 20px
+  margin-bottom: 30px
+  width: 100%
 
-.financeCard
-  background: #fff
-  border: 1px solid #eaeaea
-  border-radius: 12px
-  padding: 1.5rem
+.kpiCard
+  background-color: $card-bg
+  border: 1px solid $border-color
+  border-radius: 16px
+  padding: 24px
   display: flex
-  align-items: flex-start
-  gap: 1rem
-  transition: box-shadow 0.2s
-  position: relative
-  overflow: hidden
-  &:hover
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03)
+  flex-direction: column
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05)
 
-.financeCard::before
-  content: ''
-  position: absolute
-  left: 0
-  top: 0
-  bottom: 0
-  width: 4px
-  background: #eaeaea
-  transition: background 0.2s
+.kpiHeader
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: 15px
 
-.financeCard:nth-child(1):hover::before
-  background: #1e8e3e
-.financeCard:nth-child(2):hover::before
-  background: #fbbc04
-.financeCard:nth-child(3):hover::before
-  background: #1a73e8
+.kpiLabel
+  font-size: 1rem
+  font-weight: 600
+  color: $text-light
 
 .iconWrapper
   width: 48px
   height: 48px
-  border-radius: 10px
+  border-radius: 12px
   display: flex
   align-items: center
   justify-content: center
   font-size: 1.5rem
   flex-shrink: 0
 
-.iconGreen
-  background: #e6f4ea
-  color: #1e8e3e
+.kpiValue
+  font-size: 2.2rem
+  font-weight: 800
+  color: $text-main
+  line-height: 1.2
+  margin-bottom: 5px
 
-.iconYellow
-  background: #fef7e0
-  color: #b08d00
+.kpiSubtext
+  font-size: 0.9rem
+  color: $text-light
 
-.iconBlue
-  background: #e8f0fe
-  color: #1a73e8
-
-.statInfo
-  display: flex
-  flex-direction: column
-
-.statValue
-  font-size: 1.8rem
-  font-weight: 700
-  color: #111
-  margin-bottom: 0.25rem
-
-.statLabel
-  font-size: 0.85rem
-  color: #666
+.loadingState
+  text-align: center
+  padding: 40px
+  color: $text-light
+  font-size: 1.1rem
+  background-color: transparent
+  border: 1px dashed $border-color
+  border-radius: 12px
   font-weight: 500
 
-.contentBox
-  background: #fff
-  border: 1px solid #eaeaea
-  border-radius: 12px
-  padding: 5rem 2rem
-  display: flex
-  flex-direction: column
-  align-items: center
-  justify-content: center
-  text-align: center
-  min-height: 400px
-  background-image: repeating-linear-gradient(45deg, #fafafa 25%, transparent 25%, transparent 75%, #fafafa 75%, #fafafa), repeating-linear-gradient(45deg, #fafafa 25%, #fff 25%, #fff 75%, #fafafa 75%, #fafafa)
-  background-position: 0 0, 10px 10px
-  background-size: 20px 20px
+@media (max-width: 1024px)
+  .pageContainer
+    padding: 20px
 
-.placeholderIconWrapper
-  width: 80px
-  height: 80px
-  background: #fff
-  border: 1px solid #eaeaea
-  box-shadow: 0 8px 24px rgba(0,0,0,0.05)
-  border-radius: 50%
-  display: flex
-  align-items: center
-  justify-content: center
-  margin-bottom: 1.5rem
+@media (max-width: 768px)
+  .pageContainer
+    padding: 15px 10px
   
-.placeholderIcon
-  font-size: 2.5rem
-  color: #1e8e3e
-
-.placeholderTitle
-  font-size: 1.5rem
-  font-weight: 700
-  color: #111
-  margin: 0 0 1rem 0
-
-.placeholderText
-  font-size: 1rem
-  color: #666
-  max-width: 550px
-  margin: 0 0 2rem 0
-  line-height: 1.6
-
-.trustBadges
-  display: flex
-  gap: 1rem
-  align-items: center
-  justify-content: center
-  margin-top: 2rem
-  color: #999
-  font-size: 0.85rem
-  font-weight: 600
-
-  span
-    display: flex
-    align-items: center
-    gap: 6px
+  .title
+    font-size: 1.8rem
+    
+  .kpiGrid
+    grid-template-columns: 1fr

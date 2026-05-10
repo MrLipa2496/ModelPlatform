@@ -17,12 +17,15 @@ import {
 } from '../../../store/slices/adminSlice';
 import CONSTANTS from '../../../utils/constants';
 import ModalWindow from '../../../components/ModalWindow';
+import Pagination from '../../../components/Pagination';
 import { ADMIN_REJECT_VALIDATION } from '../../../utils/validationSchema';
 import styles from './AdminUsersPage.module.sass';
 
 export default function AdminUsersPage () {
   const dispatch = useDispatch();
-  const { users, loading } = useSelector(state => state.admin);
+  const { users, loading, usersTotalPages, usersCurrentPage } = useSelector(
+    state => state.admin
+  );
 
   const [activeTab, setActiveTab] = useState('model');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -36,10 +39,22 @@ export default function AdminUsersPage () {
       fetchAdminUsers({
         role: activeTab,
         page: 1,
-        limit: 100,
+        limit: CONSTANTS.PAGINATION_LIMIT,
       })
     );
   }, [dispatch, activeTab]);
+
+  const handlePageChange = newPage => {
+    if (newPage >= 1 && newPage <= usersTotalPages) {
+      dispatch(
+        fetchAdminUsers({
+          role: activeTab,
+          page: newPage,
+          limit: CONSTANTS.PAGINATION_LIMIT,
+        })
+      );
+    }
+  };
 
   const filteredUsers = useMemo(() => {
     return users.filter(user => {
@@ -296,7 +311,16 @@ export default function AdminUsersPage () {
         )}
       </div>
 
-      {/* Модалка для блокировки */}
+      {usersTotalPages > 1 && (
+        <div className={styles.paginationWrapper}>
+          <Pagination
+            currentPage={usersCurrentPage}
+            totalPages={usersTotalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      )}
+
       {blockingUserId && (
         <ModalWindow
           title='Block User'

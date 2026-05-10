@@ -330,20 +330,17 @@ export default function AdminReportsPage () {
             </table>
           </div>
         )}
-
-        {reportsTotalPages > 1 && (
-          <div className={styles.paginationWrapper}>
-            <span className={styles.pageInfo}>
-              Showing {reportsTotalItems} total tickets
-            </span>
-            <Pagination
-              currentPage={reportsCurrentPage}
-              totalPages={reportsTotalPages}
-              onPageChange={handlePageChange}
-            />
-          </div>
-        )}
       </div>
+
+      {reportsTotalPages > 1 && (
+        <div className={styles.paginationWrapper}>
+          <Pagination
+            currentPage={reportsCurrentPage}
+            totalPages={reportsTotalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      )}
 
       <InfoModal
         isOpen={isMessageModalOpen}

@@ -7,12 +7,16 @@ $border-color: #e2e8f0
 .pageContainer
   width: 100%
   padding: 30px 40px
+  max-width: 1400px
+  margin: 0 auto
 
 .pageHeader
   display: flex
   justify-content: space-between
   align-items: flex-end
   margin-bottom: 30px
+  flex-wrap: wrap
+  gap: 15px
 
 .subtitle
   font-size: 0.8rem
@@ -72,6 +76,7 @@ $border-color: #e2e8f0
   align-items: center
   justify-content: center
   font-size: 1.8rem
+  flex-shrink: 0
 
 .iconBlue
   background-color: rgba(59, 130, 246, 0.1)
@@ -98,7 +103,6 @@ $border-color: #e2e8f0
   color: $text-light
   font-weight: 500
 
-/* TABLE SECTION */
 .tableContainer
   background-color: $card-bg
   border: 1px solid $border-color
@@ -113,7 +117,7 @@ $border-color: #e2e8f0
   margin: 0 0 20px 0
 
 .tableWrapper
-  overflow-x: auto
+  overflow: visible 
 
 .adminTable
   width: 100%
@@ -157,6 +161,7 @@ $border-color: #e2e8f0
     border-radius: 50%
     object-fit: cover
     border: 1px solid $border-color
+    flex-shrink: 0 
 
 .boldText
   font-weight: 600
@@ -180,6 +185,7 @@ $border-color: #e2e8f0
   font-size: 0.75rem
   font-weight: 700
   text-transform: uppercase
+  display: inline-block
 
 .badgePending
   background-color: #fef3c7
@@ -204,7 +210,7 @@ $border-color: #e2e8f0
     background-color: #e2e8f0
     color: $text-main
 
-.pagination
+.paginationWrapper
   display: flex
   justify-content: space-between
   align-items: center
@@ -215,28 +221,6 @@ $border-color: #e2e8f0
 .pageInfo
   color: $text-light
   font-size: 0.9rem
-
-.pageControls
-  display: flex
-  gap: 10px
-  
-  button
-    display: flex
-    align-items: center
-    gap: 5px
-    padding: 8px 16px
-    background-color: #fff
-    border: 1px solid $border-color
-    border-radius: 8px
-    color: $text-main
-    font-weight: 500
-    cursor: pointer
-    transition: 0.2s
-    &:hover:not(:disabled)
-      background-color: #f1f5f9
-    &:disabled
-      opacity: 0.5
-      cursor: not-allowed
 
 .loadingState, .emptyState
   text-align: center
@@ -257,8 +241,7 @@ $border-color: #e2e8f0
 .dropdownMenu
   position: absolute
   right: 40px 
-  top: 50%
-  transform: translateY(-50%)
+  top: 0 
   background-color: #ffffff
   border: 1px solid $border-color
   border-radius: 12px
@@ -271,10 +254,10 @@ $border-color: #e2e8f0
 @keyframes fadeIn
   from
     opacity: 0
-    transform: translateY(-50%) scale(0.95)
+    transform: scale(0.95)
   to
     opacity: 1
-    transform: translateY(-50%) scale(1)
+    transform: scale(1)
 
 .dropdownItem
   display: flex
@@ -316,3 +299,118 @@ $border-color: #e2e8f0
     color: #dc2626
     svg
       color: #dc2626
+
+@media (max-width: 1024px)
+  .statsGrid
+    grid-template-columns: repeat(2, 1fr)
+
+@media (max-width: 890px)
+  .pageContainer
+    padding: 15px 20px
+
+  .title
+    font-size: 1.8rem
+
+  .statsGrid
+    grid-template-columns: 1fr
+
+  .tableContainer
+    padding: 0
+    background: transparent
+    border: none
+    box-shadow: none
+
+  .tableTitle
+    padding: 0 10px
+
+  .adminTable
+    display: block
+    
+    thead
+      display: none 
+    
+    tbody
+      display: flex
+      flex-direction: column
+      gap: 15px
+
+  .adminTable tr
+    display: flex
+    flex-direction: column
+    background: #fff
+    border: 1px solid $border-color
+    border-radius: 12px
+    padding: 15px
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02)
+    position: relative
+    
+  .adminTable td
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    padding: 8px 0
+    border-bottom: 1px solid #f1f5f9
+    font-size: 0.9rem
+    &:last-child
+      border-bottom: none
+
+  .adminTable td:nth-child(1)::before
+    content: 'Offer ID:'
+    font-size: 0.75rem
+    color: $text-light
+    margin-bottom: 4px
+    text-transform: uppercase
+
+  .adminTable td:nth-child(2)::before
+    content: 'Sender (Agency):'
+    font-size: 0.75rem
+    color: $text-light
+    margin-bottom: 6px
+    text-transform: uppercase
+
+  .adminTable td:nth-child(3)::before
+    content: 'Recipient (Model):'
+    font-size: 0.75rem
+    color: $text-light
+    margin-bottom: 6px
+    text-transform: uppercase
+
+  .adminTable td:nth-child(4)::before
+    content: 'Casting Project:'
+    font-size: 0.75rem
+    color: $text-light
+    margin-bottom: 4px
+    text-transform: uppercase
+
+  .adminTable td:nth-child(5)::before
+    content: 'Date Sent:'
+    font-size: 0.75rem
+    color: $text-light
+    margin-bottom: 4px
+    text-transform: uppercase
+
+  .adminTable td:nth-child(6)
+    flex-direction: row
+    justify-content: space-between
+    align-items: center
+    padding-top: 12px
+    &::before
+      content: 'Status:'
+      font-size: 0.85rem
+      font-weight: 600
+      color: $text-light
+
+  .actionsCell
+    position: absolute !important
+    top: 15px
+    right: 15px
+    padding: 0 !important
+    border: none !important
+
+  .dropdownMenu
+    right: 0
+    top: 35px
+
+  .paginationWrapper
+    flex-direction: column
+    gap: 15px

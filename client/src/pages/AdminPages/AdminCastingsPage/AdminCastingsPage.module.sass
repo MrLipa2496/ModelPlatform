@@ -13,6 +13,7 @@
   letter-spacing: 1px
   margin-bottom: 0.5rem
   font-weight: 600
+  text-transform: uppercase
 
 .title
   font-size: 2rem
@@ -23,8 +24,8 @@
 .description
   color: #666
   font-size: 1rem
+  max-width: 650px
 
-// Панель управління (Пошук та Фільтри)
 .controlsPanel
   display: flex
   justify-content: space-between
@@ -42,9 +43,10 @@
   padding: 0 12px
   width: 100%
   max-width: 400px
-  transition: border-color 0.2s
+  transition: border-color 0.2s, box-shadow 0.2s
   &:focus-within
     border-color: #111
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.05)
 
 .searchIcon
   color: #999
@@ -68,13 +70,15 @@
   outline: none
   cursor: pointer
   min-width: 180px
+  transition: border-color 0.2s
+  &:focus
+    border-color: #111
 
-// Таблиця
 .tableWrapper
   background: #fff
   border: 1px solid #eaeaea
   border-radius: 12px
-  overflow-x: auto
+  overflow: visible 
   margin-bottom: 2rem
 
 .table
@@ -83,9 +87,10 @@
   min-width: 800px
 
   th, td
-    padding: 1rem 1.5rem
+    padding: 1.2rem 1.5rem
     text-align: left
     border-bottom: 1px solid #eaeaea
+    vertical-align: middle
 
   th
     background: #fafafa
@@ -99,32 +104,37 @@
     border-bottom: none
 
   tr:hover td
-    background: #fdfdfd
+    background: #fafafa
 
 .agencyInfo
   display: flex
   align-items: center
-  gap: 10px
+  gap: 12px
   font-weight: 500
 
 .agencyLogo
-  width: 32px
-  height: 32px
+  width: 36px
+  height: 36px
   border-radius: 6px
   object-fit: cover
   background: #f0f0f0
+  border: 1px solid #eaeaea
+  flex-shrink: 0 
 
 .castingTitle
   font-weight: 600
   color: #111
+  max-width: 300px
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
 
-// Статуси
 .badge
   display: inline-block
   padding: 6px 12px
   border-radius: 20px
-  font-size: 0.8rem
-  font-weight: 600
+  font-size: 0.75rem
+  font-weight: 700
   text-transform: uppercase
 
 .badgeActive
@@ -136,8 +146,10 @@
 .badgeClosed
   background: #f1f3f4
   color: #5f6368
+.badgePending
+  background: #fef0db
+  color: #f29900
 
-// Кнопки дій
 .actions
   display: flex
   gap: 8px
@@ -158,34 +170,21 @@
     background: #f5f5f5
     color: #111
   &.danger:hover
-    border-color: #d93025
+    border-color: #fce8e6
+    background: #fce8e6
     color: #d93025
 
-// Пагінація
-.pagination
+.successBtn:hover
+  border-color: #e6f4ea
+  background: #e6f4ea
+  color: #1e8e3e
+
+.paginationWrapper
   display: flex
   justify-content: center
-  align-items: center
-  gap: 1rem
+  padding: 1.5rem 0
+  margin-top: 1rem
 
-.pageBtn
-  padding: 8px 16px
-  border: 1px solid #eaeaea
-  background: #fff
-  border-radius: 6px
-  cursor: pointer
-  font-weight: 600
-  &:disabled
-    opacity: 0.5
-    cursor: not-allowed
-  &:hover:not(:disabled)
-    background: #f5f5f5
-
-.pageInfo
-  font-size: 0.95rem
-  color: #666
-
-// Модальне вікно (вбудоване)
 .modalOverlay
   position: fixed
   top: 0
@@ -197,12 +196,13 @@
   align-items: center
   justify-content: center
   z-index: 1000
+  backdrop-filter: blur(4px)
 
 .modalContent
   background: #fff
   border-radius: 12px
   padding: 2rem
-  width: 100%
+  width: 90%
   max-width: 450px
   box-shadow: 0 10px 30px rgba(0,0,0,0.1)
 
@@ -235,6 +235,7 @@
   border-radius: 8px
   cursor: pointer
   font-weight: 600
+  transition: 0.2s
   &:hover
     background: #e0e0e0
 
@@ -246,13 +247,112 @@
   border-radius: 8px
   cursor: pointer
   font-weight: 600
+  transition: 0.2s
   &:hover
     background: #b3261e
 
-.badgePending
-  background: #fef0db
-  color: #f29900
+@media (max-width: 1024px)
+  .pageContainer
+    padding: 20px
 
-.successBtn:hover
-  border-color: #1e8e3e
-  background: #e6f4ea
+  .tableWrapper
+    background: transparent
+    border: none
+    box-shadow: none
+
+  .table
+    display: block
+    min-width: 100%
+    
+    thead
+      display: none 
+    
+    tbody
+      display: flex
+      flex-direction: column
+      gap: 15px
+
+  .table tr
+    display: flex
+    flex-direction: column
+    background: #fff
+    border: 1px solid #eaeaea
+    border-radius: 12px
+    padding: 15px
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02)
+    position: relative
+    
+  .table td
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    padding: 8px 0
+    border-bottom: 1px solid #f9f9f9
+    font-size: 0.9rem
+    &:last-child
+      border-bottom: none
+
+  .castingTitle
+    max-width: 100%
+    white-space: normal 
+
+  .table td:nth-child(1)::before
+    content: 'Agency:'
+    font-size: 0.75rem
+    color: #888
+    margin-bottom: 6px
+    text-transform: uppercase
+    font-weight: 600
+
+  .table td:nth-child(2)::before
+    content: 'Casting Project:'
+    font-size: 0.75rem
+    color: #888
+    margin-bottom: 4px
+    text-transform: uppercase
+    font-weight: 600
+
+  .table td:nth-child(3)::before
+    content: 'Date / Location:'
+    font-size: 0.75rem
+    color: #888
+    margin-bottom: 4px
+    text-transform: uppercase
+    font-weight: 600
+
+  .table td:nth-child(4)
+    flex-direction: row
+    justify-content: space-between
+    align-items: center
+    padding-top: 12px
+    &::before
+      content: 'Status:'
+      font-size: 0.8rem
+      font-weight: 600
+      color: #888
+
+  .table td:last-child 
+    position: absolute !important
+    top: 15px
+    right: 15px
+    padding: 0 !important
+    border: none !important
+    flex-direction: row
+    &::before
+      display: none 
+
+
+@media (max-width: 768px)
+  .title
+    font-size: 1.8rem
+
+  .controlsPanel
+    flex-direction: column
+    align-items: stretch
+    gap: 12px
+
+  .searchBox
+    max-width: 100%
+
+  .filterSelect
+    width: 100%

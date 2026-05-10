@@ -75,7 +75,7 @@ export default function AdminCastingsPage () {
             Active
           </span>
         );
-      case 'pending': // <-- ДОБАВИЛИ PENDING
+      case 'pending':
         return (
           <span className={`${styles.badge} ${styles.badgePending}`}>
             Pending

@@ -20,11 +20,15 @@ import {
   ADMIN_REJECT_VALIDATION,
 } from '../../../utils/validationSchema';
 import ModalWindow from '../../../components/ModalWindow';
+import Pagination from '../../../components/Pagination';
 import styles from './AdminVerifyPage.module.sass';
 
 export default function AdminVerifyPage () {
   const dispatch = useDispatch();
-  const { users, loading } = useSelector(state => state.admin);
+
+  const { users, usersTotalPages, usersCurrentPage, loading } = useSelector(
+    state => state.admin
+  );
 
   const [activeTab, setActiveTab] = useState('model');
   const [approvingUserId, setApprovingUserId] = useState(null);
@@ -40,6 +44,19 @@ export default function AdminVerifyPage () {
       })
     );
   }, [dispatch, activeTab]);
+
+  const handlePageChange = newPage => {
+    if (newPage >= 1 && newPage <= usersTotalPages) {
+      dispatch(
+        fetchAdminUsers({
+          role: activeTab,
+          status: 'pending',
+          page: newPage,
+          limit: CONSTANTS.PAGINATION_LIMIT,
+        })
+      );
+    }
+  };
 
   const handleApproveSubmit = async () => {
     if (approvingUserId) {
@@ -57,7 +74,7 @@ export default function AdminVerifyPage () {
           fetchAdminUsers({
             role: activeTab,
             status: 'pending',
-            page: 1,
+            page: usersCurrentPage,
             limit: CONSTANTS.PAGINATION_LIMIT,
           })
         );
@@ -86,7 +103,7 @@ export default function AdminVerifyPage () {
           fetchAdminUsers({
             role: activeTab,
             status: 'pending',
-            page: 1,
+            page: usersCurrentPage,
             limit: CONSTANTS.PAGINATION_LIMIT,
           })
         );
@@ -162,21 +179,9 @@ export default function AdminVerifyPage () {
               to={profileLink}
               rel='noopener noreferrer'
               className={styles.viewBtn}
-              title='View Profile in new tab'
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '5px',
-                padding: '6px 12px',
-                border: '1px solid #ccc',
-                borderRadius: '6px',
-                color: '#333',
-                textDecoration: 'none',
-                background: '#fff',
-                marginRight: '8px',
-              }}
+              title='View Profile'
             >
-              <FiEye />
+              <FiEye /> View
             </Link>
 
             <button
@@ -243,17 +248,29 @@ export default function AdminVerifyPage () {
               Loading pending applications...
             </div>
           ) : pendingUsers.length > 0 ? (
-            <table className={styles.dataTable}>
-              <thead>
-                <tr>
-                  <th>Applicant</th>
-                  <th>Location</th>
-                  <th>Applied On</th>
-                  <th className={styles.alignRight}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>{pendingUsers.map(renderUserRow)}</tbody>
-            </table>
+            <>
+              <table className={styles.dataTable}>
+                <thead>
+                  <tr>
+                    <th>Applicant</th>
+                    <th>Location</th>
+                    <th>Applied On</th>
+                    <th className={styles.alignRight}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>{pendingUsers.map(renderUserRow)}</tbody>
+              </table>
+
+              {usersTotalPages > 1 && (
+                <div className={styles.paginationWrapper}>
+                  <Pagination
+                    currentPage={usersCurrentPage}
+                    totalPages={usersTotalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              )}
+            </>
           ) : (
             <div className={styles.emptyState}>
               <div className={styles.emptyIconWrapper}>

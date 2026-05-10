@@ -1,89 +1,134 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FiDollarSign,
   FiCreditCard,
-  FiRefreshCcw,
-  FiShield,
-  FiSettings,
-  FiLock,
+  FiTrendingUp,
+  FiActivity,
 } from 'react-icons/fi';
-import styles from './AdminPaymentsPage.module.sass';
+import InfoModal from '../../../components/InfoModal'; // Проверь путь!
+import styles from './AdminPaymentsPage.module.sass'; // Можем переиспользовать стили статистики для структуры
 
 export default function AdminPaymentsPage () {
+  const [isDevelopmentModalOpen, setIsDevelopmentModalOpen] = useState(false);
+
+  useEffect(() => {
+    setIsDevelopmentModalOpen(true);
+  }, []);
+
   return (
     <div className={styles.pageContainer}>
       <header className={styles.pageHeader}>
         <div className={styles.headerText}>
-          <p className={styles.subtitle}>BILLING & PAYOUTS</p>
-          <h1 className={styles.title}>Financial Hub</h1>
+          <p className={styles.subtitle}>FINANCE & BILLING</p>
+          <h1 className={styles.title}>Payments & Subscriptions</h1>
           <p className={styles.description}>
-            Manage agency subscription plans, monitor escrow transactions, and
-            process model payouts securely.
+            Manage platform revenue, agency subscription plans, and premium
+            placements.
           </p>
         </div>
-        <button
-          className={styles.gatewayBtn}
-          onClick={() => alert('Gateway configuration panel will open here.')}
-        >
-          <FiSettings /> Gateway Settings
-        </button>
       </header>
 
-      <div className={styles.financeGrid}>
-        <div className={styles.financeCard}>
-          <div className={`${styles.iconWrapper} ${styles.iconGreen}`}>
-            <FiDollarSign />
+      <div style={{ opacity: 0.4, pointerEvents: 'none' }}>
+        <div className={styles.kpiGrid}>
+          <div className={styles.kpiCard}>
+            <div className={styles.kpiHeader}>
+              <span className={styles.kpiLabel}>Total Revenue</span>
+              <div
+                className={styles.iconWrapper}
+                style={{
+                  backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                  color: '#10b981',
+                }}
+              >
+                <FiDollarSign />
+              </div>
+            </div>
+            <span className={styles.kpiValue}>$0.00</span>
+            <span className={styles.kpiSubtext}>This month</span>
           </div>
-          <div className={styles.statInfo}>
-            <span className={styles.statValue}>$0.00</span>
-            <span className={styles.statLabel}>Net Revenue (30 Days)</span>
+
+          <div className={styles.kpiCard}>
+            <div className={styles.kpiHeader}>
+              <span className={styles.kpiLabel}>Active Subscriptions</span>
+              <div
+                className={styles.iconWrapper}
+                style={{
+                  backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                  color: '#6366f1',
+                }}
+              >
+                <FiCreditCard />
+              </div>
+            </div>
+            <span className={styles.kpiValue}>0</span>
+            <span className={styles.kpiSubtext}>Pro Agencies</span>
+          </div>
+
+          <div className={styles.kpiCard}>
+            <div className={styles.kpiHeader}>
+              <span className={styles.kpiLabel}>MRR</span>
+              <div
+                className={styles.iconWrapper}
+                style={{
+                  backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                  color: '#f59e0b',
+                }}
+              >
+                <FiTrendingUp />
+              </div>
+            </div>
+            <span className={styles.kpiValue}>$0.00</span>
+            <span className={styles.kpiSubtext}>Monthly Recurring Revenue</span>
           </div>
         </div>
 
-        <div className={styles.financeCard}>
-          <div className={`${styles.iconWrapper} ${styles.iconYellow}`}>
-            <FiRefreshCcw />
-          </div>
-          <div className={styles.statInfo}>
-            <span className={styles.statValue}>0</span>
-            <span className={styles.statLabel}>Pending Payouts</span>
-          </div>
-        </div>
-
-        <div className={styles.financeCard}>
-          <div className={`${styles.iconWrapper} ${styles.iconBlue}`}>
-            <FiCreditCard />
-          </div>
-          <div className={styles.statInfo}>
-            <span className={styles.statValue}>0</span>
-            <span className={styles.statLabel}>Active Subscriptions</span>
-          </div>
+        <div className={styles.loadingState} style={{ marginTop: '20px' }}>
+          Payment modules are not yet initialized...
         </div>
       </div>
 
-      <div className={styles.contentBox}>
-        <div className={styles.placeholderIconWrapper}>
-          <FiShield className={styles.placeholderIcon} />
+      <InfoModal
+        isOpen={isDevelopmentModalOpen}
+        onClose={() => setIsDevelopmentModalOpen(false)}
+        title='Module in Development'
+        showSignupBtn={false}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+            padding: '20px 0',
+          }}
+        >
+          <FiActivity
+            style={{ fontSize: '3rem', color: '#3b82f6', marginBottom: '20px' }}
+          />
+          <h3
+            style={{
+              margin: '0 0 10px 0',
+              fontSize: '1.2rem',
+              color: '#0f172a',
+            }}
+          >
+            Payments Integration is Coming Soon!
+          </h3>
+          <p
+            style={{
+              color: '#475569',
+              lineHeight: '1.6',
+              margin: 0,
+              fontSize: '0.95rem',
+            }}
+          >
+            The financial and billing module is currently under active
+            development. Integration with Stripe and PayPal will be available in
+            the next major update to support agency premium subscriptions and
+            paid casting placements.
+          </p>
         </div>
-        <h2 className={styles.placeholderTitle}>
-          Secure Payment Gateway Integration
-        </h2>
-        <p className={styles.placeholderText}>
-          We are currently implementing PCI-compliant payment gateways (Stripe &
-          PayPal) to handle agency subscriptions and secure escrow payments for
-          models. Transaction history and invoice generation will appear here
-          once the integration is complete.
-        </p>
-
-        <div className={styles.trustBadges}>
-          <span>
-            <FiLock /> 256-bit SSL Encryption
-          </span>
-          <span>
-            <FiShield /> PCI-DSS Compliant
-          </span>
-        </div>
-      </div>
+      </InfoModal>
     </div>
   );
 }

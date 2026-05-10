@@ -26,6 +26,7 @@ import AdminOffersPage from './pages/AdminPages/AdminOffersPage';
 import AdminPaymentsPage from './pages/AdminPages/AdminPaymentsPage';
 import AdminReportsPage from './pages/AdminPages/AdminReportsPage';
 import AdminStatisticsPage from './pages/AdminPages/AdminStatisticsPage';
+import NotFound from './pages/NotFound';
 
 function App () {
   return (
@@ -72,6 +73,8 @@ function App () {
           <Route element={<RoleRoute allowedRoles={['model', 'agency']} />}>
             <Route path='/profile' element={<ProfilePage />} />
           </Route>
+
+          <Route path='*' element={<NotFound />} />
         </Route>
       </Routes>
     </Router>

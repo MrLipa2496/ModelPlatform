@@ -10,14 +10,14 @@ import {
   FiCheckCircle,
   FiPlus,
   FiMoreHorizontal,
-  FiChevronLeft,
-  FiChevronRight,
   FiEye,
   FiXCircle,
   FiTrash2,
 } from 'react-icons/fi';
 import CONSTANTS from '../../../utils/constants';
 import defaultAvatar from '../../../../img/default-avatar.jpg';
+import Pagination from '../../../components/Pagination'; // Проверь путь!
+import InfoModal from '../../../components/InfoModal'; // Проверь путь!
 import styles from './AdminOffersPage.module.sass';
 
 export default function AdminOffersPage () {
@@ -35,8 +35,13 @@ export default function AdminOffersPage () {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const tableRef = useRef(null);
 
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [currentDetails, setCurrentDetails] = useState('');
+
   useEffect(() => {
-    dispatch(fetchAdminInvitations({ page: 1, limit: 10 }));
+    dispatch(
+      fetchAdminInvitations({ page: 1, limit: CONSTANTS.PAGINATION_LIMIT })
+    );
     dispatch(fetchAdminStatistics());
   }, [dispatch]);
 
@@ -52,7 +57,12 @@ export default function AdminOffersPage () {
 
   const handlePageChange = newPage => {
     if (newPage >= 1 && newPage <= invitationsTotalPages) {
-      dispatch(fetchAdminInvitations({ page: newPage, limit: 10 }));
+      dispatch(
+        fetchAdminInvitations({
+          page: newPage,
+          limit: CONSTANTS.PAGINATION_LIMIT,
+        })
+      );
       setActiveDropdown(null);
     }
   };
@@ -60,6 +70,46 @@ export default function AdminOffersPage () {
   const toggleDropdown = (id, e) => {
     e.stopPropagation();
     setActiveDropdown(activeDropdown === id ? null : id);
+  };
+
+  const handleViewDetails = invite => {
+    const details = `Offer ID: #${invite.INV_ID}
+Status: ${invite.INV_Status.toUpperCase()}
+Sent At: ${new Date(invite.INV_SentAt).toLocaleString()}
+
+Sender Agency: ${invite.Agency?.AGN_Name || 'Unknown'}
+Recipient Model: ${invite.Model?.MOD_FirstName || ''} ${
+      invite.Model?.MOD_LastName || ''
+    }
+
+Casting Project: ${invite.Casting?.CST_Title || 'Deleted Casting'}
+`;
+    setCurrentDetails(details);
+    setIsDetailsModalOpen(true);
+    setActiveDropdown(null);
+  };
+
+  const handleRevoke = id => {
+    setCurrentDetails(
+      `Action: Revoke offer #${id}.\nThis feature is currently in development.`
+    );
+    setIsDetailsModalOpen(true);
+    setActiveDropdown(null);
+  };
+
+  const handleDelete = id => {
+    setCurrentDetails(
+      `Action: Delete offer #${id}.\nThis feature is currently in development.`
+    );
+    setIsDetailsModalOpen(true);
+    setActiveDropdown(null);
+  };
+
+  const handleNewCampaign = () => {
+    setCurrentDetails(
+      "The 'Offer Campaigns' module is currently in development."
+    );
+    setIsDetailsModalOpen(true);
   };
 
   const renderStatusBadge = status => {
@@ -107,10 +157,7 @@ export default function AdminOffersPage () {
             platform activity in real-time.
           </p>
         </div>
-        <button
-          className={styles.createBtn}
-          onClick={() => alert('Offer campaigns module is in development.')}
-        >
+        <button className={styles.createBtn} onClick={handleNewCampaign}>
           <FiPlus /> New Offer Campaign
         </button>
       </header>
@@ -232,14 +279,14 @@ export default function AdminOffersPage () {
                           <div className={styles.dropdownMenu}>
                             <button
                               className={styles.dropdownItem}
-                              onClick={() => alert('View details logic here')}
+                              onClick={() => handleViewDetails(invite)}
                             >
                               <FiEye /> View full details
                             </button>
                             {invite.INV_Status === 'pending' && (
                               <button
                                 className={styles.dropdownItem}
-                                onClick={() => alert('Revoke logic here')}
+                                onClick={() => handleRevoke(invite.INV_ID)}
                               >
                                 <FiXCircle /> Revoke offer
                               </button>
@@ -247,7 +294,7 @@ export default function AdminOffersPage () {
                             <div className={styles.dropdownDivider}></div>
                             <button
                               className={`${styles.dropdownItem} ${styles.deleteItem}`}
-                              onClick={() => alert('Delete logic here')}
+                              onClick={() => handleDelete(invite.INV_ID)}
                             >
                               <FiTrash2 /> Delete record
                             </button>
@@ -263,30 +310,36 @@ export default function AdminOffersPage () {
         )}
 
         {invitationsTotalPages > 1 && (
-          <div className={styles.pagination}>
+          <div className={styles.paginationWrapper}>
             <span className={styles.pageInfo}>
-              Showing page {invitationsCurrentPage} of {invitationsTotalPages} (
-              {invitationsTotalItems} total)
+              Total offers: {invitationsTotalItems}
             </span>
-            <div className={styles.pageControls}>
-              <button
-                disabled={invitationsCurrentPage === 1 || loading}
-                onClick={() => handlePageChange(invitationsCurrentPage - 1)}
-              >
-                <FiChevronLeft /> Prev
-              </button>
-              <button
-                disabled={
-                  invitationsCurrentPage === invitationsTotalPages || loading
-                }
-                onClick={() => handlePageChange(invitationsCurrentPage + 1)}
-              >
-                Next <FiChevronRight />
-              </button>
-            </div>
+            <Pagination
+              currentPage={invitationsCurrentPage}
+              totalPages={invitationsTotalPages}
+              onPageChange={handlePageChange}
+            />
           </div>
         )}
       </div>
+
+      <InfoModal
+        isOpen={isDetailsModalOpen}
+        onClose={() => setIsDetailsModalOpen(false)}
+        title='Offer Details'
+        showSignupBtn={false}
+      >
+        <div
+          style={{
+            whiteSpace: 'pre-wrap',
+            color: '#475569',
+            lineHeight: '1.6',
+            fontSize: '0.95rem',
+          }}
+        >
+          {currentDetails}
+        </div>
+      </InfoModal>
     </div>
   );
 }
