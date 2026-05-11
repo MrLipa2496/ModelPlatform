@@ -22,7 +22,8 @@ const CONSTANTS = {
     birthDate: '',
     agencyName: '',
     phone: '',
-    location: '',
+    country: '',
+    city: '',
   },
 
   ROLE_OPTIONS: [
@@ -46,7 +47,7 @@ const CONSTANTS = {
     {
       name: 'gender',
       as: 'select',
-      options: ['', 'male', 'female', 'other'],
+      options: ['', 'Male', 'Female', 'Non-binary', 'Other'],
       placeholder: 'Select Gender',
       label: 'Gender',
     },
@@ -56,6 +57,13 @@ const CONSTANTS = {
       placeholder: 'Birth Date',
       label: 'Birth Date',
     },
+    {
+      name: 'country',
+      type: 'text',
+      label: 'Country',
+      placeholder: 'e.g. France',
+    },
+    { name: 'city', type: 'text', label: 'City', placeholder: 'e.g. Paris' },
   ],
 
   AGENCY_FIELDS: [
@@ -67,11 +75,12 @@ const CONSTANTS = {
     },
     { name: 'phone', type: 'text', placeholder: 'Phone', label: 'Phone' },
     {
-      name: 'location',
+      name: 'country',
       type: 'text',
-      placeholder: 'Location',
-      label: 'Location',
+      label: 'Country',
+      placeholder: 'e.g. Italy',
     },
+    { name: 'city', type: 'text', label: 'City', placeholder: 'e.g. Milan' },
   ],
 
   AGENCY_PROFILE_FIELDS: [
@@ -105,6 +114,7 @@ const CONSTANTS = {
     ],
     model: [
       { to: '/castings', label: 'Castings' },
+      { to: '/offers', label: 'Offers' },
       { to: '/myApplications', label: 'My Applications' },
       { to: '/agencies', label: 'Agencies' },
       { to: '/about', label: 'About' },
@@ -120,14 +130,13 @@ const CONSTANTS = {
       { to: '/profile', label: 'Profile' },
     ],
     admin: [
-      { to: '/admin', label: 'Admin Panel' },
-      { to: '/users', label: 'Users' },
-      { to: '/offers', label: 'Offers' },
-      { to: '/verify', label: 'Verify' },
-      { to: '/reports', label: 'Reports' },
-      { to: '/castings', label: 'Castings' },
-      { to: '/payments', label: 'Payments' },
-      { to: '/statistics', label: 'Statistics' },
+      { to: '/admin/users', label: 'Users' },
+      { to: '/admin/offers', label: 'Offers' },
+      { to: '/admin/verify', label: 'Verify' },
+      { to: '/admin/reports', label: 'Reports' },
+      { to: '/admin/castings', label: 'Castings' },
+      { to: '/admin/payments', label: 'Payments' },
+      { to: '/admin/statistics', label: 'Statistics' },
     ],
   },
 
@@ -146,12 +155,86 @@ const CONSTANTS = {
     { name: 'MOD_EyeColor', label: 'Eye Color' },
     { name: 'MOD_HairColor', label: 'Hair Color' },
     { name: 'MOD_Experience', label: 'Experience' },
+    { name: 'MOD_Country', label: 'Country' },
+    { name: 'MOD_City', label: 'City' },
     {
       name: 'MOD_Bio',
       label: 'About Me',
       as: 'textarea',
       placeholder: 'Tell something about yourself...',
     },
+  ],
+
+  DEFAULT_ADMIN_STATS: {
+    totalModels: 0,
+    totalAgencies: 0,
+    activeCastings: 0,
+    pendingUsers: 0,
+  },
+
+  DEFAULT_ADMIN_RECENT: {
+    pending: [],
+    users: [],
+    castings: [],
+  },
+
+  ADMIN_DASHBOARD_MODULES: [
+    {
+      id: 'verify',
+      path: '/admin/verify',
+      title: 'Verification',
+      subtitle: 'KYC & Approvals',
+      description:
+        'Review and approve pending registrations for new models and agencies.',
+    },
+    {
+      id: 'users',
+      path: '/admin/users',
+      title: 'Users',
+      subtitle: 'Manage Accounts',
+      description: 'Search, manage, and block active users on the platform.',
+    },
+    {
+      id: 'castings',
+      path: '/admin/castings',
+      title: 'Castings',
+      subtitle: 'Content Control',
+      description:
+        'Monitor all active job postings and remove inappropriate content.',
+    },
+    {
+      id: 'offers',
+      path: '/admin/offers',
+      title: 'Offers',
+      subtitle: 'Direct Collaborations',
+      description:
+        'Audit direct collaboration offers between agencies and models.',
+    },
+    {
+      id: 'reports',
+      path: '/admin/reports',
+      title: 'Reports',
+      subtitle: 'User Complaints',
+      description:
+        'Handle user-submitted reports regarding inappropriate behavior.',
+    },
+    {
+      id: 'statistics',
+      path: '/admin/statistics',
+      title: 'Statistics',
+      subtitle: 'Platform Analytics',
+      description:
+        'View detailed analytics on platform growth and user engagement.',
+    },
+  ],
+
+  REJECTION_REASONS: [
+    'Incomplete profile: Please fill in all required fields and parameters.',
+    'Low-quality or heavily edited photos. Please upload natural digitals/polaroids.',
+    'Inappropriate or explicit content violating platform guidelines.',
+    'Unable to verify identity or agency credentials.',
+    'Suspicious activity or suspected fake profile.',
+    'Age requirement not met or missing parental consent.',
   ],
 };
 

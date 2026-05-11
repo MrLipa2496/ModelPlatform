@@ -1,0 +1,436 @@
+$bg-color: #f8fafc
+$card-bg: #ffffff
+$text-main: #0f172a
+$text-light: #64748b
+$border-color: #e2e8f0
+
+.pageContainer
+  width: 100%
+  padding: 30px 40px
+  max-width: 1400px
+  margin: 0 auto
+
+.pageHeader
+  display: flex
+  justify-content: space-between
+  align-items: flex-end
+  margin-bottom: 30px
+  flex-wrap: wrap
+  gap: 15px
+
+.subtitle
+  font-size: 0.8rem
+  font-weight: 700
+  color: $text-light
+  letter-spacing: 1px
+  margin-bottom: 5px
+
+.title
+  font-size: 2.2rem
+  font-weight: 800
+  color: $text-main
+  margin: 0 0 10px 0
+
+.description
+  font-size: 1rem
+  color: $text-light
+  margin: 0
+  max-width: 650px
+
+.statsGrid
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
+  gap: 20px
+  margin-bottom: 30px
+  width: 100%
+
+.statCard
+  background-color: $card-bg
+  border: 1px solid $border-color
+  border-radius: 16px
+  padding: 24px
+  display: flex
+  align-items: center
+  gap: 20px
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05)
+  position: static !important
+  transform: none !important
+  margin: 0
+
+.iconWrapper
+  width: 60px
+  height: 60px
+  border-radius: 12px
+  display: flex
+  align-items: center
+  justify-content: center
+  font-size: 1.8rem
+  flex-shrink: 0
+
+.iconBlue
+  background-color: rgba(59, 130, 246, 0.1)
+  color: #3b82f6
+.iconOrange
+  background-color: rgba(245, 158, 11, 0.1)
+  color: #f59e0b
+.iconGreen
+  background-color: rgba(16, 185, 129, 0.1)
+  color: #10b981
+
+.statInfo
+  display: flex
+  flex-direction: column
+
+.statValue
+  font-size: 2rem
+  font-weight: 800
+  color: $text-main
+  line-height: 1.2
+
+.statLabel
+  font-size: 0.95rem
+  color: $text-light
+  font-weight: 500
+
+.tableContainer
+  background-color: $card-bg
+  border: 1px solid $border-color
+  border-radius: 16px
+  padding: 24px
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05)
+
+.tableTitle
+  font-size: 1.2rem
+  font-weight: 700
+  color: $text-main
+  margin: 0 0 20px 0
+
+.tableWrapper
+  overflow: visible
+
+.adminTable
+  width: 100%
+  border-collapse: collapse
+  text-align: left
+
+  th
+    padding: 15px
+    background-color: #f1f5f9
+    color: $text-light
+    font-size: 0.85rem
+    font-weight: 600
+    text-transform: uppercase
+    letter-spacing: 0.5px
+    border-bottom: 2px solid $border-color
+    &:first-child
+      border-top-left-radius: 8px
+    &:last-child
+      border-top-right-radius: 8px
+
+  td
+    padding: 15px
+    border-bottom: 1px solid $border-color
+    vertical-align: middle
+    font-size: 0.95rem
+
+  tbody tr:hover
+    background-color: #f8fafc
+
+.idCell
+  font-weight: 600
+  color: $text-light
+
+.subjectCell
+  max-width: 250px
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  font-weight: 600
+  color: $text-main
+
+.userCell
+  display: flex
+  flex-direction: column
+  gap: 2px
+  font-weight: 500
+  color: $text-main
+  span
+    word-break: break-all 
+
+.roleText
+  font-size: 0.8rem
+  color: $text-light
+  text-transform: capitalize
+
+.dateCell
+  color: $text-light
+  font-size: 0.9rem
+
+.typeDanger, .typeWarning, .typeSuccess, .typeNeutral
+  display: inline-flex
+  align-items: center
+  gap: 5px
+  font-size: 0.85rem
+  font-weight: 600
+
+.typeDanger
+  color: #ef4444
+.typeWarning
+  color: #f59e0b
+.typeSuccess
+  color: #10b981
+.typeNeutral
+  color: #64748b
+
+.badge
+  padding: 5px 12px
+  border-radius: 20px
+  font-size: 0.75rem
+  font-weight: 700
+  text-transform: uppercase
+  display: inline-block
+
+.badgePending
+  background-color: #fef3c7
+  color: #d97706
+.badgeInProgress
+  background-color: #dbeafe
+  color: #2563eb
+.badgeAccepted
+  background-color: #d1fae5
+  color: #059669
+.badgeRejected
+  background-color: #fee2e2
+  color: #dc2626
+
+.actionsCell
+  position: relative
+
+.actionBtn
+  background: transparent
+  border: none
+  color: $text-light
+  font-size: 1.2rem
+  cursor: pointer
+  padding: 5px
+  border-radius: 50%
+  transition: 0.2s
+  &:hover
+    background-color: #e2e8f0
+    color: $text-main
+
+.actionBtnActive
+  background-color: #e2e8f0
+  color: $text-main
+
+.dropdownMenu
+  position: absolute
+  right: 40px
+  top: 0 
+  background-color: #ffffff
+  border: 1px solid $border-color
+  border-radius: 12px
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)
+  width: 200px
+  z-index: 999 
+  padding: 8px 0
+  animation: fadeIn 0.15s ease-out
+
+@keyframes fadeIn
+  from
+    opacity: 0
+    transform: scale(0.95) 
+  to
+    opacity: 1
+    transform: scale(1)
+
+.dropdownItem
+  display: flex
+  align-items: center
+  gap: 10px
+  width: 100%
+  padding: 10px 16px
+  background: transparent
+  border: none
+  color: $text-main
+  font-size: 0.9rem
+  font-weight: 500
+  cursor: pointer
+  text-align: left
+  transition: 0.2s ease
+  svg
+    font-size: 1.1rem
+    color: $text-light
+  &:hover
+    background-color: #f8fafc
+
+.dropdownDivider
+  height: 1px
+  background-color: $border-color
+  margin: 6px 0
+
+.resolveItem
+  color: #059669
+  svg
+    color: #059669
+  &:hover
+    background-color: #ecfdf5
+    color: #047857
+
+.rejectItem
+  color: #ef4444
+  svg
+    color: #ef4444
+  &:hover
+    background-color: #fef2f2
+    color: #dc2626
+
+.paginationWrapper
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-top: 20px
+  padding-top: 20px
+  border-top: 1px solid $border-color
+
+.pageInfo
+  color: $text-light
+  font-size: 0.9rem
+
+.loadingState, .emptyState
+  text-align: center
+  padding: 40px
+  color: $text-light
+  font-size: 1.1rem
+  background-color: #f8fafc
+  border-radius: 8px
+  border: 1px dashed $border-color
+
+
+
+@media (max-width: 1024px)
+  .pageContainer
+    padding: 20px
+
+  .title
+    font-size: 1.8rem
+
+  .tableContainer
+    padding: 0
+    background: transparent
+    border: none
+    box-shadow: none
+
+  .tableTitle
+    padding: 0 10px
+
+  .adminTable
+    display: block
+    
+    thead
+      display: none 
+    
+    tbody
+      display: flex
+      flex-direction: column
+      gap: 15px
+
+  .adminTable tr
+    display: flex
+    flex-direction: column
+    background: #fff
+    border: 1px solid $border-color
+    border-radius: 12px
+    padding: 15px
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02)
+    position: relative
+    
+  .adminTable td
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    padding: 8px 0
+    border-bottom: 1px solid #f1f5f9
+    font-size: 0.9rem
+    &:last-child
+      border-bottom: none
+
+  .subjectCell
+    max-width: 100% /* Разрешаем теме письма переноситься на мобилках */
+    white-space: normal
+
+  .adminTable td:nth-child(1)::before
+    content: 'Ticket ID:'
+    font-size: 0.75rem
+    color: $text-light
+    margin-bottom: 4px
+    text-transform: uppercase
+
+  .adminTable td:nth-child(2)::before
+    content: 'Category:'
+    font-size: 0.75rem
+    color: $text-light
+    margin-bottom: 6px
+    text-transform: uppercase
+
+  .adminTable td:nth-child(3)::before
+    content: 'Subject:'
+    font-size: 0.75rem
+    color: $text-light
+    margin-bottom: 4px
+    text-transform: uppercase
+
+  .adminTable td:nth-child(4)::before
+    content: 'Sender:'
+    font-size: 0.75rem
+    color: $text-light
+    margin-bottom: 6px
+    text-transform: uppercase
+
+  .adminTable td:nth-child(5)::before
+    content: 'Reported User:'
+    font-size: 0.75rem
+    color: $text-light
+    margin-bottom: 6px
+    text-transform: uppercase
+
+  .adminTable td:nth-child(6)::before
+    content: 'Date:'
+    font-size: 0.75rem
+    color: $text-light
+    margin-bottom: 4px
+    text-transform: uppercase
+
+  .adminTable td:nth-child(7)
+    flex-direction: row
+    justify-content: space-between
+    align-items: center
+    padding-top: 12px
+    &::before
+      content: 'Status:'
+      font-size: 0.85rem
+      font-weight: 600
+      color: $text-light
+
+  .actionsCell
+    position: absolute !important
+    top: 15px
+    right: 15px
+    padding: 0 !important
+    border: none !important
+
+  .dropdownMenu
+    right: 0
+    top: 35px
+
+  .paginationWrapper
+    flex-direction: column
+    gap: 15px
+
+
+@media (max-width: 768px)
+  .statsGrid
+    grid-template-columns: 1fr
+    
+  .pageContainer
+    padding: 15px 10px

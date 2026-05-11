@@ -8,12 +8,30 @@ class ModelService {
     const model = await db.Model.findOne({
       where: { USR_ID: userId },
       include: [
-        { model: db.User, as: 'User', attributes: ['USR_Email', 'USR_Role'] },
+        {
+          model: db.User,
+          as: 'User',
+          attributes: ['USR_Email', 'USR_Role', 'USR_ID'],
+        },
       ],
     });
 
     if (!model) throw new Error('Profile not found');
-    return model;
+
+    const modelData = model.toJSON();
+
+    if (modelData.MOD_Status === 'blocked') {
+      const lastAction = await db.AdminAction.findOne({
+        where: { ACT_TargetID: userId },
+        order: [['createdAt', 'DESC']],
+      });
+
+      modelData.MOD_RejectionReason =
+        lastAction?.ACT_Details?.reason ||
+        'No specific reason provided. Please contact support.';
+    }
+
+    return modelData;
   }
 
   async updateProfile (userId, updateData) {
@@ -68,13 +86,17 @@ class ModelService {
       currentPage: page,
     };
   }
-  async getPublicModelById (modelId) {
+
+  async getPublicModelById (modelId, isAdmin = false) {
+    const whereClause = { MOD_ID: modelId };
+
+    if (!isAdmin) {
+      whereClause.MOD_Verified = true;
+    }
     const model = await db.Model.findOne({
-      where: {
-        MOD_ID: modelId,
-        MOD_Verified: true,
-      },
+      where: whereClause,
       attributes: [
+        'USR_ID',
         'MOD_ID',
         'MOD_FirstName',
         'MOD_LastName',
@@ -95,7 +117,7 @@ class ModelService {
         {
           model: db.User,
           as: 'User',
-          attributes: ['USR_Role', 'USR_Email'],
+          attributes: ['USR_Role', 'USR_Email', 'USR_ID'],
         },
       ],
     });

@@ -1,4 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  submitReport,
+  clearReportStatus,
+} from '../../../store/slices/reportSlice';
 import {
   FaEnvelope,
   FaMapMarkerAlt,
@@ -8,47 +13,80 @@ import {
   FaTwitter,
   FaArrowRight,
   FaHandshake,
+  FaPaperclip,
 } from 'react-icons/fa';
+import InfoModal from '../../../components/InfoModal';
 import styles from './ContactsPage.module.sass';
 
 export default function ContactsPage () {
-  // Стейт для форми (просто для візуалізації роботи)
+  const dispatch = useDispatch();
+
+  const { loading, success, error } = useSelector(state => state.report);
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    type: 'technical',
     subject: '',
     message: '',
   });
+  const [attachment, setAttachment] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (success) {
+      setIsModalOpen(true);
+
+      setFormData({ type: 'technical', subject: '', message: '' });
+      setAttachment(null);
+
+      dispatch(clearReportStatus());
+    }
+  }, [success, dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearReportStatus());
+    };
+  }, [dispatch]);
 
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleFileChange = e => {
+    setAttachment(e.target.files[0]);
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
-    alert('Thank you! Your message has been sent to our team.');
-    // Тут буде логіка відправки
+
+    const submitData = new FormData();
+    submitData.append('type', formData.type);
+    submitData.append('subject', formData.subject);
+    submitData.append('message', formData.message);
+
+    if (attachment) {
+      submitData.append('attachment', attachment);
+    }
+
+    dispatch(submitReport(submitData));
   };
 
   return (
     <div className={styles.container}>
-      {/* --- HEADER --- */}
       <div className={styles.headerWrapper}>
         <h1 className={styles.title}>
           Let’s Start a <br />
           <span className={styles.gradientText}>Conversation.</span>
         </h1>
         <p className={styles.subtitle}>
-          Have a question about the platform? Want to partner with us? Or just
+          Have a question about the platform? Need to report an issue? Or just
           want to say hello? We are here to help you thrive.
         </p>
       </div>
 
-      {/* --- MAIN GRID --- */}
       <div className={styles.grid}>
-        {/* LEFT COLUMN: INFO */}
         <div className={styles.infoColumn}>
-          {/* Contact Block */}
           <div className={styles.infoBlock}>
             <h3>Email Us</h3>
             <div className={styles.contactItem}>
@@ -61,8 +99,7 @@ export default function ContactsPage () {
               </div>
             </div>
             <div className={styles.contactItem}>
-              <FaHandshake className={styles.icon} />{' '}
-              {/* Якщо немає Handshake, заміни на FaEnvelope */}
+              <FaHandshake className={styles.icon} />
               <div>
                 <span className={styles.label}>Partnerships & Press</span>
                 <a href='mailto:partners@lipax.com' className={styles.link}>
@@ -72,7 +109,6 @@ export default function ContactsPage () {
             </div>
           </div>
 
-          {/* Location Block */}
           <div className={styles.infoBlock}>
             <h3>Visit HQ</h3>
             <div className={styles.contactItem}>
@@ -95,7 +131,6 @@ export default function ContactsPage () {
             </div>
           </div>
 
-          {/* Socials */}
           <div className={styles.socials}>
             <a href='#' className={styles.socialLink}>
               <FaInstagram />
@@ -109,50 +144,40 @@ export default function ContactsPage () {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: FORM */}
         <div className={styles.formColumn}>
           <form onSubmit={handleSubmit} className={styles.form}>
-            <div className={styles.inputGroup}>
-              <label htmlFor='name'>Your Name</label>
-              <input
-                type='text'
-                name='name'
-                id='name'
-                placeholder='John Doe'
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-            </div>
+            {error && <div className={styles.errorMessage}>{error}</div>}
 
             <div className={styles.inputGroup}>
-              <label htmlFor='email'>Email Address</label>
-              <input
-                type='email'
-                name='email'
-                id='email'
-                placeholder='john@example.com'
-                value={formData.email}
+              <label htmlFor='type'>Category</label>
+              <select
+                name='type'
+                id='type'
+                value={formData.type}
                 onChange={handleChange}
+                className={styles.select}
                 required
-              />
+              >
+                <option value='technical'>
+                  Technical Support (Bugs/Errors)
+                </option>
+                <option value='complaint'>Report a User / Agency</option>
+                <option value='suggestion'>Partnership / Suggestion</option>
+                <option value='other'>Other</option>
+              </select>
             </div>
 
             <div className={styles.inputGroup}>
               <label htmlFor='subject'>Subject</label>
-              <select
+              <input
+                type='text'
                 name='subject'
                 id='subject'
+                placeholder='Brief description of your request'
                 value={formData.subject}
                 onChange={handleChange}
-                className={styles.select}
-              >
-                <option value=''>Select a topic</option>
-                <option value='support'>Technical Support</option>
-                <option value='billing'>Billing & Payments</option>
-                <option value='partnership'>Agency Partnership</option>
-                <option value='other'>Other</option>
-              </select>
+                required
+              />
             </div>
 
             <div className={styles.inputGroup}>
@@ -160,20 +185,60 @@ export default function ContactsPage () {
               <textarea
                 name='message'
                 id='message'
-                rows='4'
-                placeholder='Tell us how we can help...'
+                rows='5'
+                placeholder='Please provide as many details as possible...'
                 value={formData.message}
                 onChange={handleChange}
                 required
               ></textarea>
             </div>
 
-            <button type='submit' className={styles.submitBtn}>
-              Send Message <FaArrowRight className={styles.btnIcon} />
+            <div className={styles.inputGroup}>
+              <label htmlFor='attachment'>Attachment (Optional)</label>
+              <div className={styles.fileInputWrapper}>
+                <input
+                  type='file'
+                  name='attachment'
+                  id='attachment'
+                  accept='image/jpeg, image/png, image/webp'
+                  onChange={handleFileChange}
+                  className={styles.fileInput}
+                />
+                <div className={styles.customFileBtn}>
+                  <FaPaperclip />{' '}
+                  {attachment ? attachment.name : 'Attach a screenshot'}
+                </div>
+              </div>
+            </div>
+
+            <button
+              type='submit'
+              className={styles.submitBtn}
+              disabled={loading}
+            >
+              {loading ? (
+                'Sending...'
+              ) : (
+                <>
+                  Send Message <FaArrowRight className={styles.btnIcon} />
+                </>
+              )}
             </button>
           </form>
         </div>
       </div>
+
+      <InfoModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title='Report Submitted'
+        showSignupBtn={false}
+      >
+        <p style={{ color: '#64748b', lineHeight: '1.6', fontSize: '1rem' }}>
+          Thank you! Your message has been successfully sent to our support
+          team. We will review it and get back to you shortly.
+        </p>
+      </InfoModal>
     </div>
   );
 }

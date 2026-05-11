@@ -9,7 +9,8 @@ import {
   createApplication,
   fetchMyApplications,
 } from '../../../../store/slices/applicationSlice';
-import AuthModal from '../../../../components/AuthModal';
+import { fetchProfile } from '../../../../store/slices/modelSlice';
+import InfoModal from '../../../../components/InfoModal';
 import styles from './CastingDetailsPage.module.sass';
 import CONSTANTS from '../../../../utils/constants';
 
@@ -21,7 +22,6 @@ import {
   FaVenusMars,
   FaBirthdayCake,
   FaRulerVertical,
-  FaUserTie,
 } from 'react-icons/fa';
 
 const formatPayment = payment => {
@@ -47,6 +47,8 @@ export default function CastingDetailsPage () {
   const dispatch = useDispatch();
 
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showPendingModal, setShowPendingModal] = useState(false);
+  const [showBlockedModal, setShowBlockedModal] = useState(false);
 
   const { user } = useSelector(state => state.auth);
   const { selectedCasting, loading: castingLoading } = useSelector(
@@ -55,18 +57,22 @@ export default function CastingDetailsPage () {
   const { myApplications, loading: appLoading } = useSelector(
     state => state.application
   );
+  const { data: modelProfile } = useSelector(state => state.model);
 
   useEffect(() => {
     if (id) {
       dispatch(fetchCastingById(id));
       if (user?.role === 'model') {
         dispatch(fetchMyApplications());
+        if (!modelProfile) {
+          dispatch(fetchProfile());
+        }
       }
     }
     return () => {
       dispatch(clearSelectedCasting());
     };
-  }, [dispatch, id, user]);
+  }, [dispatch, id, user, modelProfile]);
 
   const applicationStatus = useMemo(() => {
     if (user?.role !== 'model' || !myApplications || !selectedCasting) {
@@ -81,8 +87,23 @@ export default function CastingDetailsPage () {
       setShowAuthModal(true);
       return;
     }
-    if (user.role === 'model' && !applicationStatus) {
-      dispatch(createApplication({ CST_ID: id }));
+
+    if (user.role === 'model') {
+      const currentStatus = modelProfile?.MOD_Status || 'pending';
+
+      if (currentStatus === 'pending') {
+        setShowPendingModal(true);
+        return;
+      }
+
+      if (currentStatus === 'blocked') {
+        setShowBlockedModal(true);
+        return;
+      }
+
+      if (!applicationStatus) {
+        dispatch(createApplication({ CST_ID: id }));
+      }
     }
   };
 
@@ -276,14 +297,56 @@ export default function CastingDetailsPage () {
         </div>
       </div>
 
-      <AuthModal
+      <InfoModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
-        title='Login to Apply'
+        title='Login Required'
         signupPath='/signup'
+        primaryBtnText='Sign Up'
+        showSignupBtn={true}
       >
         <p>You must be logged in as a model to apply for castings.</p>
-      </AuthModal>
+      </InfoModal>
+
+      <InfoModal
+        isOpen={showPendingModal}
+        onClose={() => setShowPendingModal(false)}
+        title='Profile Under Review'
+        showSignupBtn={false}
+      >
+        <div style={{ textAlign: 'center' }}>
+          <p style={{ marginBottom: '1rem', color: '#666' }}>
+            Your profile is currently being reviewed by our moderation team.
+          </p>
+          <p style={{ fontWeight: '600', color: '#111' }}>
+            You will be able to apply for castings once your account is fully
+            verified and activated.
+          </p>
+        </div>
+      </InfoModal>
+
+      <InfoModal
+        isOpen={showBlockedModal}
+        onClose={() => setShowBlockedModal(false)}
+        title='Account Blocked'
+        showSignupBtn={false}
+      >
+        <div style={{ textAlign: 'center' }}>
+          <p
+            style={{
+              marginBottom: '1rem',
+              color: '#dc3545',
+              fontWeight: 'bold',
+            }}
+          >
+            Your profile has been blocked by the administration.
+          </p>
+          <p style={{ color: '#666', fontSize: '0.9rem' }}>
+            Please check your dashboard for details or contact support to
+            resolve this issue. You cannot apply to castings at this time.
+          </p>
+        </div>
+      </InfoModal>
     </div>
   );
 }

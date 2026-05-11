@@ -17,8 +17,11 @@ function Header () {
 
   const toggleMenu = () => setIsMenuOpen(prev => !prev);
 
+  const closeMenu = () => setIsMenuOpen(false);
+
   const handleLogout = () => {
     dispatch(logout());
+    closeMenu();
     navigate('/login');
   };
 
@@ -42,7 +45,7 @@ function Header () {
 
   return (
     <header className={styles.headerWrapper}>
-      <NavLink className={styles.logoNavLink} to='/'>
+      <NavLink className={styles.logoNavLink} to='/' onClick={closeMenu}>
         <div className={styles.headerLogoWrapper}>
           <p className={styles.headerLogo}>
             Lipa<span className={styles.headerAbbreviation}>X</span>
@@ -64,6 +67,7 @@ function Header () {
             <NavLink
               className={props => navLinkClassName(props, className)}
               to={to}
+              onClick={closeMenu}
             >
               {label === 'Profile' ? (
                 <CgProfile className={styles.profileIcon} />
@@ -82,6 +86,7 @@ function Header () {
                   key={to}
                   className={props => navLinkClassName(props, className)}
                   to={to}
+                  onClick={closeMenu}
                 >
                   {label}
                 </NavLink>

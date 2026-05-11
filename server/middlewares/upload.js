@@ -45,4 +45,5 @@ module.exports = {
   uploadAlbumPhotos: upload.array('photos', 10),
   uploadCastingCover: upload.single('coverImage'),
   uploadAgencyLogo: upload.single('logo'),
+  uploadReportAttachment: upload.single('attachment'),
 };

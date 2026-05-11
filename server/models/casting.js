@@ -40,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
           'pending',
           'approved',
           'rejected',
+          'blocked',
           'active',
           'closed'
         ),

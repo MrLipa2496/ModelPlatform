@@ -94,9 +94,31 @@ export const getMySentInvitationsRequest = () =>
 export const getMyInvitationsRequest = () => http.get('api/invitations/my');
 export const respondToInvitationRequest = (id, data) =>
   http.patch(`api/invitations/${id}/respond`, data);
+export const getAdminInvitationsRequest = (page, limit, status) =>
+  http.get('api/admin/invitations', { params: { page, limit, status } });
 
 // MESSAGES (api/messages)
 export const sendMessageRequest = data => http.post('api/messages', data);
 export const getConversationsRequest = () => http.get('api/messages');
 export const getMessagesWithUserRequest = userId =>
   http.get(`api/messages/${userId}`);
+
+// ADMIN (api/admin)
+export const getAdminUsersRequest = (role, status, page, limit) =>
+  http.get('api/admin/users', { params: { role, status, page, limit } });
+export const changeAdminUserStatusRequest = (id, data) =>
+  http.patch(`api/admin/users/${id}/status`, data);
+export const getAdminCastingsRequest = (status, page, limit, search = '') =>
+  http.get('api/admin/castings', { params: { status, page, limit, search } });
+export const changeAdminCastingStatusRequest = (id, data) =>
+  http.patch(`api/admin/castings/${id}/status`, data);
+export const getAdminStatsRequest = () => http.get('api/admin/stats');
+export const getAdminStatisticsRequest = () => http.get('api/admin/statistics');
+export const getAdminReportsRequest = (page, limit, status) =>
+  http.get('api/admin/reports', { params: { page, limit, status } });
+export const updateAdminReportStatusRequest = (id, data) =>
+  http.patch(`api/admin/reports/${id}`, data);
+
+// REPORTS & COMPLAINTS (api/reports)
+export const createReportRequest = data => http.post('api/reports', data);
+export const getMyReportsRequest = () => http.get('api/reports/my');

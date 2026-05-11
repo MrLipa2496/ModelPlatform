@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllAgencies } from '../../../store/slices/agencySlice';
 import Pagination from '../../../components/Pagination';
-import AuthModal from '../../../components/AuthModal';
+import InfoModal from '../../../components/InfoModal';
 import styles from './AgenciesPage.module.sass';
 import CONSTANTS from '../../../utils/constants';
 
@@ -90,7 +90,7 @@ export default function AgenciesPage () {
         />
       )}
 
-      <AuthModal
+      <InfoModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         title='Create an Account'
@@ -100,7 +100,7 @@ export default function AgenciesPage () {
           Sign up or log in to view agency details, contact information, and
           collaboration opportunities.
         </p>
-      </AuthModal>
+      </InfoModal>
     </div>
   );
 }

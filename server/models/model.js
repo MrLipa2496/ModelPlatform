@@ -44,6 +44,7 @@ module.exports = (sequelize, DataTypes) => {
       MOD_FirstName: { type: DataTypes.STRING, allowNull: false },
       MOD_LastName: { type: DataTypes.STRING, allowNull: false },
       MOD_Country: { type: DataTypes.STRING },
+      MOD_City: { type: DataTypes.STRING },
       MOD_Gender: { type: DataTypes.STRING },
       MOD_BirthDate: { type: DataTypes.DATE },
       MOD_Height: { type: DataTypes.INTEGER },

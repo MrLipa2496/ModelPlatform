@@ -9,6 +9,7 @@ class AgencyService {
 
     const { count, rows } = await db.Agency.findAndCountAll({
       attributes: [
+        'USR_ID',
         'AGN_ID',
         'AGN_Name',
         'AGN_Logo',
@@ -39,13 +40,17 @@ class AgencyService {
     };
   }
 
-  async getAgencyWithCastings (id) {
+  async getAgencyWithCastings (id, isAdmin = false) {
+    const whereClause = { AGN_ID: id };
+
+    if (!isAdmin) {
+      whereClause.AGN_Status = STATUS.ACTIVE;
+    }
+
     const agency = await db.Agency.findOne({
-      where: {
-        AGN_ID: id,
-        AGN_Status: STATUS.ACTIVE,
-      },
+      where: whereClause,
       attributes: [
+        'USR_ID',
         'AGN_ID',
         'AGN_Name',
         'AGN_Logo',
@@ -55,8 +60,14 @@ class AgencyService {
         'AGN_Country',
         'AGN_City',
         'AGN_Verified',
+        'AGN_Status',
       ],
       include: [
+        {
+          model: db.User,
+          as: 'User',
+          attributes: ['USR_ID', 'USR_Email', 'USR_Role'],
+        },
         {
           model: db.Casting,
           as: 'Castings',
@@ -81,7 +92,7 @@ class AgencyService {
         {
           model: db.User,
           as: 'User',
-          attributes: ['USR_Email'],
+          attributes: ['USR_ID', 'USR_Email', 'USR_Role'],
         },
       ],
     });
@@ -89,7 +100,21 @@ class AgencyService {
     if (!agency) {
       throw new Error('Agency profile not found');
     }
-    return agency;
+
+    const agencyData = agency.toJSON();
+
+    if (agencyData.AGN_Status === 'blocked') {
+      const lastAction = await db.AdminAction.findOne({
+        where: { ACT_TargetID: userId },
+        order: [['createdAt', 'DESC']],
+      });
+
+      agencyData.AGN_RejectionReason =
+        lastAction?.ACT_Details?.reason ||
+        'No specific reason provided. Please contact support.';
+    }
+
+    return agencyData;
   }
 
   async updateAgencyProfile (userId, updateData) {

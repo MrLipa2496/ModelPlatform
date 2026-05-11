@@ -92,7 +92,10 @@ export const SIGNUP_VALIDATION_SCHEMA = yup.object().shape({
     is: 'model',
     then: schema =>
       schema
-        .oneOf(['male', 'female', 'other'], 'Select a valid gender')
+        .oneOf(
+          ['Male', 'Female', 'Non-binary', 'Other'],
+          'Select a valid gender'
+        )
         .required('Gender is required'),
     otherwise: schema => schema.notRequired(),
   }),
@@ -134,16 +137,8 @@ export const SIGNUP_VALIDATION_SCHEMA = yup.object().shape({
     otherwise: schema => schema.notRequired(),
   }),
 
-  location: yup.string().when('role', {
-    is: 'agency',
-    then: schema =>
-      schema
-        .trim()
-        .min(2, 'Location is too short')
-        .max(100, 'Location is too long')
-        .required('Location is required'),
-    otherwise: schema => schema.notRequired(),
-  }),
+  country: yup.string().required('Country is required'),
+  city: yup.string().required('City is required'),
 });
 
 export const profileValidationSchema = yup.object({
@@ -207,7 +202,7 @@ export const profileValidationSchema = yup.object({
   MOD_Bio: yup
     .string()
     .required('Bio is required')
-    .min(10, 'Please write at least a few words about yourself') // Добавил минимальную длину для солидности
+    .min(10, 'Please write at least a few words about yourself')
     .max(1000, 'Bio is too long'),
 });
 
@@ -228,4 +223,15 @@ export const agencyProfileValidationSchema = yup.object({
       'Phone number is not valid'
     ),
   AGN_Description: yup.string().max(1000, 'Must be 1000 characters or less'),
+});
+
+export const ADMIN_APPROVE_VALIDATION = yup.object({});
+
+export const ADMIN_REJECT_VALIDATION = yup.object({
+  reason: yup
+    .string()
+    .trim()
+    .min(10, 'Rejection reason must be at least 10 characters long.')
+    .max(500, 'Rejection reason cannot exceed 500 characters.')
+    .required('Please provide a reason for rejection.'),
 });

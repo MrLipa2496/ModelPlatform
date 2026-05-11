@@ -1,6 +1,6 @@
 const castingService = require('../services/castingService');
 const ServerError = require('../errors/ServerError');
-const { ROLES } = require('../utils/constants');
+const { ROLES, STATUS } = require('../utils/constants');
 
 module.exports = {
   createCasting: async (req, res, next) => {
@@ -38,7 +38,38 @@ module.exports = {
 
   getCastingById: async (req, res, next) => {
     try {
-      const casting = await castingService.getPublicCastingById(req.params.id);
+      const castingId = req.params.id;
+      let casting;
+
+      const unfilteredCasting = await castingService.getCastingByIdUnfiltered(
+        castingId
+      );
+
+      const isAdmin = req.user && req.user.role === 'admin';
+
+      let isOwner = false;
+      if (req.user && req.user.role === 'agency') {
+        const userAgency = await db.Agency.findOne({
+          where: { USR_ID: req.user.id },
+        });
+        if (userAgency && unfilteredCasting.AGN_ID === userAgency.AGN_ID) {
+          isOwner = true;
+        }
+      }
+
+      if (isAdmin || isOwner) {
+        casting = unfilteredCasting;
+      } else {
+        if (
+          ![STATUS.ACTIVE, STATUS.APPROVED].includes(
+            unfilteredCasting.CST_Status
+          )
+        ) {
+          return next(new ServerError('Casting not found or not active', 404));
+        }
+        casting = unfilteredCasting;
+      }
+
       res.status(200).json(casting);
     } catch (err) {
       if (err.message.includes('not found'))

@@ -1,18 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { IoMdEye, IoMdEyeOff, IoMdArrowBack } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import Select from 'react-select';
+import { Country, City } from 'country-state-city';
 import ValidatedField from '../ValidatedField';
 import { SIGNUP_VALIDATION_SCHEMA } from '../../utils/validationSchema';
 import { authenticateUser, clearAuthError } from '../../store/slices/authSlice';
 import CONSTANTS from '../../utils/constants';
 import styles from './SignupForm.module.sass';
 
-const { ROLE_OPTIONS, MODEL_FIELDS, AGENCY_FIELDS } = CONSTANTS;
+const { MODEL_FIELDS, AGENCY_FIELDS } = CONSTANTS;
 
 const SignupForm = ({ preselectedRole }) => {
   const [showPassword, setShowPassword] = useState(false);
+
+  const [selectedCountryCode, setSelectedCountryCode] = useState('');
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -22,6 +27,88 @@ const SignupForm = ({ preselectedRole }) => {
   };
 
   const togglePasswordVisibility = () => setShowPassword(v => !v);
+
+  const countryOptions = useMemo(() => {
+    return Country.getAllCountries().map(country => ({
+      value: country.isoCode,
+      label: country.name,
+    }));
+  }, []);
+
+  const cityOptions = useMemo(() => {
+    if (!selectedCountryCode) return [];
+    return City.getCitiesOfCountry(selectedCountryCode).map(city => ({
+      value: city.name,
+      label: city.name,
+    }));
+  }, [selectedCountryCode]);
+
+  const customSelectStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      minHeight: '48px',
+      borderRadius: '30px',
+      borderColor: state.isFocused ? '#333' : '#b3b3b3',
+      boxShadow: state.isFocused ? '0 0 0 1px #333' : 'none',
+      padding: '0 6px',
+      cursor: 'text',
+      backgroundColor: '#fff',
+      '&:hover': {
+        borderColor: '#333',
+      },
+    }),
+    valueContainer: provided => ({
+      ...provided,
+      padding: '0 12px',
+    }),
+    input: provided => ({
+      ...provided,
+      margin: '0px',
+      color: '#333',
+    }),
+    indicatorSeparator: () => ({
+      display: 'none',
+    }),
+    dropdownIndicator: provided => ({
+      ...provided,
+      color: '#666',
+      padding: '0 12px',
+      '&:hover': {
+        color: '#333',
+      },
+    }),
+    placeholder: provided => ({
+      ...provided,
+      color: '#999',
+      fontWeight: '400',
+    }),
+    singleValue: provided => ({
+      ...provided,
+      color: '#333',
+    }),
+    menu: provided => ({
+      ...provided,
+      borderRadius: '16px',
+      overflow: 'hidden',
+      boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+      marginTop: '6px',
+      zIndex: 100,
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected
+        ? '#333'
+        : state.isFocused
+        ? '#f0f0f0'
+        : 'transparent',
+      color: state.isSelected ? '#fff' : '#333',
+      cursor: 'pointer',
+      padding: '12px 16px',
+      '&:active': {
+        backgroundColor: '#555',
+      },
+    }),
+  };
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
@@ -34,11 +121,14 @@ const SignupForm = ({ preselectedRole }) => {
               lastName: values.lastName,
               gender: values.gender,
               birthDate: values.birthDate,
+              country: values.country,
+              city: values.city,
             }
           : {
               agencyName: values.agencyName,
               phone: values.phone,
-              location: values.location,
+              country: values.country,
+              city: values.city,
             }),
       };
 
@@ -82,30 +172,91 @@ const SignupForm = ({ preselectedRole }) => {
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, setFieldValue, setFieldTouched, values }) => (
           <Form className={styles.form}>
-            {fieldsToShow.map(f => (
-              <div key={f.name} className={styles.fieldRow}>
-                {f.as === 'select' ? (
-                  <ValidatedField name={f.name} as='select' label={f.label}>
-                    {f.options.map(opt => (
-                      <option key={opt} value={opt}>
-                        {opt === ''
-                          ? 'Select...'
-                          : opt.charAt(0).toUpperCase() + opt.slice(1)}
-                      </option>
-                    ))}
-                  </ValidatedField>
-                ) : (
-                  <ValidatedField
-                    name={f.name}
-                    type={f.type}
-                    label={f.label}
-                    placeholder={f.placeholder}
-                  />
-                )}
-              </div>
-            ))}
+            {fieldsToShow.map(f => {
+              if (f.name === 'country' || f.name === 'city') {
+                const isCountry = f.name === 'country';
+                return (
+                  <div
+                    key={f.name}
+                    className={styles.fieldRow}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '5px',
+                      marginBottom: '15px',
+                    }}
+                  >
+                    <label
+                      style={{
+                        fontSize: '0.9rem',
+                        fontWeight: '500',
+                        color: '#555',
+                      }}
+                    >
+                      {f.label}
+                    </label>
+                    <Select
+                      options={isCountry ? countryOptions : cityOptions}
+                      styles={customSelectStyles}
+                      placeholder={`Search ${f.label.toLowerCase()}...`}
+                      isDisabled={!isCountry && !selectedCountryCode}
+                      value={
+                        isCountry
+                          ? countryOptions.find(
+                              c => c.label === values.country
+                            ) || null
+                          : cityOptions.find(c => c.value === values.city) ||
+                            null
+                      }
+                      onChange={option => {
+                        if (isCountry) {
+                          setFieldValue('country', option.label);
+                          setSelectedCountryCode(option.value);
+                          setFieldValue('city', '');
+                        } else {
+                          setFieldValue('city', option.value);
+                        }
+                      }}
+                      onBlur={() => setFieldTouched(f.name, true)}
+                    />
+                    <ErrorMessage
+                      name={f.name}
+                      component='div'
+                      style={{
+                        color: '#d32f2f',
+                        fontSize: '0.8rem',
+                        marginTop: '4px',
+                      }}
+                    />
+                  </div>
+                );
+              }
+
+              return (
+                <div key={f.name} className={styles.fieldRow}>
+                  {f.as === 'select' ? (
+                    <ValidatedField name={f.name} as='select' label={f.label}>
+                      {f.options.map(opt => (
+                        <option key={opt} value={opt}>
+                          {opt === ''
+                            ? 'Select...'
+                            : opt.charAt(0).toUpperCase() + opt.slice(1)}
+                        </option>
+                      ))}
+                    </ValidatedField>
+                  ) : (
+                    <ValidatedField
+                      name={f.name}
+                      type={f.type}
+                      label={f.label}
+                      placeholder={f.placeholder}
+                    />
+                  )}
+                </div>
+              );
+            })}
 
             <ValidatedField
               name='email'

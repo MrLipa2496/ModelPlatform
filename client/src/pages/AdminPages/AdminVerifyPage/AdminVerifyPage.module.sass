@@ -1,0 +1,327 @@
+.pageContainer
+  width: 100%
+  min-height: 100vh
+  background-color: #fafafa
+  padding-bottom: 4rem
+
+.pageHeader
+  background-color: #ffffff
+  border-bottom: 1px solid #eaeaea
+  padding: 3rem 5%
+  margin-bottom: 2rem
+
+.headerTitles
+  max-width: 1200px
+  margin: 0 auto
+
+.subtitle
+  font-size: 0.75rem
+  color: #888
+  letter-spacing: 2px
+  text-transform: uppercase
+  margin-bottom: 0.5rem
+
+.title
+  font-size: 2.2rem
+  font-weight: 800
+  color: #111
+  margin-bottom: 0.8rem
+  letter-spacing: -0.5px
+
+.description
+  max-width: 1200px
+  color: #666
+  font-size: 0.95rem
+  max-width: 600px
+
+.content
+  max-width: 1200px
+  margin: 0 auto
+  padding: 0 2rem
+
+.tabsContainer
+  display: flex
+  gap: 1rem
+  margin-bottom: 1.5rem
+  border-bottom: 1px solid #eaeaea
+  padding-bottom: 1rem
+
+.tabBtn
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 8px
+  background: transparent
+  border: none
+  padding: 0.5rem 1rem
+  font-size: 0.95rem
+  font-weight: 600
+  color: #888
+  cursor: pointer
+  border-radius: 6px
+  transition: all 0.2s ease
+  
+  &:hover
+    color: #111
+    background: #f5f5f5
+
+.activeTab
+  color: #111
+  background: #fff
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05)
+  border: 1px solid #eaeaea
+
+.tabIcon
+  font-size: 1.1rem
+
+.tableContainer
+  background: #fff
+  border: 1px solid #eaeaea
+  border-radius: 12px
+  overflow: hidden
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02)
+
+.dataTable
+  width: 100%
+  border-collapse: collapse
+  text-align: left
+
+  th
+    padding: 1rem 1.5rem
+    font-size: 0.8rem
+    font-weight: 700
+    color: #888
+    text-transform: uppercase
+    letter-spacing: 1px
+    border-bottom: 1px solid #eaeaea
+    background: #fafafa
+
+.alignRight
+  text-align: right
+
+.tableRow
+  border-bottom: 1px solid #f5f5f5
+  transition: background 0.2s ease
+  &:hover
+    background: #fafafa
+  &:last-child
+    border-bottom: none
+
+  td
+    padding: 1.2rem 1.5rem
+    vertical-align: middle
+
+.nameWrapper
+  display: flex
+  align-items: center
+  gap: 1rem
+
+.avatarPlaceholder
+  width: 40px
+  height: 40px
+  border-radius: 8px
+  background: #111
+  color: #fff
+  display: flex
+  align-items: center
+  justify-content: center
+  font-weight: 700
+  font-size: 1.2rem
+  flex-shrink: 0
+
+.avatarImage
+  width: 100%
+  height: 100%
+  object-fit: cover
+  border-radius: 8px
+
+.primaryText
+  font-size: 0.95rem
+  font-weight: 600
+  color: #111
+  margin-bottom: 2px
+
+.secondaryText
+  font-size: 0.8rem
+  color: #888
+
+.dateWrapper
+  display: flex
+  align-items: center
+  gap: 6px
+  color: #666
+  font-size: 0.9rem
+
+.iconSmall
+  color: #aaa
+
+.actionButtons
+  display: flex
+  justify-content: flex-end
+  gap: 0.8rem
+
+.viewBtn
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 5px
+  padding: 8px 12px
+  border: 1px solid #ccc
+  border-radius: 6px
+  color: #333
+  text-decoration: none
+  background: #fff
+  font-size: 0.85rem
+  font-weight: 600
+  transition: all 0.2s ease
+  &:hover
+    background-color: #f9f9f9
+
+.approveBtn, .rejectBtn
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 6px
+  padding: 8px 16px
+  border-radius: 6px
+  font-size: 0.85rem
+  font-weight: 600
+  cursor: pointer
+  transition: all 0.2s ease
+  border: 1px solid transparent
+
+.approveBtn
+  background: #111
+  color: #fff
+  &:hover
+    background: #333
+    transform: translateY(-1px)
+
+.rejectBtn
+  background: transparent
+  color: #dc3545
+  border-color: #f5c6cb
+  &:hover
+    background: #fff3f4
+    border-color: #dc3545
+
+.paginationWrapper
+  display: flex
+  justify-content: center
+  padding: 1.5rem 0
+  border-top: 1px solid #eaeaea
+
+.loadingState, .emptyState
+  padding: 4rem 2rem
+  text-align: center
+  color: #666
+
+.emptyState
+  display: flex
+  flex-direction: column
+  align-items: center
+  
+  h3
+    color: #111
+    font-size: 1.2rem
+    margin-bottom: 0.5rem
+
+.emptyIconWrapper
+  width: 64px
+  height: 64px
+  border-radius: 50%
+  background: #f5f5f5
+  display: flex
+  align-items: center
+  justify-content: center
+  margin-bottom: 1.5rem
+
+.emptyIcon
+  font-size: 1.8rem
+  color: #ccc
+
+
+@media (max-width: 1024px)
+  .content
+    padding: 0 1rem
+
+@media (max-width: 868px)
+  .pageHeader
+    padding: 2rem 5%
+    
+  .title
+    font-size: 1.8rem
+
+  .tabsContainer
+    width: 100%
+  
+  .tabBtn
+    flex: 1 
+
+  .tableContainer
+    background: transparent
+    border: none
+    box-shadow: none
+
+  .dataTable
+    display: block
+    
+    thead
+      display: none 
+    
+    tbody
+      display: flex
+      flex-direction: column
+      gap: 15px
+
+  .tableRow
+    display: flex
+    flex-direction: column
+    background: #fff
+    border: 1px solid #eaeaea
+    border-radius: 12px
+    padding: 15px
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02)
+    
+  .dataTable td
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding: 8px 0
+    border-bottom: 1px solid #f5f5f5
+    &:last-child
+      border-bottom: none
+
+  .dataTable td:nth-child(1)
+    justify-content: flex-start
+    padding-bottom: 15px
+    margin-bottom: 5px
+
+  .dataTable td:nth-child(2)::before
+    content: 'Location:'
+    font-weight: 600
+    font-size: 0.8rem
+    color: #888
+
+  .dataTable td:nth-child(3)::before
+    content: 'Applied On:'
+    font-weight: 600
+    font-size: 0.8rem
+    color: #888
+
+  .dataTable td:nth-child(4)
+    flex-direction: column
+    padding-top: 15px
+    margin-top: 5px
+    border-top: 1px solid #eaeaea
+    
+  .actionButtons
+    width: 100%
+    display: flex
+    justify-content: space-between
+    gap: 10px
+    flex-wrap: wrap
+    
+  .viewBtn, .approveBtn, .rejectBtn
+    flex: 1
+    min-width: 30%

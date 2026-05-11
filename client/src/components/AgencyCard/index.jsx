@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   FiCamera,
   FiGlobe,
   FiPhone,
   FiMail,
   FiMessageSquare,
+  FiArrowLeft,
+  FiFlag,
 } from 'react-icons/fi';
 import { toast } from 'react-toastify';
+import ReportUserModal from '../ReportUserModal';
 import styles from './AgencyCard.module.sass';
 import defaultAvatarLocal from '../../../img/default-avatar.jpg';
 import CONSTANTS from '../../utils/constants';
@@ -17,6 +22,14 @@ export default function AgencyCard ({
   onEdit,
   onLogoChange,
 }) {
+  const navigate = useNavigate();
+
+  const { user } = useSelector(state => state.auth);
+  const currentUserRole = (user?.role || user?.USR_Role || '').toLowerCase();
+  const isAdmin = currentUserRole === 'admin';
+
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+
   const {
     AGN_Logo,
     AGN_Name,
@@ -26,6 +39,7 @@ export default function AgencyCard ({
     AGN_Website,
     AGN_Phone,
     AGN_Verified,
+    AGN_Status,
   } = agency;
 
   const handleLogoChange = e => {
@@ -35,14 +49,21 @@ export default function AgencyCard ({
     }
   };
 
-  // Заглушка для будущего чата
   const handleContactClick = () => {
-    toast.info('💬 In-app messaging is coming soon!', {
+    toast.info('In-app messaging is coming soon!', {
       position: 'bottom-center',
       autoClose: 3000,
       hideProgressBar: true,
-      theme: 'dark', // Темная тема тоста отлично впишется в минимализм
+      theme: 'dark',
     });
+  };
+
+  const handleAdminBack = () => {
+    if (AGN_Status === 'pending') {
+      navigate('/admin/verify');
+    } else {
+      navigate('/admin/users');
+    }
   };
 
   const headerClass = `${styles.header} ${
@@ -50,92 +71,119 @@ export default function AgencyCard ({
   }`;
 
   return (
-    <div className={styles.card}>
-      <header className={headerClass}>
-        <div className={styles.logoWrapper}>
-          <img
-            src={
-              AGN_Logo ? `${CONSTANTS.BASE_URL}${AGN_Logo}` : defaultAvatarLocal
-            }
-            alt='Agency Logo'
-            className={styles.logo}
-          />
-          {isEditable && (
-            <label className={styles.uploadButton}>
-              <FiCamera className={styles.icon} />
-              <input
-                type='file'
-                accept='image/*'
-                onChange={handleLogoChange}
-                style={{ display: 'none' }}
-              />
-            </label>
-          )}
-        </div>
+    <>
+      <div className={styles.card}>
+        <header className={headerClass}>
+          <div className={styles.logoWrapper}>
+            <img
+              src={
+                AGN_Logo
+                  ? `${CONSTANTS.BASE_URL}${AGN_Logo}`
+                  : defaultAvatarLocal
+              }
+              alt='Agency Logo'
+              className={styles.logo}
+            />
+            {isEditable && (
+              <label className={styles.uploadButton}>
+                <FiCamera className={styles.icon} />
+                <input
+                  type='file'
+                  accept='image/*'
+                  onChange={handleLogoChange}
+                  style={{ display: 'none' }}
+                />
+              </label>
+            )}
+          </div>
 
-        <div className={styles.titleGroup}>
-          <h1 className={styles.name}>
-            {AGN_Name}
-            {AGN_Verified && <span className={styles.verifiedBadge}>✓</span>}
-          </h1>
-          <p className={styles.location}>
-            {AGN_City || 'City'}, {AGN_Country || 'Country'}
-          </p>
-        </div>
-      </header>
+          <div className={styles.titleGroup}>
+            <h1 className={styles.name}>
+              {AGN_Name}
+              {AGN_Verified && <span className={styles.verifiedBadge}>✓</span>}
+            </h1>
+            <p className={styles.location}>
+              {AGN_City || 'City'}, {AGN_Country || 'Country'}
+            </p>
+          </div>
+        </header>
 
-      <section className={styles.body}>
-        <div className={styles.about}>
-          <h4>About {AGN_Name}</h4>
-          <p>{AGN_Description || 'No description provided yet.'}</p>
-        </div>
+        <section className={styles.body}>
+          <div className={styles.about}>
+            <h4>About {AGN_Name}</h4>
+            <p>{AGN_Description || 'No description provided yet.'}</p>
+          </div>
 
-        <div className={styles.contact}>
-          <h4>Contact Info</h4>
-          <ul>
-            {AGN_Website && (
-              <li>
-                <FiGlobe className={styles.icon} />
-                <a
-                  href={
-                    AGN_Website.startsWith('http')
-                      ? AGN_Website
-                      : `//${AGN_Website}`
-                  }
-                  target='_blank'
-                  rel='noopener noreferrer'
+          <div className={styles.contact}>
+            <h4>Contact Info</h4>
+            <ul>
+              {AGN_Website && (
+                <li>
+                  <FiGlobe className={styles.icon} />
+                  <a
+                    href={
+                      AGN_Website.startsWith('http')
+                        ? AGN_Website
+                        : `//${AGN_Website}`
+                    }
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    {AGN_Website.replace(/^https?:\/\//, '')}
+                  </a>
+                </li>
+              )}
+              {AGN_Phone && (
+                <li>
+                  <FiPhone className={styles.icon} />
+                  <span>{AGN_Phone}</span>
+                </li>
+              )}
+              {agency.User && (
+                <li>
+                  <FiMail className={styles.icon} />
+                  <span>{agency.User.USR_Email}</span>
+                </li>
+              )}
+            </ul>
+
+            {isAdmin ? (
+              <button className={styles.adminBackBtn} onClick={handleAdminBack}>
+                <FiArrowLeft className={styles.btnIcon} />
+                Back to Moderation
+              </button>
+            ) : isEditable ? (
+              <button className={styles.editButton} onClick={onEdit}>
+                Edit Profile
+              </button>
+            ) : (
+              <div className={styles.actionButtons}>
+                <button
+                  className={styles.contactBtn}
+                  onClick={handleContactClick}
                 >
-                  {AGN_Website.replace(/^https?:\/\//, '')}
-                </a>
-              </li>
+                  <FiMessageSquare className={styles.btnIcon} />
+                  Message Agency
+                </button>
+                <button
+                  className={styles.reportBtn}
+                  onClick={() => setIsReportModalOpen(true)}
+                  title='Report Agency'
+                >
+                  <FiFlag /> Report
+                </button>
+              </div>
             )}
-            {AGN_Phone && (
-              <li>
-                <FiPhone className={styles.icon} />
-                <span>{AGN_Phone}</span>
-              </li>
-            )}
-            {agency.User && (
-              <li>
-                <FiMail className={styles.icon} />
-                <span>{agency.User.USR_Email}</span>
-              </li>
-            )}
-          </ul>
+          </div>
+        </section>
+      </div>
 
-          {/* Логика кнопок: Если это мое агентство - кнопка Edit. Если чужое - кнопка Contact */}
-          {isEditable ? (
-            <button className={styles.editButton} onClick={onEdit}>
-              Edit Profile
-            </button>
-          ) : (
-            <button className={styles.contactBtn} onClick={handleContactClick}>
-              <FiMessageSquare className={styles.btnIcon} />
-              Message Agency
-            </button>
-          )}
-        </div>
-      </section>
-    </div>
+      <ReportUserModal
+        isOpen={isReportModalOpen}
+        onClose={() => setIsReportModalOpen(false)}
+        reportedUserId={agency.USR_ID}
+        reportedUserName={AGN_Name}
+      />
+    </>
   );
 }

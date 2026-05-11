@@ -5,12 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { LOGIN_FORM_VALIDATION } from '../../utils/validationSchema';
 import ValidatedField from '../ValidatedField';
+import InfoModal from '../InfoModal';
 import styles from './LoginForm.module.sass';
 import { authenticateUser, clearAuthError } from '../../store/slices/authSlice';
 import CONSTANTS from '../../utils/constants';
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -39,7 +43,12 @@ const LoginForm = () => {
       navigate('/');
     } catch (err) {
       console.error(err);
-      alert(err || 'Login failed');
+      setErrorMessage(
+        typeof err === 'string'
+          ? err
+          : err?.message || 'Invalid email or password. Please try again.'
+      );
+      setIsErrorModalOpen(true);
       dispatch(clearAuthError());
     } finally {
       setSubmitting(false);
@@ -89,7 +98,7 @@ const LoginForm = () => {
                   className={styles.inputCheckBox}
                 />
                 <span className={styles.formSpan}>
-                  I agree to the terms and conditions
+                  I agree to the <a href='/terms'>Terms & Conditions</a>
                 </span>
               </div>
               <ErrorMessage
@@ -116,6 +125,17 @@ const LoginForm = () => {
           </Form>
         )}
       </Formik>
+
+      <InfoModal
+        isOpen={isErrorModalOpen}
+        onClose={() => setIsErrorModalOpen(false)}
+        title='Authentication Failed'
+        showSignupBtn={false}
+      >
+        <p style={{ margin: 0, fontWeight: 500, color: '#dc2626' }}>
+          {errorMessage}
+        </p>
+      </InfoModal>
     </div>
   );
 };

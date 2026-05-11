@@ -28,6 +28,7 @@ module.exports = {
           'pending',
           'approved',
           'rejected',
+          'blocked',
           'active',
           'closed'
         ),

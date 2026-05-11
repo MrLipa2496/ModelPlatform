@@ -16,6 +16,7 @@ import {
   FiArrowRight,
   FiClock,
   FiXCircle,
+  FiFileText,
 } from 'react-icons/fi';
 import defaultAvatarLocal from '../../../../img/default-avatar.jpg';
 import styles from './ModelHome.module.sass';
@@ -36,7 +37,6 @@ export default function ModelHome () {
     if (!profile) {
       dispatch(fetchProfile());
     }
-
     dispatch(fetchMyApplications({ page: 1, limit: 3 }));
   }, [dispatch, profile]);
 
@@ -109,6 +109,9 @@ export default function ModelHome () {
   const firstName = profile?.MOD_FirstName || 'MODEL';
   const lastName = profile?.MOD_LastName || '';
   const status = profile?.MOD_Status || 'pending';
+  const rejectionReason =
+    profile?.MOD_RejectionReason ||
+    'No specific reason provided. Please contact support.';
 
   return (
     <div className={styles.dashboardContainer}>
@@ -209,10 +212,39 @@ export default function ModelHome () {
                   <FiAlertCircle className={styles.alertIcon} />
                   <div>
                     <h3>Account Declined</h3>
-                    <p>
-                      Your application was declined. Please contact support for
-                      more details.
+                    <p style={{ marginBottom: '8px' }}>
+                      Your application was declined by the moderation team.
                     </p>
+                    <div
+                      style={{
+                        background: 'rgba(255,0,0,0.05)',
+                        padding: '10px 12px',
+                        borderRadius: '6px',
+                        borderLeft: '3px solid #dc3545',
+                        display: 'flex',
+                        gap: '8px',
+                        alignItems: 'flex-start',
+                        marginTop: '8px',
+                      }}
+                    >
+                      <FiFileText
+                        style={{
+                          color: '#dc3545',
+                          marginTop: '3px',
+                          flexShrink: 0,
+                        }}
+                      />
+                      <p
+                        style={{
+                          margin: 0,
+                          fontSize: '0.85rem',
+                          color: '#b02a37',
+                          fontWeight: '500',
+                        }}
+                      >
+                        {rejectionReason}
+                      </p>
+                    </div>
                   </div>
                 </div>
               ) : (
