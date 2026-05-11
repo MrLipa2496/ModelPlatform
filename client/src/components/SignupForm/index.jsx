@@ -289,7 +289,7 @@ const SignupForm = ({ preselectedRole }) => {
                   className={styles.inputCheckBox}
                 />
                 <span className={styles.formSpan}>
-                  I agree to the <a href='/terms'>Terms & Conditions</a>
+                  I agree to the <Link to='/terms'>Terms & Conditions</Link>
                 </span>
               </div>
               <ErrorMessage

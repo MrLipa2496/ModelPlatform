@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { LOGIN_FORM_VALIDATION } from '../../utils/validationSchema';
 import ValidatedField from '../ValidatedField';
@@ -98,7 +98,7 @@ const LoginForm = () => {
                   className={styles.inputCheckBox}
                 />
                 <span className={styles.formSpan}>
-                  I agree to the <a href='/terms'>Terms & Conditions</a>
+                  I agree to the <Link to='/terms'>Terms & Conditions</Link>
                 </span>
               </div>
               <ErrorMessage
@@ -118,9 +118,9 @@ const LoginForm = () => {
 
             <div className={styles.toggleLink}>
               Don't have an account?{' '}
-              <a href='/signup' className={styles.linkText}>
+              <Link to='/signup' className={styles.linkText}>
                 Sign Up
-              </a>
+              </Link>
             </div>
           </Form>
         )}
