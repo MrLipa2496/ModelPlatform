@@ -27,6 +27,7 @@ import AdminPaymentsPage from './pages/AdminPages/AdminPaymentsPage';
 import AdminReportsPage from './pages/AdminPages/AdminReportsPage';
 import AdminStatisticsPage from './pages/AdminPages/AdminStatisticsPage';
 import NotFound from './pages/NotFound';
+import TermsPage from './pages/TermsPage';
 
 function App () {
   return (
@@ -35,6 +36,7 @@ function App () {
         <Route path='/signup' element={<SignupRoleSelection />} />
         <Route path='/signup/model' element={<SignupPage role='model' />} />
         <Route path='/signup/agency' element={<SignupPage role='agency' />} />
+        <Route path='/terms' element={<TermsPage />} />
 
         <Route path='/login' element={<LoginPage />} />
 

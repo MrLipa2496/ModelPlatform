@@ -98,7 +98,7 @@ const LoginForm = () => {
                   className={styles.inputCheckBox}
                 />
                 <span className={styles.formSpan}>
-                  I agree to the terms and conditions
+                  I agree to the <a href='/terms'>Terms & Conditions</a>
                 </span>
               </div>
               <ErrorMessage
