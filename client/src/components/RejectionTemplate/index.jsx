@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './../InviteTemplate/InviteTemplate.module.sass';
+import CONSTANTS from '../../utils/constants';
 
 export default function RejectionTemplate ({
   modelName,
@@ -9,7 +10,7 @@ export default function RejectionTemplate ({
 }) {
   const agencyName = agency?.AGN_Name || 'LipaX Agency';
   const logoUrl = agency?.AGN_Logo
-    ? `http://localhost:5001${agency.AGN_Logo}`
+    ? `${CONSTANTS.BASE_URL}${agency.AGN_Logo}`
     : null;
 
   return (

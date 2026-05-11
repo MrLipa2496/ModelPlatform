@@ -1,4 +1,5 @@
 import styles from './InviteTemplate.module.sass';
+import CONSTANTS from '../../utils/constants';
 
 export default function InviteTemplate ({
   modelName,
@@ -37,11 +38,11 @@ export default function InviteTemplate ({
 
   const agencyName = agency?.AGN_Name || 'LipaX Agency';
   const logoUrl = agency?.AGN_Logo
-    ? `http://localhost:5001${agency.AGN_Logo}`
+    ? `${CONSTANTS.BASE_URL}${agency.AGN_Logo}`
     : null;
 
   const coverImageUrl = casting?.CST_CoverImage
-    ? `http://localhost:5001${casting.CST_CoverImage}`
+    ? `${CONSTANTS.BASE_URL}${casting.CST_CoverImage}`
     : null;
 
   return (
