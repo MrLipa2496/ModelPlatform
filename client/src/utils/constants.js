@@ -3,8 +3,8 @@ const serverIP = 'localhost';
 const serverPort = 5001;
 
 const CONSTANTS = {
-  // BASE_URL: `http://${serverIP}:${serverPort}`,
-  BASE_URL: 'https://lipax-api.onrender.com',
+  BASE_URL: `http://${serverIP}:${serverPort}`,
+  // BASE_URL: 'https://lipax-api.onrender.com',
   PAGINATION_LIMIT: 12,
   AUTH_MODE: {
     REGISTER: 'REGISTER',
