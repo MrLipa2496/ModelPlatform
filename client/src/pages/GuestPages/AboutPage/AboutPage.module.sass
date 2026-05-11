@@ -1,0 +1,356 @@
+$black: #1a1a1a
+$white: #ffffff
+$gray-bg: #f5f5f5
+$accent-gradient: linear-gradient(270deg, #ff0000, #ff7f00, #ffff00, #ee82ee, #ff0000)
+$font-heading: 'Roboto Slab', serif
+$font-body: 'Helvetica', sans-serif
+
+.container
+  width: 100%
+  overflow-x: hidden
+  font-family: $font-body
+  color: $black
+
+.hero
+  min-height: 80vh
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  text-align: center
+  padding: 0 20px
+  background: $white
+  
+.title
+  font-family: $font-heading
+  font-size: 4rem
+  font-weight: 900
+  line-height: 1.1
+  margin-bottom: 20px
+  letter-spacing: -1px
+  
+  @media (max-width: 768px)
+    font-size: 2.5rem
+
+.gradientText
+  background: $accent-gradient
+  background-size: 400% 400%
+  -webkit-background-clip: text
+  -webkit-text-fill-color: transparent
+  animation: gradientAnim 8s ease infinite
+
+@keyframes gradientAnim
+  0%
+    background-position: 0% 50%
+  50%
+    background-position: 100% 50%
+  100%
+    background-position: 0% 50%
+
+.subtitle
+  font-size: 1.2rem
+  max-width: 700px
+  color: #555
+  line-height: 1.6
+  margin-bottom: 40px
+
+.heroButtons
+  display: flex
+  gap: 20px
+
+.secondaryBtn
+  background: transparent
+  color: $black
+  border-bottom: 2px solid $black
+  padding-bottom: 5px
+  text-decoration: none
+  font-weight: bold
+  font-size: 1.1rem
+  transition: all 0.2s ease
+
+  &:hover
+    color: #dc3545
+    border-color: #dc3545
+
+.storySection
+  padding: 100px 20px
+  background: $white
+  display: flex
+  justify-content: center
+
+.storyContent
+  max-width: 1000px
+
+.sectionTitle
+  font-family: $font-heading
+  font-size: 2.5rem
+  margin-bottom: 40px
+  text-align: center
+  text-transform: uppercase
+  letter-spacing: 2px
+
+.storyTextColumns
+  display: grid
+  grid-template-columns: 1fr 1fr
+  gap: 60px
+  font-size: 1.1rem
+  line-height: 1.8
+  color: #333
+  text-align: justify
+  
+  @media (max-width: 768px)
+    grid-template-columns: 1fr
+    gap: 30px
+
+  strong
+    font-weight: bold
+    color: $black
+    border-bottom: 2px solid #f0f0f0
+
+.workflowSection
+  padding: 100px 20px
+  background: $gray-bg
+  text-align: center
+
+.sectionDesc
+  color: #666
+  margin-bottom: 60px
+  font-size: 1.2rem
+
+.timeline
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))
+  gap: 30px
+  max-width: 1200px
+  margin: 0 auto
+
+.timelineItem
+  background: $white
+  padding: 40px 30px
+  border-radius: 4px
+  position: relative
+  text-align: left
+  transition: transform 0.3s ease
+  border: 1px solid #eee
+  
+  &:hover
+    transform: translateY(-10px)
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05)
+    
+    .stepNumber
+      color: #dc3545
+
+.stepNumber
+  font-family: $font-heading
+  font-size: 3rem
+  font-weight: 900
+  color: #e0e0e0
+  position: absolute
+  top: 20px
+  right: 20px
+  transition: color 0.3s ease
+
+.timelineContent
+  margin-top: 20px
+
+.timelineIcon
+  font-size: 2rem
+  color: $black
+  margin-bottom: 20px
+
+.timelineItem h3
+  font-family: $font-heading
+  font-size: 1.2rem
+  margin-bottom: 15px
+  text-transform: uppercase
+
+.timelineItem p
+  font-size: 0.95rem
+  color: #666
+  line-height: 1.6
+
+.splitSection
+  display: flex
+  flex-wrap: wrap
+  
+.card
+  flex: 1
+  min-width: 300px
+  padding: 100px 60px
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: flex-start 
+  text-align: left
+  border-top: 1px solid #eee
+  
+  h3
+    font-family: $font-heading
+    font-size: 2.5rem
+    margin: 20px 0
+  
+  .cardDesc
+    font-size: 1.1rem
+    line-height: 1.6
+    color: #555
+    max-width: 400px
+
+.cardDark
+  background: $black
+  color: $white
+  border-top: none
+  
+  .cardDesc
+    color: #aaa
+  
+  .cardIconBox
+    color: $white
+    border-color: $white
+
+.cardIconBox
+  font-size: 2.5rem
+  margin-bottom: 10px
+  width: 60px
+  height: 60px
+  display: flex
+  align-items: center
+  justify-content: center
+  border: 1px solid $black
+  border-radius: 50%
+
+.valuesSection
+  padding: 120px 20px
+  background: $white 
+  color: $black
+
+.valuesHeader
+  text-align: center
+  max-width: 800px
+  margin: 0 auto 80px auto
+
+.valuesGrid
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
+  gap: 60px
+  max-width: 1200px
+  margin: 0 auto
+  
+  @media (max-width: 768px)
+    gap: 40px
+
+.valueItem
+  padding: 0 20px
+  border-left: 1px solid #eee
+  transition: border-color 0.3s ease
+  
+  &:hover
+    border-color: $black
+
+  h3
+    font-family: $font-heading
+    font-size: 1.5rem
+    margin-bottom: 15px
+    font-weight: 800
+    text-transform: uppercase
+
+  p
+    font-size: 1.05rem
+    line-height: 1.7
+    color: #555
+
+.valueHeader
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: 20px
+  border-bottom: 1px solid transparent
+
+.valueIndex
+  font-family: $font-heading
+  font-size: 3rem
+  font-weight: 900
+  color: #f0f0f0 
+  line-height: 1
+
+.valueIcon
+  font-size: 1.5rem
+  color: $black
+
+// --- STATS ---
+.stats
+  background: $black
+  color: $white
+  padding: 80px 20px
+  display: flex
+  justify-content: center
+  align-items: center
+  gap: 80px
+  flex-wrap: wrap
+  border-top: 1px solid #333
+
+.statItem
+  text-align: center
+
+.statNumber
+  display: block
+  font-size: 4rem
+  font-weight: 900
+  font-family: $font-heading
+  background: $accent-gradient
+  background-size: 400% 400%
+  -webkit-background-clip: text
+  -webkit-text-fill-color: transparent
+  animation: gradientAnim 8s ease infinite
+
+.statLabel
+  font-size: 0.9rem
+  text-transform: uppercase
+  letter-spacing: 2px
+  color: #888
+  margin-top: 10px
+  display: block
+
+.statDivider
+  width: 1px
+  height: 60px
+  background: #333
+  @media (max-width: 768px)
+    display: none
+
+// --- CTA ---
+.cta
+  padding: 140px 20px
+  text-align: center
+  background: $white
+
+.ctaIcon
+  font-size: 3rem
+  margin-bottom: 30px
+  color: $black
+  opacity: 0.2
+
+.cta h2
+  font-family: $font-heading
+  font-size: 3rem
+  margin-bottom: 15px
+
+.cta p
+  color: #666
+  margin-bottom: 50px
+  font-size: 1.2rem
+
+.largeBtn
+  background: $black
+  color: $white
+  padding: 20px 60px
+  font-size: 1.1rem
+  text-transform: uppercase
+  letter-spacing: 1px
+  text-decoration: none
+  transition: all 0.3s ease
+  display: inline-block
+  border: 2px solid $black
+  
+  &:hover
+    background: transparent
+    color: $black

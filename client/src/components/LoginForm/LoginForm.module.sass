@@ -1,0 +1,142 @@
+$form-border-color: #ccc
+$form-error-color: red
+$form-bg: #fff
+$form-text: #000
+$form-gray: #f5f5f5
+
+.formWrapper
+  max-width: 400px
+  min-width: 300px
+  width: 100%
+  margin: 100px auto
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1)
+  border-radius: 12px
+  padding: 40px
+  background-color: $form-bg
+  color: $form-text
+
+.formTitle
+  margin: 20px 0
+  text-align: center
+  font-size: 26px
+  font-weight: 600
+
+.form
+  display: flex
+  flex-direction: column
+  gap: 5px
+
+.formSpan
+  font-size: 0.9rem
+  color: $form-text
+
+  a
+    color: $form-text
+    text-decoration: underline
+    font-weight: 500
+
+.inputWrapper
+  position: relative
+  display: flex
+  align-items: center
+
+.formInput
+  border-radius: 8px
+  border: 1px solid $form-border-color
+  padding: 12px
+  width: 100%
+  box-sizing: border-box
+  background-color: $form-gray
+  font-size: 14px
+  transition: border 0.2s
+
+  &:focus
+    outline: none
+    border: 1px solid #000
+
+.eyeBtn
+  position: absolute
+  top: 53%
+  right: 12px
+  border: none
+  background-color: transparent
+  cursor: pointer
+  color: $form-text
+  font-size: 18px
+
+.formCheckBox
+  display: flex
+  flex-direction: column
+  cursor: pointer
+  position: relative
+
+
+.inputCheckBox
+  margin-right: 8px
+  margin-bottom: 15px
+
+
+.formButton
+  position: relative
+  padding: 12px 24px
+  margin-top: 15px
+  border-radius: 6px
+  border: none
+  cursor: pointer
+  background-color: #000
+  color: #fff
+  font-size: 16px
+  font-weight: 500
+  z-index: 1
+  overflow: hidden
+  transition: background-color 0.3s
+
+  &:hover
+    background-color: #111
+
+  &::before
+    content: ''
+    position: absolute
+    top: -2px
+    left: -2px
+    right: -2px
+    bottom: -2px
+    border-radius: 8px
+    background: linear-gradient(270deg, red, orange, yellow, violet, red)
+    background-size: 400% 400%
+    z-index: -1
+    animation: borderAnim 6s linear infinite
+    opacity: 0
+    transition: opacity 0.3s
+
+  &:hover::before
+    opacity: 1
+
+@keyframes borderAnim
+  0%
+    background-position: 0% 50%
+  50%
+    background-position: 100% 50%
+  100%
+    background-position: 0% 50%
+
+
+.toggleLink
+  margin-top: 1rem
+  text-align: center
+  font-size: 0.9rem
+  color: #555
+
+.linkText
+  color: #007bff
+  cursor: pointer
+  &:hover
+    text-decoration: underline
+
+
+.errorMessage
+  position: absolute
+  color: $form-error-color
+  top: 100%
+  right: 0
+  font-size: 11px

@@ -1,0 +1,257 @@
+$main-color: #ffffff
+$black: #000
+$white: #fff
+$transition-time: 0.3s
+
+.headerWrapper
+    position: relative
+    z-index: 50 
+    display: flex
+    justify-content: space-between
+    align-items: center
+    min-height: 120px
+    padding: 0 20px
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1)
+    font-size: 20px
+    background-color: $main-color
+
+.headerLogoWrapper
+    cursor: pointer
+    transition: transform $transition-time ease
+    &:hover
+        transform: translateX(10px)
+
+.logoNavLink
+    display: flex
+    align-items: center
+    text-decoration: none
+
+.headerLogo
+    position: relative
+    display: inline-block
+    top: 0
+    left: -90px
+    cursor: pointer
+    width: 250px
+    padding: 20px
+    text-align: right
+    border-radius: 50px
+    font-size: 45px
+    font-family: "Roboto Slab", serif
+    font-weight: 900
+    color: $black
+    background-color: $white
+    -webkit-background-clip: text
+    -webkit-text-fill-color: initial
+    box-shadow: 10px 5px 30px rgba(80, 76, 76, 0.3)
+    transition: transform 0.3s ease, box-shadow 0.3s ease
+
+    &:hover
+        color: $white
+        background: linear-gradient(270deg, red, orange, yellow, violet, red)
+        background-size: 400% 400%
+        -webkit-background-clip: text
+        -webkit-text-fill-color: transparent
+        animation: logoColorAnim 6s linear infinite, logoShadowAnim 6s linear infinite
+
+.headerAbbreviation
+    font-family: "Dancing Script", cursive
+    font-weight: 900
+
+.headerNav
+    position: absolute 
+    top: 100%
+    right: 0
+    left: 0
+    z-index: 40
+    display: none
+    flex-direction: column
+    width: 100%
+    padding: 20px 
+    gap: 15px
+    list-style: none
+    border-bottom-left-radius: 15px
+    border-bottom-right-radius: 15px
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1)
+    background-color: $main-color
+    box-sizing: border-box
+    margin: 0
+
+    @media screen and (min-width: 1050px)
+        position: static
+        display: flex
+        flex-direction: row
+        justify-content: flex-end
+        align-items: center
+        width: auto
+        padding: 0
+        gap: 20px
+        box-shadow: none
+
+.navLi
+    text-align: center
+    display: flex
+    justify-content: center
+    width: 100%
+    
+    @media screen and (min-width: 1050px)
+        width: auto
+
+.navLink
+    position: relative
+    overflow: hidden
+    border-radius: 10px
+    text-decoration: none
+    color: $black
+    padding: 15px 20px
+    transition: color 0.3s
+    white-space: nowrap
+    width: 100% 
+    box-sizing: border-box
+
+    &::before
+        content: ''
+        position: absolute
+        top: -2px
+        left: -2px
+        right: -2px
+        bottom: -2px
+        border-radius: 8px
+        background: linear-gradient(270deg, red, orange, yellow, violet, red)
+        background-size: 400% 400%
+        z-index: -1
+        animation: borderAnim 6s linear infinite
+        opacity: 0
+        transition: opacity 0.3s
+
+    &:hover
+        color: $white
+
+    &:hover::before
+        opacity: 1
+    
+    @media screen and (min-width: 1050px)
+        width: auto
+
+.active
+    color: $white
+    background-color: $black
+    
+.menuBtn
+    display: flex
+    background-color: inherit
+    border: none
+    cursor: pointer
+    border-radius: 50%
+    padding: 10px
+    font-size: 30px
+    transition: background-color $transition-time
+    color: $black
+
+    &:hover
+        background-color: rgba(0,0,0,0.05)
+
+    @media screen and (min-width: 1050px) 
+        display: none
+
+.menuOpen
+    display: flex
+    flex-direction: column
+    animation: slideDown 0.3s ease-out /* ИСПРАВЛЕНИЕ: Плавное появление меню */
+
+.profileIcon
+    font-size: 26px
+    vertical-align: middle
+
+.authButtonsWrapper
+    display: flex
+    flex-direction: column
+    gap: 15px
+    align-items: center
+    width: 100%
+    box-sizing: border-box
+    
+    @media screen and (min-width: 1050px)
+        flex-direction: row
+        gap: 20px
+
+.signupBtn
+    padding: 12px 
+    font-family: "Roboto Slab", serif
+    font-weight: 500
+    border: 1px solid $black
+
+    &:hover
+        border: 1px solid $white
+
+.logoutBtn, .loginBtn
+    position: relative
+    z-index: 1
+    padding: 12px 
+    border-radius: 10px
+    border: none
+    overflow: hidden
+    font-family: "Roboto Slab", serif
+    font-size: 20px
+    font-weight: 500
+    color: $white
+    cursor: pointer
+    background-color: $black
+    width: 100% /* Логаут тоже занимает всю ширину на мобилке */
+
+    @media screen and (min-width: 1050px)
+        width: auto
+
+    &::before
+        content: ''
+        position: absolute
+        top: -2px
+        left: -2px
+        right: -2px
+        bottom: -2px
+        border-radius: 8px
+        background: linear-gradient(270deg, red, orange, yellow, violet, red)
+        background-size: 400% 400%
+        z-index: -1
+        animation: borderAnim 6s linear infinite
+        opacity: 0
+        transition: opacity 0.3s
+
+    &:hover::before
+        opacity: 1
+
+@keyframes slideDown
+    from
+        opacity: 0
+        transform: translateY(-10px)
+    to
+        opacity: 1
+        transform: translateY(0)
+
+@keyframes logoColorAnim
+    0%
+        background-position: 0% 50%
+    50%
+        background-position: 100% 50%
+    100%
+        background-position: 0% 50%
+
+@keyframes logoShadowAnim
+    0%
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.6)
+    25%
+        box-shadow: 0 0 20px rgba(255, 165, 0, 0.6)
+    50%
+        box-shadow: 0 0 20px rgba(255, 255, 0, 0.6)
+    75%
+        box-shadow: 0 0 20px rgba(138, 43, 226, 0.6)
+    100%
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.6)
+
+@keyframes borderAnim
+    0%
+        background-position: 0% 50%
+    50%
+        background-position: 100% 50%
+    100%
+        background-position: 0% 50%

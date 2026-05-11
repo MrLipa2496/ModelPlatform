@@ -1,0 +1,57 @@
+.container
+  display: flex
+  justify-content: center
+  align-items: center
+  gap: 8px
+  margin: 40px 0
+  padding-bottom: 20px
+  animation: fadeIn 0.5s ease
+  width: 100%
+
+.pageNumber, .pageArrow
+  width: 40px
+  height: 40px
+  border-radius: 50%
+  border: 1px solid #e0e0e0
+  background: #fff
+  color: #333
+  font-family: inherit 
+  font-size: 1rem
+  font-weight: 600
+  cursor: pointer
+  display: flex
+  justify-content: center
+  align-items: center
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1)
+  outline: none
+
+  &:hover:not(:disabled)
+    border-color: #333
+    color: #000
+    transform: translateY(-2px)
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1)
+
+  &:disabled
+    opacity: 0.3
+    cursor: default
+    border-color: #eee
+    transform: none
+
+.active
+  background: #111
+  color: #fff
+  border-color: #111
+  transform: scale(1.1)
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15)
+  pointer-events: none 
+
+  &:hover
+    background: #000
+
+@keyframes fadeIn
+  from 
+    opacity: 0
+    transform: translateY(10px)
+  to 
+    opacity: 1
+    transform: translateY(0)

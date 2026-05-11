@@ -1,0 +1,340 @@
+.hero
+  background: linear-gradient(135deg, #ffffff, #f9f7ff, #fff4f4)
+  color: #111
+  position: relative
+  overflow: hidden 
+  padding: 80px 20px 120px 
+  min-height: 90vh 
+  box-sizing: border-box
+  display: flex 
+  align-items: center 
+
+.inner
+  max-width: 1200px
+  width: 100%
+  margin: 0 auto
+  display: grid
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr)
+  gap: 60px
+  align-items: center
+  padding: 0 20px
+  transition: opacity 0.8s ease, transform 0.8s ease
+  opacity: 0
+  transform: translateY(14px)
+  z-index: 2 
+
+.visible
+  opacity: 1
+  transform: translateY(0)
+
+.left
+  z-index: 3
+  display: flex 
+  flex-direction: column 
+  justify-content: center 
+
+.right
+  position: relative
+  display: flex
+  align-items: center
+  justify-content: center
+  min-height: 400px
+
+.title
+  font-size: 60px
+  font-family: "Roboto Slab", serif
+  font-weight: 1000
+  color: #111
+
+.gradient
+  background: linear-gradient(270deg, red, orange, yellow, violet, red)
+  background-size: 400% 400%
+  -webkit-background-clip: text
+  -webkit-text-fill-color: transparent
+  animation: gradientText 6s linear infinite
+  display: inline-block
+  line-height: 1.5
+
+@keyframes gradientText
+  0%
+    background-position: 0% 50%
+  50%
+    background-position: 100% 50%
+  100%
+    background-position: 0% 50%
+
+.subtitle
+  font-size: 20px
+  color: #333
+  margin: 32px 0
+  max-width: 640px
+  line-height: 1.6 
+
+.ctaGroup
+  display: flex
+  flex-direction: column
+  gap: 16px
+  align-items: flex-start 
+  margin-bottom: 32px
+
+.buttons
+  display: flex
+  gap: 18px
+  flex-wrap: wrap
+  justify-content: flex-start 
+
+.btnPrimary, .btnSecondary, .btnOutline
+  padding: 14px 42px
+  font-size: 18px
+  font-weight: 700
+  border-radius: 10px
+  text-decoration: none
+  cursor: pointer
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease
+
+.btnPrimary
+  color: #fff
+  background: linear-gradient(270deg, #ff0000, #ff7f00, #ffff00, #8b00ff, #ff0000)
+  background-size: 400% 400%
+  box-shadow: 0 10px 30px rgba(139, 0, 255, 0.12)
+  &:hover
+    transform: translateY(-4px)
+    background-position: 100% 50%
+
+.btnSecondary
+  @extend .btnPrimary
+
+.btnOutline
+  background: transparent
+  color: #111
+  border: 2px solid rgba(0,0,0,0.08)
+  &:hover
+    background: rgba(0,0,0,0.06)
+    transform: translateY(-3px)
+
+.stats
+  display: flex
+  gap: 32px 
+  align-items: center
+  justify-content: space-evenly 
+  margin-top: 12px 
+
+.stat
+  display: flex
+  align-items: center
+  gap: 12px
+  color: #222
+
+.statEmoji
+  font-size: 20px
+  line-height: 1
+
+.statValue
+  font-size: 18px
+  font-weight: 800
+  color: #111
+
+.statLabel
+  font-size: 12px
+  color: #666
+  text-transform: uppercase 
+  letter-spacing: 0.5px 
+
+.blobs
+  position: absolute
+  width: 100%
+  height: 100%
+  max-width: 520px
+  max-height: 520px
+  left: 50%
+  top: 50%
+  transform: translate(-50%, -50%)
+  pointer-events: none
+  z-index: 0
+
+.blob
+  position: absolute
+  border-radius: 50%
+  filter: blur(28px)
+  opacity: 0.28
+
+.blob1
+  width: 220px
+  height: 220px
+  background: linear-gradient(135deg, #ff0077, #ff5c00)
+  left: 20px
+  top: 80px
+  animation: blobMove1 4.6s ease-in-out infinite
+
+.blob2
+  width: 180px
+  height: 180px
+  background: linear-gradient(135deg, #8b00ff, #ff7a9a)
+  right: 40px
+  top: 40px
+  animation: blobMove2 5.2s ease-in-out infinite
+
+.blob3
+  width: 120px
+  height: 120px
+  background: linear-gradient(135deg, #ffd166, #ff7f50)
+  right: 80px
+  bottom: 20px
+  animation: blobMove3 6s ease-in-out infinite
+
+@keyframes blobMove1
+  0%, 100%
+    transform: translateX(0)
+  50%
+    transform: translateX(18px)
+
+@keyframes blobMove2
+  0%, 100%
+    transform: translateX(0)
+  50%
+    transform: translateX(-16px)
+
+@keyframes blobMove3
+  0%, 100%
+    transform: translateX(0)
+  50%
+    transform: translateX(10px)
+
+.deviceWrap
+  position: relative
+  width: 100% 
+  max-width: 600px
+  margin: 0 auto 
+  display: flex
+  align-items: center
+  justify-content: center
+  z-index: 2
+
+.device
+  width: 100% 
+  height: 380px 
+  border-radius: 16px
+  background: linear-gradient(180deg, #ffffff, #f2f2f7)
+  box-shadow: 0 18px 40px rgba(17,17,17,0.08)
+  display: flex
+  align-items: center
+  justify-content: center
+  position: relative
+  overflow: visible
+
+.deviceScreen
+  width: calc(100% - 40px)
+  height: calc(100% - 60px)
+  border-radius: 10px
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 6px 30px rgba(0,0,0,0.08)
+  background-size: cover
+  background-position: center
+  background-repeat: no-repeat
+  transform-origin: center
+  transition: transform 0.6s cubic-bezier(.2,.9,.25,1)
+
+.deviceBase
+  position: absolute
+  bottom: -18px
+  left: 50%
+  transform: translateX(-50%)
+  width: 80% 
+  max-width: 320px
+  height: 34px
+  border-radius: 8px
+  background: linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.02))
+  filter: blur(2px)
+  z-index: 0
+
+.modelSilhouette
+  position: absolute
+  right: 10px
+  bottom: -10px
+  width: 120px
+  height: 180px
+  opacity: 0.9
+  z-index: 3
+  pointer-events: none
+
+.waveWrap
+  position: absolute
+  bottom: 0
+  left: 0
+  width: 100%
+  overflow: hidden
+  line-height: 0
+  z-index: 1 
+
+.waveSvg
+  display: block
+  width: 100%
+  height: 80px
+  fill: #222 
+
+@media (max-width: 920px)
+  .hero
+    padding: 60px 16px 100px 
+    min-height: auto 
+
+  .inner
+    grid-template-columns: 1fr
+    gap: 40px
+    padding: 0 
+
+  .right
+    order: -1 
+
+  .left
+    text-align: center
+    
+  .ctaGroup
+    align-items: center 
+
+  .buttons
+    justify-content: center
+
+  .stats
+    justify-content: center 
+
+  .deviceWrap
+    width: 100%
+    max-width: 380px
+    height: auto 
+    margin: 0 auto
+
+  .device
+    height: 250px
+
+  .blobs
+    display: none 
+
+@media (max-width: 520px)
+  .title
+    font-size: 38px 
+    line-height: 1.1
+
+  .subtitle
+    font-size: 17px 
+
+  .buttons
+    flex-direction: column
+    width: 100%
+    align-items: stretch 
+    
+  .btnPrimary, .btnSecondary, .btnOutline
+    width: 100% 
+    text-align: center
+
+  .modelSilhouette
+    display: none 
+
+  .stats
+    gap: 16px
+    flex-wrap: wrap
+    margin-top: 24px
+
+  .stat
+    gap: 8px
+
+  .statEmoji
+    font-size: 18px

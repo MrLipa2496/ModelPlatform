@@ -1,0 +1,44 @@
+.fieldContainer
+  display: flex
+  flex-direction: column
+  position: relative
+  width: 100%
+
+label
+  margin-top: 10px
+
+
+.label
+  display: flex
+  flex-direction: column
+  width: 100%
+  padding: 8px
+  margin-top: 200px
+
+.inputWrapper
+  position: relative
+
+.input
+  padding: 12px
+  margin:  10px 0
+  width: 100% 
+  border-radius: 30px
+  border: 2px solid #ccc
+  box-sizing: border-box
+
+  &.valid
+    border: 2px solid lightgreen
+  &.invalid
+    border: 2px solid red
+
+.error
+  color: red
+  position: absolute
+  top: 100%
+  right: 0
+  font-size: 11px
+  // left: 0
+
+@media screen and (max-width: 600px)
+  .input
+    min-width: 95%

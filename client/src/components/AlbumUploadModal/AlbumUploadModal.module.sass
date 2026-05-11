@@ -1,0 +1,338 @@
+$primary-color: #6d55ff
+$danger-color: #e74c3c
+$success-color: #2ecc71
+$text-color: #2c3e50
+$light-text-color: #95a5a6
+$border-color: #ecf0f1
+$background-light: #f9f9f9
+$border-radius: 12px
+$base-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)
+
+// --- Ключові кадри ---
+@keyframes fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+@keyframes scaleIn
+  from
+    opacity: 0
+    transform: scale(0.95) translateY(10px)
+  to
+    opacity: 1
+    transform: scale(1) translateY(0)
+
+.overlay
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: rgba($text-color, 0.6)
+  backdrop-filter: blur(10px)
+  display: flex
+  align-items: center
+  justify-content: center
+  z-index: 1000
+  padding: 1rem
+  animation: fadeIn 0.3s ease-out
+
+.modal
+  background: #fff
+  border-radius: $border-radius
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15)
+  width: 100%
+  max-width: 800px
+  max-height: 90vh
+  display: flex
+  flex-direction: column
+  overflow: hidden
+  animation: scaleIn 0.3s ease-out
+  animation-fill-mode: backwards
+  position: relative
+
+  h3
+    font-size: 1.6rem
+    color: $text-color
+    padding: 1.5rem 2rem 0
+    margin: 0
+    flex-shrink: 0
+
+  .subHeader
+    font-size: 1rem
+    color: $light-text-color
+    margin: 0
+    padding: 1.5rem 2rem 0.5rem
+    font-weight: 500
+    flex-shrink: 0
+
+.formRow
+  display: flex
+  flex-direction: column
+  gap: 0.75rem
+  padding: 1rem 2rem 0
+  flex-shrink: 0
+
+  input,
+  textarea
+    border: 1px solid $border-color
+    padding: 0.8rem 1rem
+    border-radius: 8px
+    font-size: 1rem
+    color: $text-color
+    transition: $base-transition
+
+    &::placeholder
+      color: $light-text-color
+
+    &:focus
+      outline: none
+      border-color: $primary-color
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.2)
+
+  textarea
+    resize: vertical
+    min-height: 80px
+
+.grid
+  display: grid
+  grid-template-columns: repeat(5, 1fr)
+  gap: 1rem
+  padding: 0.5rem 2rem 1rem
+  overflow-y: auto
+  flex-shrink: 1
+
+.hiddenFileInput
+  display: none
+
+.slot
+  position: relative
+  aspect-ratio: 1 / 1
+  background: $background-light
+  border-radius: 8px
+  border: 2px dashed $border-color
+  display: flex
+  align-items: center
+  justify-content: center
+  overflow: hidden
+  transition: $base-transition
+
+  img
+    width: 100%
+    height: 100%
+    object-fit: cover
+    transition: all 0.3s ease
+
+  .plusLabel
+    width: 100%
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+    cursor: pointer
+
+    .plus
+      font-size: 3rem
+      font-weight: 300
+      color: $light-text-color
+      transition: $base-transition
+    
+    &:hover .plus
+      color: $primary-color
+      transform: scale(1.1)
+
+  .removeSlotBtn
+    position: absolute
+    top: 4px
+    right: 4px
+    width: 20px
+    height: 20px
+    border-radius: 50%
+    background: rgba(0, 0, 0, 0.5)
+    color: white
+    border: none
+    font-size: 14px
+    line-height: 20px
+    text-align: center
+    cursor: pointer
+    transition: $base-transition
+    z-index: 2
+
+    &:hover
+      background: $danger-color
+
+  .slotOverlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: rgba($text-color, 0.7)
+    backdrop-filter: blur(4px)
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    gap: 0.5rem
+    opacity: 0
+    transition: $base-transition
+    z-index: 1
+
+  &:hover
+    border-color: $primary-color
+    background: #fff
+
+    img
+      transform: scale(1.1)
+      filter: blur(2px)
+
+    .slotOverlay
+      opacity: 1
+
+  .overlayBtn
+    border: none
+    border-radius: 4px
+    padding: 0.5rem 0.75rem
+    font-weight: 600
+    cursor: pointer
+    transition: $base-transition
+    width: 80%
+    font-size: 0.8rem
+    text-align: center
+
+    &.overlayBtnView
+      background: $primary-color
+      color: white
+      &:hover
+        background: darken($primary-color, 10%)
+
+    &.overlayBtnReplace
+      background: $success-color
+      color: white
+      &:hover
+        background: darken($success-color, 10%)
+
+    &.overlayBtnDelete
+      background: $danger-color
+      color: white
+      &:hover
+        background: darken($danger-color, 10%)
+
+.actions
+  display: flex
+  align-items: center
+  gap: 1rem
+  padding: 1.5rem 2rem
+  border-top: 1px solid $border-color
+  background: #fff
+  margin-top: auto
+  flex-shrink: 0
+
+.cancelBtn,
+.confirmBtn
+  padding: 0.75rem 1.5rem
+  border: none
+  border-radius: 8px
+  font-weight: 600
+  font-size: 1rem
+  cursor: pointer
+  transition: $base-transition
+
+.cancelBtn
+  background: $border-color
+  color: $text-color
+  &:hover
+    background: darken($border-color, 10%)
+
+.confirmBtn
+  background: $primary-color
+  color: #fff
+  &:hover
+    opacity: 0.85
+    box-shadow: 0 4px 10px rgba($primary-color, 0.3)
+
+.deleteBtn,
+.previewBtn
+  @extend .cancelBtn
+  margin-right: 0
+
+.deleteBtn
+  background: transparent
+  color: $danger-color
+  border: 1px solid $danger-color
+  margin-right: auto
+  
+  &:hover
+    background: $danger-color
+    color: #fff
+    box-shadow: 0 4px 10px rgba($danger-color, 0.2)
+    
+.previewBtn
+  background: transparent
+  color: $text-color
+  border: 1px solid $text-color
+  
+  &:hover
+    background: $text-color
+    color: #fff
+
+.confirmOverlayInside
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: rgba(255, 255, 255, 0.8)
+  backdrop-filter: blur(5px)
+  display: flex
+  align-items: center
+  justify-content: center
+  z-index: 10
+  animation: fadeIn 0.2s ease-out
+
+.confirmModal
+  background: #fff
+  padding: 2rem
+  border-radius: $border-radius
+  max-width: 400px
+  width: 90%
+  text-align: center
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2)
+  animation: scaleIn 0.2s ease-out
+
+  h4
+    font-size: 1.4rem
+    color: $text-color
+    margin: 0 0 0.5rem
+  p
+    margin: 0.5rem 0 1.5rem
+    color: $light-text-color
+    font-size: 1rem
+
+.confirmActions
+  display: flex
+  justify-content: center
+  gap: 1rem
+
+  button
+    padding: 0.75rem 1.5rem
+    border: none
+    border-radius: 8px
+    font-weight: 600
+    cursor: pointer
+    transition: $base-transition
+
+  button:first-child
+    background: $border-color
+    color: $text-color
+    &:hover
+      background: darken($border-color, 10%)
+
+  .confirmDeleteBtn
+    background: $danger-color
+    color: #fff
+    &:hover
+      opacity: 0.85
+      box-shadow: 0 4px 10px rgba($danger-color, 0.3)
+

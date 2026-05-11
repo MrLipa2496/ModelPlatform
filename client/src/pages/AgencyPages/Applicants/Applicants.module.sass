@@ -1,0 +1,117 @@
+$primary-color: #007bff
+$text-color-dark: #1a1a1a
+$text-color-light: #555
+$text-color-muted: #777
+$border-color: #e0e0e0
+$background-light: #f9f9f9
+$success-color: #28a745
+$danger-color: #dc3545
+
+.page
+  max-width: 1400px
+  margin: 2rem auto
+  padding: 0 2rem
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif
+
+.header
+  margin-bottom: 2rem
+
+.backLink
+  font-size: 0.95rem
+  font-weight: 500
+  color: $primary-color
+  text-decoration: none
+  margin-bottom: 0.75rem
+  display: inline-block
+  transition: opacity 0.2s ease
+  
+  &:hover
+    opacity: 0.75
+    text-decoration: none
+
+.title
+  font-size: 2.25rem 
+  font-weight: 700
+  color: $text-color-dark
+  margin-top: 0
+  margin-bottom: 1.5rem
+  letter-spacing: -0.5px 
+
+.filterContainer
+  display: flex
+  align-items: center
+  gap: 0.75rem
+  margin-bottom: 1.5rem
+
+.filterLabel
+  font-size: 1rem
+  font-weight: 600
+  color: $text-color-light
+
+.filterSelect
+  appearance: none
+  -webkit-appearance: none
+  
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23555' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E")
+  background-repeat: no-repeat
+  background-position: right 0.75rem center
+  background-size: 16px 16px
+  
+  padding: 0.65rem 2.5rem 0.65rem 1rem 
+  min-width: 280px
+  
+  font-size: 1rem
+  font-weight: 500
+  color: $text-color-dark
+  line-height: 1.5
+  
+  background-color: #fff
+  border: 1px solid $border-color
+  border-radius: 8px 
+  cursor: pointer
+  transition: border-color 0.2s ease, box-shadow 0.2s ease
+
+  &:hover
+    border-color: darken($border-color, 15%)
+
+  &:focus
+    border-color: $primary-color
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.2) 
+    outline: none
+
+.tabs
+  display: flex
+  gap: 0.5rem
+  border-bottom: 2px solid $border-color 
+
+.tab
+  padding: 0.75rem 1.5rem
+  font-size: 1rem
+  font-weight: 600
+  color: $text-color-muted
+  background: none
+  border: none
+  cursor: pointer
+  border-bottom: 3px solid transparent
+  margin-bottom: -2px 
+  transition: all 0.2s ease
+
+  &:hover
+    color: $text-color-dark
+    background-color: $background-light
+
+.tab.active
+  color: $primary-color
+  border-bottom-color: $primary-color
+
+.grid
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) 
+  gap: 2rem 
+
+.loading, .error, .emptyText
+  font-size: 1.1rem
+  font-weight: 500
+  color: $text-color-muted
+  text-align: center
+  padding: 4rem 2rem

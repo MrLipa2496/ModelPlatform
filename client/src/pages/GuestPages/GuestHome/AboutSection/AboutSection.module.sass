@@ -1,0 +1,155 @@
+.about
+  position: relative
+  padding: 60px 20px
+  background: #fff
+  color: #111
+  overflow: hidden
+
+  &::before
+    content: ""
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: linear-gradient(270deg, #ff0077, #ff5c00, #ffdd00, #c400ff, #00e5ff, #ff0077)
+    background-size: 400% 400%
+    filter: blur(150px)
+    opacity: 0.15
+    animation: gradientShift 25s ease infinite
+    z-index: 1
+
+.inner
+  max-width: 1100px
+  margin: 0 auto
+  position: relative
+  z-index: 3
+  text-align: center
+
+.title
+  font-size: 60px
+  font-family: "Roboto Slab", serif
+  font-weight: 1000
+  margin-bottom: 15px
+  background: linear-gradient(90deg, #ff0077, #ff5c00)
+  -webkit-background-clip: text
+  -webkit-text-fill-color: transparent
+
+.subtitle
+  font-size: 1.1rem
+  color: #555
+  margin-bottom: 70px
+  max-width: 750px
+  margin-left: auto
+  margin-right: auto
+  line-height: 1.6
+
+.grid
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))
+  gap: 50px
+  justify-content: center
+  align-items: stretch
+
+.block
+  opacity: 0
+  transform: translateY(40px)
+  transition: all 0.8s ease
+  display: flex
+  flex-direction: column
+  align-items: center
+  text-align: center
+  background: rgba(255,255,255,0.8)
+  border-radius: 20px
+  padding: 30px 20px
+  backdrop-filter: blur(12px)
+  box-shadow: 0 8px 25px rgba(0,0,0,0.05)
+
+  &:hover
+    transform: translateY(-5px)
+    background: rgba(255,255,255,0.9)
+    box-shadow: 0 12px 35px rgba(255, 92, 0, 0.15)
+
+  &.#{visible}
+    opacity: 1
+    transform: translateY(0)
+
+.iconWrapper
+  width: 70px
+  height: 70px
+  border-radius: 25%
+  background: linear-gradient(135deg, #ff0077, #ff5c00)
+  display: flex
+  align-items: center
+  justify-content: center
+  margin-bottom: 20px
+  box-shadow: 0 6px 20px rgba(255, 0, 100, 0.4)
+  transition: all 0.3s ease
+
+  &:hover
+    transform: scale(1.1) rotate(8deg)
+    box-shadow: 0 8px 30px rgba(255, 92, 0, 0.4)
+
+.icon
+  font-size: 28px
+
+.text
+  h3
+    font-size: 1.2rem
+    margin-bottom: 8px
+    font-weight: 600
+  p
+    color: #444
+    line-height: 1.6
+    font-size: 0.95rem
+
+// --- Багатошаровий фон з анімацією ---
+@for $i from 1 through 6
+  .gradientCircle#{$i}
+    position: absolute
+    border-radius: 50%
+    filter: blur(100px)
+    opacity: 0.18 + random(7) * 0.01
+    z-index: 2
+    animation: float#{if($i % 2 == 0, "Alt", "")} 20s + random(10) * 1s ease-in-out infinite alternate
+    background: radial-gradient(circle, nth((#ff0077, #ff5c00, #ffdd00, #c400ff, #00e5ff, #ff00aa), $i) 0%, transparent 70%)
+    width: 200px + random(200)
+    height: 200px + random(200)
+    top: random(80) * 1%
+    left: random(80) * 1%
+
+// --- Анімації ---
+@keyframes gradientShift
+  0%
+    background-position: 0% 50%
+  50%
+    background-position: 100% 50%
+  100%
+    background-position: 0% 50%
+
+@keyframes float
+  0%
+    transform: translateY(0) translateX(0)
+  50%
+    transform: translateY(-30px) translateX(20px)
+  100%
+    transform: translateY(30px) translateX(-20px)
+
+@keyframes floatAlt
+  0%
+    transform: translateY(0) translateX(0)
+  50%
+    transform: translateY(40px) translateX(-25px)
+  100%
+    transform: translateY(-40px) translateX(25px)
+
+@media (max-width: 520px)
+  .title
+    font-size: 2rem
+  .subtitle
+    font-size: 1rem
+    margin-bottom: 50px
+  .grid
+    gap: 35px
+  .block
+    padding: 25px 15px

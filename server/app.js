@@ -1,10 +1,22 @@
-const express = require('express')
-const router = require('./routers')
+const express = require('express');
+const path = require('path');
+const cors = require('cors');
+const router = require('./routers');
 
-const app = express()
+const app = express();
 
-app.use(express.json())
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  })
+);
 
-app.use('/api', router)
+const uploadPath = path.resolve(__dirname, '..', 'public', 'uploads');
+app.use('/uploads', express.static(uploadPath));
 
-module.exports = app
+app.use(express.json());
+
+app.use('/api', router);
+
+module.exports = app;

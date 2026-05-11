@@ -1,0 +1,283 @@
+$bg-color: #f8fafc
+$card-bg: #ffffff
+$text-main: #0f172a
+$text-light: #64748b
+$border-color: #e2e8f0
+
+@keyframes slideUpFade
+  0%
+    opacity: 0
+    transform: translateY(20px)
+  100%
+    opacity: 1
+    transform: translateY(0)
+
+@keyframes spin
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
+
+.pageContainer
+  max-width: 1200px
+  margin: 0 auto
+  padding: 40px 20px
+  min-height: 80vh
+
+.header
+  margin-bottom: 40px
+  display: flex
+  justify-content: space-between
+  align-items: flex-end
+
+.title
+  font-size: 2.5rem
+  font-weight: 800
+  color: $text-main
+  margin: 0 0 8px 0
+  letter-spacing: -0.5px
+
+.subtitle
+  color: $text-light
+  font-size: 1.1rem
+  margin: 0
+
+.offersGrid
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr))
+  gap: 24px
+
+.offerCard
+  background-color: $card-bg
+  border-radius: 16px
+  padding: 24px
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01)
+  display: flex
+  flex-direction: column
+  position: relative
+  overflow: hidden
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease
+  opacity: 0 
+  animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards
+  
+  &:hover
+    transform: translateY(-5px)
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)
+
+.cardPending
+  border-left: 4px solid #f59e0b
+.cardAccepted
+  border-left: 4px solid #10b981
+.cardRejected
+  border-left: 4px solid #94a3b8
+  opacity: 0.75 
+  &:hover
+    opacity: 1
+
+.cardHeader
+  display: flex
+  justify-content: space-between
+  align-items: flex-start
+  margin-bottom: 20px
+
+.agencyInfo
+  display: flex
+  gap: 14px
+  align-items: center
+
+.logoRing
+  padding: 2px
+  border-radius: 50%
+  background: linear-gradient(135deg, #e2e8f0 0%, #ffffff 100%)
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05)
+
+.agencyLogo
+  width: 50px
+  height: 50px
+  border-radius: 50%
+  object-fit: cover
+  border: 2px solid #fff
+  display: block
+
+.agencyMeta
+  display: flex
+  flex-direction: column
+
+.agencyName
+  font-weight: 700
+  color: $text-main
+  text-decoration: none
+  font-size: 1.1rem
+  transition: color 0.2s ease
+  &:hover
+    color: #000
+    text-decoration: underline
+
+.date
+  display: flex
+  align-items: center
+  gap: 6px
+  font-size: 0.85rem
+  color: #94a3b8
+  margin: 4px 0 0 0
+  font-weight: 500
+
+.cardBody
+  flex-grow: 1
+  margin-bottom: 24px
+  padding: 15px 0
+  border-top: 1px dashed $border-color
+  border-bottom: 1px dashed $border-color
+
+.castingTitle
+  display: flex
+  align-items: flex-start
+  gap: 10px
+  font-size: 1.3rem
+  color: $text-main
+  font-weight: 800
+  margin: 0 0 12px 0
+  line-height: 1.3
+  
+  .accentIcon
+    color: #f59e0b
+    margin-top: 4px
+    flex-shrink: 0
+
+.viewCastingBtn
+  display: inline-flex
+  align-items: center
+  gap: 6px
+  font-size: 0.95rem
+  font-weight: 600
+  color: #64748b
+  text-decoration: none
+  transition: all 0.2s ease
+  
+  .arrowIcon
+    transition: transform 0.2s ease
+  
+  &:hover
+    color: #000
+    .arrowIcon
+      transform: translateX(4px)
+
+.badge
+  padding: 6px 12px
+  border-radius: 8px
+  font-size: 0.75rem
+  font-weight: 700
+  letter-spacing: 0.5px
+  text-transform: uppercase
+
+.badgePending
+  background-color: rgba(245, 158, 11, 0.1)
+  color: #d97706
+  border: 1px solid rgba(245, 158, 11, 0.2)
+
+.badgeAccepted
+  background-color: rgba(16, 185, 129, 0.1)
+  color: #059669
+  border: 1px solid rgba(16, 185, 129, 0.2)
+
+.badgeRejected
+  background-color: rgba(148, 163, 184, 0.1)
+  color: #64748b
+  border: 1px solid rgba(148, 163, 184, 0.2)
+
+.cardActions
+  display: flex
+  gap: 12px
+
+.acceptBtn, .rejectBtn
+  flex: 1
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 8px
+  padding: 12px
+  border-radius: 10px
+  font-weight: 700
+  font-size: 0.95rem
+  cursor: pointer
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1)
+
+.acceptBtn
+  background-color: #000
+  color: #fff
+  border: 1px solid #000
+  &:hover
+    background-color: #333
+    transform: translateY(-2px)
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15)
+
+.rejectBtn
+  background-color: transparent
+  color: $text-main
+  border: 1px solid $border-color
+  &:hover
+    background-color: #f8fafc
+    border-color: #cbd5e1
+    transform: translateY(-2px)
+
+.emptyState
+  text-align: center
+  padding: 80px 20px
+  background-color: $card-bg
+  border-radius: 24px
+  border: 2px dashed $border-color
+  margin-top: 40px
+  
+  h2
+    font-size: 1.8rem
+    color: $text-main
+    margin-bottom: 10px
+  
+  p
+    color: $text-light
+    max-width: 400px
+    margin: 0 auto 25px auto
+    line-height: 1.5
+
+.emptyIconWrapper
+  width: 80px
+  height: 80px
+  background-color: #f1f5f9
+  border-radius: 50%
+  display: flex
+  align-items: center
+  justify-content: center
+  margin: 0 auto 20px auto
+
+.emptyIcon
+  font-size: 2.5rem
+  color: #94a3b8
+
+.emptyActionBtn
+  display: inline-block
+  background-color: #000
+  color: #fff
+  padding: 12px 24px
+  border-radius: 10px
+  text-decoration: none
+  font-weight: 600
+  transition: background-color 0.2s ease
+  &:hover
+    background-color: #333
+
+.loadingWrapper
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  padding: 100px 0
+  color: $text-light
+
+.spinner
+  width: 40px
+  height: 40px
+  border: 3px solid #f3f3f3
+  border-top: 3px solid #000
+  border-radius: 50%
+  animation: spin 1s linear infinite
+  margin-bottom: 15px

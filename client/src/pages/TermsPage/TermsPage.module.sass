@@ -1,0 +1,194 @@
+$black: #0f172a
+$white: #ffffff
+$grey-light: #f1f5f9
+$grey-text: #64748b
+$border-color: #e2e8f0
+
+.container
+  max-width: 1200px
+  margin: 0 auto
+  padding: 60px 40px
+  background-color: $white
+  min-height: 100vh
+  color: $black
+
+.header
+  margin-bottom: 80px
+  position: relative
+
+.backBtn
+  display: flex
+  align-items: center
+  gap: 8px
+  background: transparent
+  border: none
+  font-family: inherit
+  font-size: 1rem
+  font-weight: 700
+  text-transform: uppercase
+  cursor: pointer
+  margin-bottom: 40px
+  padding: 0
+  transition: transform 0.2s ease
+  &:hover
+    transform: translateX(-5px)
+
+.backIcon
+  font-size: 1.2rem
+
+.titleWrapper
+  border-left: 6px solid $black
+  padding-left: 24px
+
+.mainTitle
+  font-family: "Roboto Slab", serif
+  font-size: clamp(40px, 6vw, 80px) 
+  line-height: 1
+  font-weight: 900
+  text-transform: uppercase
+  margin: 0
+
+.outlinedText
+  color: transparent
+  -webkit-text-stroke: 2px $black
+  display: inline-block
+  margin-top: 10px
+
+.lastUpdated
+  margin-top: 20px
+  font-size: 0.9rem
+  color: $grey-text
+  text-transform: uppercase
+  letter-spacing: 2px
+  font-weight: 600
+
+.intro
+  max-width: 800px
+  margin-bottom: 60px
+  p
+    font-size: 1.25rem
+    line-height: 1.8
+    color: #334155
+    font-weight: 400
+
+.sectionsList
+  display: flex
+  flex-direction: column
+  border-bottom: 1px solid $border-color
+
+.sectionRow
+  display: grid
+  grid-template-columns: 350px 1fr 
+  gap: 40px
+  padding: 50px 0
+  border-top: 1px solid $border-color
+  transition: background-color 0.3s ease
+  
+  &:hover
+    background-color: #fafaf9 
+    border-top-color: $black 
+
+.sectionLeft
+  display: flex
+  flex-direction: column
+  padding-right: 20px
+
+.sectionNumber
+  font-family: "Roboto Slab", serif
+  font-size: 3rem
+  font-weight: 900
+  color: $border-color /* Крупная прозрачная цифра */
+  line-height: 1
+  margin-bottom: 10px
+  transition: color 0.3s ease
+
+.sectionRow:hover .sectionNumber
+  color: $black
+
+.sectionHeader
+  display: flex
+  align-items: flex-start
+  gap: 12px
+  h2
+    font-family: "Roboto Slab", serif
+    font-size: 1.25rem
+    font-weight: 800
+    margin: 0
+    text-transform: uppercase
+    line-height: 1.4
+
+.sectionIcon
+  font-size: 1.5rem
+  color: $black
+  margin-top: 2px
+
+.sectionRight
+  p
+    font-size: 1.05rem
+    line-height: 1.8
+    color: #475569
+    margin: 0
+
+.footer
+  margin-top: 80px
+  padding: 60px 0
+  display: flex
+  justify-content: center
+
+.footerContent
+  text-align: center
+  max-width: 600px
+  background-color: $grey-light
+  padding: 40px
+  border-radius: 16px
+  
+  p
+    color: #334155
+    margin-bottom: 25px
+    font-size: 1rem
+    line-height: 1.6
+
+.contactBtn
+  background-color: $black
+  color: $white
+  border: none
+  padding: 15px 40px
+  font-family: inherit
+  font-size: 0.95rem
+  font-weight: 700
+  text-transform: uppercase
+  cursor: pointer
+  border-radius: 0
+  transition: all 0.3s ease
+  &:hover
+    background-color: #334155
+    transform: translateY(-2px)
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1)
+
+@media (max-width: 900px)
+  .sectionRow
+    grid-template-columns: 1fr 
+    gap: 20px
+    padding: 40px 0
+
+  .sectionLeft
+    padding-right: 0
+
+  .sectionNumber
+    font-size: 2.5rem
+
+@media (max-width: 600px)
+  .container
+    padding: 40px 20px
+
+  .header
+    margin-bottom: 50px
+
+  .outlinedText
+    -webkit-text-stroke: 1.5px $black
+
+  .intro p
+    font-size: 1.1rem
+
+  .footerContent
+    padding: 30px 20px

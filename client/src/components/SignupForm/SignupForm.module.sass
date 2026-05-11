@@ -1,0 +1,167 @@
+$border-color: #e1e1e1
+$error-color: #e74c3c
+$text-main: #111
+$text-light: #666
+$bg-input: #fff
+$focus-color: #000
+$btn-bg: #000
+$btn-text: #fff
+
+.formWrapper
+  width: 100%
+  max-width: 420px
+  margin: 0 auto
+  max-height: 100vh      
+  overflow-y: auto     
+  padding: 40px 5px    
+  box-sizing: border-box 
+
+  color: $text-main
+  animation: fadeIn 0.4s ease-out
+
+  &::-webkit-scrollbar
+    display: none
+  scrollbar-width: none
+
+.backLink
+  display: inline-flex
+  align-items: center
+  gap: 6px
+  font-size: 0.85rem
+  color: $text-light
+  text-decoration: none
+  margin-bottom: 20px
+  transition: color 0.2s
+
+  &:hover
+    color: $focus-color
+
+.formTitle
+  margin: 0 0 25px 0
+  text-align: left
+  font-size: 2rem
+  font-weight: 700
+  font-family: 'Roboto Slab', serif 
+  color: $text-main
+  letter-spacing: -0.5px
+
+.form
+  display: flex
+  flex-direction: column
+  gap: 16px
+
+.fieldRow
+  width: 100%
+
+.inputWrapper
+  position: relative
+  width: 100%
+
+.eyeBtn
+  position: absolute
+  right: 15px
+  top: 65% 
+  transform: translateY(-50%)
+  border: none
+  background: transparent
+  cursor: pointer
+  color: $text-light
+  font-size: 1.2rem
+  padding: 0
+  display: flex
+  align-items: center
+  justify-content: center
+  transition: color 0.2s
+  z-index: 2
+
+  &:hover
+    color: $focus-color
+
+.formCheckBox
+  display: flex
+  flex-direction: column
+  margin-top: 5px
+  position: relative
+
+.checkContainer
+  display: flex
+  align-items: center
+
+.inputCheckBox
+  width: 18px
+  height: 18px
+  margin-right: 10px
+  cursor: pointer
+  accent-color: $btn-bg
+
+.formSpan
+  font-size: 0.9rem
+  color: $text-light
+
+  a
+    color: $text-main
+    text-decoration: underline
+    font-weight: 500
+
+.errorMessage
+  color: $error-color
+  font-size: 0.75rem
+  margin-top: 4px
+
+.formButton
+  width: 100%
+  height: 52px
+  margin-top: 15px
+  background-color: $btn-bg
+  color: $btn-text
+  border: none
+  border-radius: 4px 
+  font-size: 1rem
+  font-weight: 600
+  text-transform: uppercase
+  letter-spacing: 1px
+  cursor: pointer
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)
+
+  &:hover
+    background-color: lighten($btn-bg, 15%)
+    transform: translateY(-2px)
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15)
+
+  &:disabled
+    background-color: #ccc
+    cursor: not-allowed
+    transform: none
+    box-shadow: none
+
+.toggleLink
+  margin-top: 20px
+  text-align: center
+  font-size: 0.9rem
+  color: $text-light
+
+.linkText
+  color: $text-main
+  font-weight: 600
+  text-decoration: none
+  margin-left: 5px
+  border-bottom: 1px solid transparent
+  transition: border-bottom 0.2s
+
+  &:hover
+    border-bottom-color: $text-main
+
+@keyframes fadeIn
+  from
+    opacity: 0
+    transform: translateY(10px)
+  to
+    opacity: 1
+    transform: translateY(0)
+
+@media (max-width: 480px)
+  .formTitle
+    font-size: 1.75rem
+  
+  .formButton
+    height: 48px

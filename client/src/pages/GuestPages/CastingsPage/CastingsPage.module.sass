@@ -1,0 +1,104 @@
+.castingsPage
+  width: 100%
+  min-height: 100vh
+
+.heroSection
+  padding: 4rem 2rem
+  background-color: #f8f9fa
+  text-align: center
+
+.heroTitle
+  font-size: 3rem
+  font-weight: 700
+  color: #333
+  margin-bottom: 1rem
+
+.heroText
+  font-size: 1.15rem
+  color: #555
+  max-width: 800px
+  margin: 0 auto
+  line-height: 1.6
+
+.castingsGrid
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr))
+  gap: 2rem
+  padding: 3rem
+  max-width: 1400px
+  margin: 0 auto
+  justify-content: center
+
+.loadingText
+  font-size: 1.2rem
+  color: #777
+  text-align: center
+  width: 100%
+  grid-column: 1 / -1
+
+
+.modalOverlay
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: rgba(0, 0, 0, 0.6)
+  display: flex
+  align-items: center
+  justify-content: center
+  z-index: 1000
+
+.modalBox
+  background: white
+  padding: 2rem
+  border-radius: 8px
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3)
+  max-width: 450px
+  width: 90%
+  text-align: center
+
+.modalTitle
+  font-size: 1.5rem
+  font-weight: 600
+  color: #333
+  margin-bottom: 1rem
+
+.modalText
+  font-size: 1rem
+  color: #666
+  line-height: 1.5
+  margin-bottom: 1.5rem
+
+.modalActions
+  display: flex
+  justify-content: center
+  gap: 1rem
+
+.closeButton
+  padding: 0.75rem 1.25rem
+  border: 1px solid #ccc
+  border-radius: 5px
+  background: #f0f0f0
+  color: #333
+  font-size: 0.9rem
+  font-weight: 600
+  cursor: pointer
+  transition: background-color 0.2s
+
+.closeButton:hover
+  background: #e0e0e0
+
+.signupButton
+  padding: 0.75rem 1.25rem
+  border: none
+  border-radius: 5px
+  background: #007bff 
+  color: white
+  font-size: 0.9rem
+  font-weight: 600
+  cursor: pointer
+  transition: background-color 0.2s
+
+.signupButton:hover
+  background: #0056b3

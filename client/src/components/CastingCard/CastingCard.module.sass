@@ -1,0 +1,133 @@
+$card-border-radius: 16px
+$image-height: 200px
+$primary-color: #007bff
+$text-dark: #121212
+$text-light: #555
+$text-accent: #0056b3
+
+.card
+  background: #ffffff
+  border-radius: $card-border-radius
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.03)
+  display: flex
+  flex-direction: column
+  height: 100%
+  overflow: hidden 
+  transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1)
+  cursor: pointer
+
+.card:hover
+  transform: translateY(-6px)
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07), 0 6px 10px rgba(0, 0, 0, 0.04)
+
+.imageContainer
+  width: 100%
+  height: $image-height
+  overflow: hidden
+
+.image
+  width: 100%
+  height: 100%
+  object-fit: cover
+  object-position: top   
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)
+
+.card:hover .image
+  transform: scale(1.05)
+
+.content
+  padding: 1rem 1.25rem 1.25rem 1.25rem 
+  display: flex
+  flex-direction: column
+  flex-grow: 1 
+
+.tagsContainer
+  display: flex
+  flex-wrap: wrap
+  gap: 8px
+  margin-bottom: 0.75rem
+
+.tagType
+  background-color: #e6f7ff 
+  color: $text-accent
+  border: 1px solid #b3d9ff
+  padding: 4px 10px
+  border-radius: 16px
+  font-size: 0.75rem
+  font-weight: 700
+  text-transform: capitalize 
+
+.tagLocation
+  background-color: #f0f5fb 
+  color: #4a5568
+  padding: 4px 10px
+  border-radius: 16px
+  font-size: 0.75rem
+  font-weight: 700
+
+.title
+  font-size: 1.2rem
+  font-weight: 600
+  color: $text-dark
+  margin-bottom: 0.75rem
+  line-height: 1.4
+
+.details
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: 1rem
+  gap: 1rem
+
+.payment
+  font-size: 1rem
+  font-weight: 700
+  color: $primary-color
+
+.date
+  font-size: 0.85rem
+  color: $text-light
+  font-weight: 500
+  white-space: nowrap 
+
+.footer
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-top: auto 
+  padding-top: 1rem
+  border-top: 1px solid #f0f0f0 
+
+.agencyInfo
+  display: flex
+  align-items: center
+  overflow: hidden
+  min-width: 0
+
+.agencyLogo
+  width: 24px
+  height: 24px
+  border-radius: 50%
+  object-fit: cover
+  margin-right: 8px
+  flex-shrink: 0 
+
+.agencyName
+  font-size: 0.85rem
+  color: $text-light
+  font-weight: 500
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis 
+
+.detailsLink
+  font-size: 0.9rem
+  font-weight: 600
+  color: $primary-color
+  white-space: nowrap
+  flex-shrink: 0
+  transition: all 0.2s ease
+
+.card:hover .detailsLink
+  color: $text-accent
+  transform: translateX(2px)
