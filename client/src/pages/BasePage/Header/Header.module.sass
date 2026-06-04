@@ -1,7 +1,7 @@
 $black: #050505
 $white: #ffffff
-$gray: #222222 
-$transition-time: 0.3s
+$nav-gray: #444444 
+$transition-smooth: 0.3s cubic-bezier(0.25, 1, 0.5, 1)
 
 .headerWrapper
   position: sticky
@@ -9,14 +9,14 @@ $transition-time: 0.3s
   left: 0
   width: 100%
   z-index: 100
-  background-color: rgba(255, 255, 255, 0.88)
-  backdrop-filter: blur(20px) 
-  -webkit-backdrop-filter: blur(20px)
+  background-color: rgba(255, 255, 255, 0.85)
+  backdrop-filter: blur(24px) 
+  -webkit-backdrop-filter: blur(24px)
   white-space: nowrap
   border-bottom: 1px solid rgba(0, 0, 0, 0.04)
 
 .innerContainer
-  max-width: 1340px 
+  max-width: 1400px 
   margin: 0 auto
   display: flex
   justify-content: space-between
@@ -32,13 +32,13 @@ $transition-time: 0.3s
 
 .headerLogoWrapper
   cursor: pointer
-  transition: transform 0.25s ease
+  transition: transform $transition-smooth
   &:hover
-    transform: scale(1.03)
+    transform: scale(1.02)
 
 .headerLogo
   margin: 0
-  font-size: 50px 
+  font-size: 42px 
   font-family: "Roboto Slab", serif 
   font-weight: 900
   letter-spacing: -0.02em
@@ -47,7 +47,7 @@ $transition-time: 0.3s
 .headerAbbreviation
   font-family: "Dancing Script", cursive
   font-weight: 900
-  font-size: 60px 
+  font-size: 52px 
   background: linear-gradient(270deg, red, orange, yellow, violet, red)
   background-size: 400% 400%
   -webkit-background-clip: text
@@ -64,10 +64,14 @@ $transition-time: 0.3s
   color: $black
   border: none
   cursor: pointer
-  border-radius: 10px
+  border-radius: 12px
   padding: 10px
   font-size: 32px
   z-index: 101
+  transition: background-color 0.3s
+
+  &:hover
+    background-color: rgba(0, 0, 0, 0.03)
 
   @media screen and (min-width: 1050px) 
     display: none
@@ -99,7 +103,7 @@ $transition-time: 0.3s
 .navList
   display: flex
   align-items: center
-  gap: 44px 
+  gap: 40px 
   list-style: none
   margin: 0
   padding: 0
@@ -107,7 +111,7 @@ $transition-time: 0.3s
 
   @media screen and (max-width: 1049px)
     flex-direction: column
-    gap: 28px
+    gap: 24px
 
 .navLi
   display: flex
@@ -120,37 +124,37 @@ $transition-time: 0.3s
 .navLink
   position: relative
   font-family: 'Inter', sans-serif
-  font-size: 20px
+  font-size: 17px
   font-weight: 600 
-  color: $gray
+  color: $nav-gray
   text-decoration: none
-  transition: color 0.25s ease
+  padding: 8px 0 
+  transition: color $transition-smooth
   white-space: nowrap
 
   &::after
     content: ''
     position: absolute
-    bottom: -6px
+    bottom: 0
     left: 0
     width: 100%
     height: 2px
     background-color: $black
     transform: scaleX(0)
-    transform-origin: right
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)
+    transform-origin: center
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)
 
   &:hover
     color: $black
     &::after
       transform: scaleX(1)
-      transform-origin: left
 
   &.active
     color: $black
     &::after
       transform: scaleX(1)
 
-  @media screen wholesalers and (max-width: 1049px)
+  @media screen and (max-width: 1049px)
     font-size: 24px
     &::after
       display: none
@@ -162,19 +166,19 @@ $transition-time: 0.3s
 .authGroup
   display: flex
   align-items: center
-  gap: 20px
-  margin-left: 12px
-  padding-left: 44px 
-  border-left: 1px solid rgba(0, 0, 0, 0.08) 
+  gap: 16px
+  margin-left: 8px
+  padding-left: 40px 
+  border-left: 1px solid rgba(0, 0, 0, 0.08)
 
   @media screen and (max-width: 1049px)
     flex-direction: column
     margin-left: 0
     padding-left: 0
     border-left: none
-    margin-top: 40px
+    margin-top: 32px
     width: 100%
-    gap: 20px
+    gap: 16px
 
 .loginBtn, .signupBtn, .logoutBtn
   font-family: 'Inter', sans-serif
@@ -182,33 +186,32 @@ $transition-time: 0.3s
   font-weight: 700 
   border-radius: 100px
   cursor: pointer
-  transition: all 0.25s ease
+  transition: all $transition-smooth
   text-align: center
   text-decoration: none
 
 .loginBtn
   background-color: transparent
-  color: $gray
+  color: $nav-gray
   padding: 12px 20px
   border: none
 
   &:hover
     color: $black
 
-  &::after
-    display: none
-
 .signupBtn, .logoutBtn
   position: relative
   background-color: $black
-  color: $white
+  color: $white !important
+  -webkit-text-fill-color: $white !important 
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) 
   padding: 14px 32px
   border: none
   overflow: hidden
   z-index: 1
 
   &::after
-    display: none
+    display: none !important
 
   &::before
     content: ''
@@ -217,7 +220,8 @@ $transition-time: 0.3s
     left: 0
     right: 0
     bottom: 0
-    background: linear-gradient(270deg, red, orange, yellow, violet, red)
+    border-radius: inherit
+    background: linear-gradient(270deg, #e6006b, #e65200, #e6c600, #b000e6, #e6006b)
     background-size: 400% 400%
     z-index: -1
     opacity: 0
@@ -228,7 +232,7 @@ $transition-time: 0.3s
     opacity: 1
 
   &:hover
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15)
+    box-shadow: 0 10px 24px rgba(230, 0, 107, 0.25)
     transform: translateY(-2px)
 
   @media screen and (max-width: 1049px)
