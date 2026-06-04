@@ -6,7 +6,7 @@ import styles from './HeroSection.module.sass';
 export default function HeroSection () {
   const rootRef = useRef(null);
   const titleRef = useRef(null);
-  const deviceRef = useRef(null);
+  const imageRef = useRef(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -31,12 +31,14 @@ export default function HeroSection () {
       const rect = rootRef.current.getBoundingClientRect();
       const windowH = window.innerHeight;
       const offset = Math.max(-windowH, Math.min(windowH, rect.top));
-      const titleY = offset * -0.08;
-      const deviceY = offset * -0.18;
+
+      const titleY = offset * -0.05;
+      const imageY = offset * -0.1;
+
       if (titleRef.current)
         titleRef.current.style.transform = `translateY(${titleY}px)`;
-      if (deviceRef.current)
-        deviceRef.current.style.transform = `translateY(${deviceY}px)`;
+      if (imageRef.current)
+        imageRef.current.style.transform = `translateY(${imageY}px)`;
     };
 
     const handle = () => {
@@ -54,86 +56,76 @@ export default function HeroSection () {
   }, []);
 
   const stats = [
-    { emoji: '🔥', value: '10k+', label: 'Models' },
-    { emoji: '🌍', value: '50+', label: 'Countries' },
-    { emoji: '🏢', value: '500+', label: 'Agencies' },
+    { value: '10k+', label: 'Verified Models' },
+    { value: '500+', label: 'Global Agencies' },
   ];
 
   return (
     <section className={styles.hero} ref={rootRef} aria-label='Hero'>
-      <div className={`${styles.inner}${visible ? ` ${styles.visible}` : ''}`}>
+      <div className={styles.backgroundGlow}></div>
+
+      <div className={`${styles.inner} ${visible ? styles.visible : ''}`}>
         <div className={styles.left}>
+          <div className={styles.badge}>The New Standard</div>
+
           <h1 ref={titleRef} className={styles.title}>
-            The Future of <span className={styles.gradient}>Modeling</span> is
-            Here
+            The Future of <br />
+            <span className={styles.gradient}>Modeling</span> is Here.
           </h1>
+
           <p className={styles.subtitle}>
-            Join LipaX — the next-generation platform connecting models,
-            agencies, and clients in a smart ecosystem built for transparency
-            and growth.
+            Join LipaX — the definitive ecosystem connecting top-tier talents,
+            agencies, and brands with absolute transparency and style.
           </p>
 
-          <div className={styles.ctaGroup}>
-            <div className={styles.buttons}>
-              <NavLink className={styles.btnPrimary} to='/signup/model'>
-                Join as Model
-              </NavLink>
-              <NavLink className={styles.btnSecondary} to='/signup/agency'>
-                Join as Agency
-              </NavLink>
-            </div>
+          <div className={styles.buttons}>
+            <NavLink className={styles.btnPrimary} to='/signup/model'>
+              Join as Model
+            </NavLink>
+            <NavLink className={styles.btnSecondary} to='/signup/agency'>
+              Join as Agency
+            </NavLink>
           </div>
 
           <div className={styles.stats}>
             {stats.map((s, i) => (
               <div key={i} className={styles.stat}>
-                <div className={styles.statEmoji}>{s.emoji}</div>
-                <div className={styles.statBody}>
-                  <div className={styles.statValue}>{s.value}</div>
-                  <div className={styles.statLabel}>{s.label}</div>
-                </div>
+                <div className={styles.statValue}>{s.value}</div>
+                <div className={styles.statLabel}>{s.label}</div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className={styles.right}>
-          <div className={styles.blobs}>
-            <div className={`${styles.blob} ${styles.blob1}`}></div>
-            <div className={`${styles.blob} ${styles.blob2}`}></div>
-            <div className={`${styles.blob} ${styles.blob3}`}></div>
-          </div>
+        <div className={styles.right} ref={imageRef}>
+          <div className={styles.imageWrapper}>
+            <img
+              src={homeBg1}
+              alt='LipaX Models'
+              className={styles.mainImage}
+            />
 
-          {/* device mockup */}
-          <div className={styles.deviceWrap} ref={deviceRef}>
-            <div className={styles.device}>
-              <div
-                className={styles.deviceScreen}
-                style={{ backgroundImage: `url(${homeBg1})` }}
-                role='img'
-                aria-label='platform screenshot'
-              />
-              <div className={styles.deviceBase} />
+            <div className={`${styles.glassCard} ${styles.glassTop}`}>
+              <span className={styles.liveIndicator}></span> Actively Casting
             </div>
 
-            {/* silhouette / model svg overlay */}
-            <div className={styles.modelSilhouette} aria-hidden='true'>
-              {/* simple SVG silhouette — replace or hide as needed */}
-              <svg viewBox='0 0 200 300' xmlns='http://www.w3.org/2000/svg'>
-                <defs>
-                  <linearGradient id='sg' x1='0' x2='1'>
-                    <stop offset='0%' stopColor='#ff7a9a' />
-                    <stop offset='100%' stopColor='#8b00ff' />
-                  </linearGradient>
-                </defs>
-                <g
+            <div className={`${styles.glassCard} ${styles.glassBottom}`}>
+              <div className={styles.secureIcon}>
+                <svg
+                  width='18'
+                  height='18'
+                  viewBox='0 0 24 24'
                   fill='none'
-                  stroke='url(#sg)'
-                  strokeWidth='3'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                ></g>
-              </svg>
+                  stroke='currentColor'
+                  strokeWidth='2'
+                >
+                  <path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z' />
+                </svg>
+              </div>
+              <div>
+                <strong>100% Secure</strong>
+                <span>Verified Profiles</span>
+              </div>
             </div>
           </div>
         </div>

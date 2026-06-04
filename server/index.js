@@ -1,6 +1,7 @@
 const http = require('node:http');
 require('dotenv').config();
 const app = require('./app');
+const db = require('./models');
 
 const PORT = process.env.PORT || 5001;
 const HOST = process.env.HOST || '127.0.0.1';

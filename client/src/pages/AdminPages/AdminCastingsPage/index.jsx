@@ -15,6 +15,7 @@ import {
   clearAdminCastingsList,
 } from '../../../store/slices/adminSlice';
 import ModalWindow from '../../../components/ModalWindow';
+import CONSTANTS from '../../../utils/constants';
 import styles from './AdminCastingsPage.module.sass';
 
 export default function AdminCastingsPage () {
@@ -166,7 +167,7 @@ export default function AdminCastingsPage () {
                     <div className={styles.agencyInfo}>
                       {casting.Agency?.AGN_Logo ? (
                         <img
-                          src={`http://localhost:5001${casting.Agency.AGN_Logo}`}
+                          src={`${CONSTANTS.BASE_URL}${casting.Agency.AGN_Logo}`}
                           alt='logo'
                           className={styles.agencyLogo}
                         />

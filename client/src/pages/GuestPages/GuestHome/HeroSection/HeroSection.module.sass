@@ -1,59 +1,75 @@
 .hero
-  background: linear-gradient(135deg, #ffffff, #f9f7ff, #fff4f4)
-  color: #111
   position: relative
-  overflow: hidden 
-  padding: 80px 20px 120px 
-  min-height: 90vh 
-  box-sizing: border-box
-  display: flex 
-  align-items: center 
+  background-color: #fafafa 
+  color: #111
+  overflow: hidden
+  padding: 120px 20px
+  min-height: 95vh
+  display: flex
+  align-items: center
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+
+.backgroundGlow
+  position: absolute
+  top: -20%
+  right: -10%
+  width: 800px
+  height: 800px
+  background: radial-gradient(circle, rgba(139, 0, 255, 0.04) 0%, rgba(255, 0, 0, 0.02) 40%, transparent 70%)
+  pointer-events: none
+  z-index: 0
 
 .inner
-  max-width: 1200px
+  max-width: 1280px 
   width: 100%
   margin: 0 auto
   display: grid
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr)
-  gap: 60px
+  grid-template-columns: 1.1fr 0.9fr
+  gap: 80px
   align-items: center
-  padding: 0 20px
-  transition: opacity 0.8s ease, transform 0.8s ease
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)
   opacity: 0
-  transform: translateY(14px)
-  z-index: 2 
+  transform: translateY(30px)
+  z-index: 2
+  position: relative
 
 .visible
   opacity: 1
   transform: translateY(0)
 
 .left
-  z-index: 3
-  display: flex 
-  flex-direction: column 
-  justify-content: center 
-
-.right
-  position: relative
   display: flex
-  align-items: center
-  justify-content: center
-  min-height: 400px
+  flex-direction: column
+  align-items: flex-start
+
+.badge
+  display: inline-block
+  padding: 6px 14px
+  border-radius: 20px
+  background: rgba(0, 0, 0, 0.04)
+  border: 1px solid rgba(0, 0, 0, 0.06)
+  font-size: 12px
+  font-weight: 700
+  text-transform: uppercase
+  letter-spacing: 1.5px
+  color: #555
+  margin-bottom: 24px
 
 .title
-  font-size: 60px
-  font-family: "Roboto Slab", serif
-  font-weight: 1000
+  font-size: 76px 
+  font-weight: 800
+  line-height: 1.05
+  letter-spacing: -0.03em 
   color: #111
+  margin: 0
 
 .gradient
   background: linear-gradient(270deg, red, orange, yellow, violet, red)
   background-size: 400% 400%
   -webkit-background-clip: text
   -webkit-text-fill-color: transparent
-  animation: gradientText 6s linear infinite
+  animation: gradientText 6s ease-in-out infinite
   display: inline-block
-  line-height: 1.5
 
 @keyframes gradientText
   0%
@@ -65,276 +81,215 @@
 
 .subtitle
   font-size: 20px
-  color: #333
-  margin: 32px 0
-  max-width: 640px
-  line-height: 1.6 
-
-.ctaGroup
-  display: flex
-  flex-direction: column
-  gap: 16px
-  align-items: flex-start 
-  margin-bottom: 32px
+  color: #555
+  margin: 32px 0 40px
+  max-width: 540px
+  line-height: 1.6
+  font-weight: 400
 
 .buttons
   display: flex
-  gap: 18px
-  flex-wrap: wrap
-  justify-content: flex-start 
+  gap: 16px
+  margin-bottom: 48px
 
-.btnPrimary, .btnSecondary, .btnOutline
-  padding: 14px 42px
-  font-size: 18px
-  font-weight: 700
-  border-radius: 10px
+.btnPrimary, .btnSecondary
+  padding: 16px 36px
+  font-size: 16px
+  font-weight: 600
+  border-radius: 12px
   text-decoration: none
   cursor: pointer
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease
+  transition: all 0.3s ease
 
 .btnPrimary
   color: #fff
-  background: linear-gradient(270deg, #ff0000, #ff7f00, #ffff00, #8b00ff, #ff0000)
+  background: linear-gradient(270deg, red, orange, yellow, violet, red)
   background-size: 400% 400%
-  box-shadow: 0 10px 30px rgba(139, 0, 255, 0.12)
+  box-shadow: 0 10px 24px rgba(255, 0, 0, 0.15)
+  animation: gradientText 8s linear infinite
   &:hover
-    transform: translateY(-4px)
-    background-position: 100% 50%
+    transform: translateY(-3px)
+    box-shadow: 0 15px 30px rgba(255, 0, 0, 0.25)
 
 .btnSecondary
-  @extend .btnPrimary
-
-.btnOutline
-  background: transparent
-  color: #111
-  border: 2px solid rgba(0,0,0,0.08)
+  background: #111
+  color: #fff
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08)
   &:hover
-    background: rgba(0,0,0,0.06)
+    background: #000
     transform: translateY(-3px)
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15)
 
 .stats
   display: flex
-  gap: 32px 
-  align-items: center
-  justify-content: space-evenly 
-  margin-top: 12px 
+  gap: 48px
+  border-top: 1px solid rgba(0, 0, 0, 0.08)
+  padding-top: 32px
 
-.stat
+.statValue
+  font-size: 32px
+  font-weight: 800
+  color: #111
+  letter-spacing: -0.02em
+
+.statLabel
+  font-size: 13px
+  color: #666
+  font-weight: 500
+  margin-top: 4px
+
+.right
+  position: relative
+  display: flex
+  justify-content: flex-end
+
+.imageWrapper
+  position: relative
+  width: 100%
+  max-width: 520px
+  border-radius: 24px
+  overflow: hidden
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1)
+  
+.mainImage
+  width: 100%
+  height: auto
+  display: block
+  object-fit: cover
+  transform: scale(1.02) 
+
+.glassCard
+  position: absolute
+  background: rgba(255, 255, 255, 0.6)
+  backdrop-filter: blur(16px) 
+  -webkit-backdrop-filter: blur(16px)
+  border: 1px solid rgba(255, 255, 255, 0.8)
+  border-radius: 100px
+  padding: 14px 24px
   display: flex
   align-items: center
   gap: 12px
-  color: #222
-
-.statEmoji
-  font-size: 20px
-  line-height: 1
-
-.statValue
-  font-size: 18px
-  font-weight: 800
   color: #111
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08)
 
-.statLabel
-  font-size: 12px
-  color: #666
-  text-transform: uppercase 
-  letter-spacing: 0.5px 
+.glassTop
+  top: 30px
+  left: -30px 
+  font-weight: 600
+  font-size: 14px
 
-.blobs
-  position: absolute
-  width: 100%
-  height: 100%
-  max-width: 520px
-  max-height: 520px
-  left: 50%
-  top: 50%
-  transform: translate(-50%, -50%)
-  pointer-events: none
-  z-index: 0
-
-.blob
-  position: absolute
+.liveIndicator
+  width: 10px
+  height: 10px
   border-radius: 50%
-  filter: blur(28px)
-  opacity: 0.28
+  background: #ff0000
+  box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.2)
+  animation: pulse 2s infinite
 
-.blob1
-  width: 220px
-  height: 220px
-  background: linear-gradient(135deg, #ff0077, #ff5c00)
-  left: 20px
-  top: 80px
-  animation: blobMove1 4.6s ease-in-out infinite
+@keyframes pulse
+  0%
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4)
+  70%
+    box-shadow: 0 0 0 10px rgba(255, 0, 0, 0)
+  100%
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0)
 
-.blob2
-  width: 180px
-  height: 180px
-  background: linear-gradient(135deg, #8b00ff, #ff7a9a)
-  right: 40px
-  top: 40px
-  animation: blobMove2 5.2s ease-in-out infinite
+.glassBottom
+  bottom: 40px
+  right: -20px
+  border-radius: 20px 
+  gap: 16px
 
-.blob3
-  width: 120px
-  height: 120px
-  background: linear-gradient(135deg, #ffd166, #ff7f50)
-  right: 80px
-  bottom: 20px
-  animation: blobMove3 6s ease-in-out infinite
-
-@keyframes blobMove1
-  0%, 100%
-    transform: translateX(0)
-  50%
-    transform: translateX(18px)
-
-@keyframes blobMove2
-  0%, 100%
-    transform: translateX(0)
-  50%
-    transform: translateX(-16px)
-
-@keyframes blobMove3
-  0%, 100%
-    transform: translateX(0)
-  50%
-    transform: translateX(10px)
-
-.deviceWrap
-  position: relative
-  width: 100% 
-  max-width: 600px
-  margin: 0 auto 
-  display: flex
-  align-items: center
-  justify-content: center
-  z-index: 2
-
-.device
-  width: 100% 
-  height: 380px 
-  border-radius: 16px
-  background: linear-gradient(180deg, #ffffff, #f2f2f7)
-  box-shadow: 0 18px 40px rgba(17,17,17,0.08)
-  display: flex
-  align-items: center
-  justify-content: center
-  position: relative
-  overflow: visible
-
-.deviceScreen
-  width: calc(100% - 40px)
-  height: calc(100% - 60px)
-  border-radius: 10px
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 6px 30px rgba(0,0,0,0.08)
-  background-size: cover
-  background-position: center
-  background-repeat: no-repeat
-  transform-origin: center
-  transition: transform 0.6s cubic-bezier(.2,.9,.25,1)
-
-.deviceBase
-  position: absolute
-  bottom: -18px
-  left: 50%
-  transform: translateX(-50%)
-  width: 80% 
-  max-width: 320px
-  height: 34px
-  border-radius: 8px
-  background: linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.02))
-  filter: blur(2px)
-  z-index: 0
-
-.modelSilhouette
-  position: absolute
-  right: 10px
-  bottom: -10px
-  width: 120px
-  height: 180px
-  opacity: 0.9
-  z-index: 3
-  pointer-events: none
-
-.waveWrap
-  position: absolute
-  bottom: 0
-  left: 0
-  width: 100%
-  overflow: hidden
-  line-height: 0
-  z-index: 1 
-
-.waveSvg
+.glassBottom strong
   display: block
-  width: 100%
-  height: 80px
-  fill: #222 
+  font-size: 15px
+  font-weight: 700
 
-@media (max-width: 920px)
+.glassBottom span
+  font-size: 13px
+  color: #555
+
+.secureIcon
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 40px
+  height: 40px
+  background: #111
+  color: #fff
+  border-radius: 50%
+
+@media (max-width: 1024px)
+  .title
+    font-size: 56px
+  .inner
+    gap: 40px
+
+@media (max-width: 768px)
   .hero
-    padding: 60px 16px 100px 
-    min-height: auto 
-
+    padding: 80px 16px
   .inner
     grid-template-columns: 1fr
-    gap: 40px
-    padding: 0 
-
   .right
-    order: -1 
-
-  .left
-    text-align: center
-    
-  .ctaGroup
-    align-items: center 
-
-  .buttons
     justify-content: center
-
-  .stats
-    justify-content: center 
-
-  .deviceWrap
-    width: 100%
-    max-width: 380px
-    height: auto 
-    margin: 0 auto
-
-  .device
-    height: 250px
-
-  .blobs
-    display: none 
-
-@media (max-width: 520px)
+    margin-top: 40px
+  .glassTop
+    left: 10px
+  .glassBottom
+    right: 10px
   .title
-    font-size: 38px 
-    line-height: 1.1
-
+    font-size: 48px
+  .stats
+    gap: 32px
+  .left
+    align-items: center
   .subtitle
-    font-size: 17px 
+    text-align: center
+
+@media (max-width: 480px)
+  .hero
+    padding: 60px 16px
+    
+  .title
+    font-size: 40px
+    
+  .subtitle
+    font-size: 16px
+    margin: 24px 0 32px
 
   .buttons
     flex-direction: column
     width: 100%
-    align-items: stretch 
+    gap: 12px
     
-  .btnPrimary, .btnSecondary, .btnOutline
+  .btnPrimary, .btnSecondary
     width: 100% 
     text-align: center
 
-  .modelSilhouette
-    display: none 
-
   .stats
-    gap: 16px
-    flex-wrap: wrap
-    margin-top: 24px
+    flex-direction: column 
+    gap: 20px
+    align-items: flex-start
+    border-top: none 
+    padding-top: 0
 
-  .stat
-    gap: 8px
+  .glassCard
+    padding: 10px 16px 
+    border-radius: 16px
+    font-size: 12px
+    
+  .glassTop
+    left: -10px
+    top: 10px
 
-  .statEmoji
-    font-size: 18px
+  .glassBottom
+    right: -10px
+    bottom: 20px
+    gap: 10px
+
+  .secureIcon
+    width: 32px
+    height: 32px
+    
+  .glassBottom strong
+    font-size: 13px

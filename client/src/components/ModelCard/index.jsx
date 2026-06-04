@@ -5,6 +5,7 @@ import { saveProfile } from '../../store/slices/modelSlice';
 import { createInvitation } from '../../store/slices/invitationSlice';
 import { fetchMyCastings } from '../../store/slices/castingSlice';
 import ModalWindow from '../ModalWindow';
+import InfoModal from '../InfoModal';
 import ReportUserModal from '../ReportUserModal';
 import { FiEdit, FiArrowLeft, FiCheck, FiFlag } from 'react-icons/fi';
 import defaultAvatarLocal from '../../../img/default-avatar.jpg';
@@ -42,7 +43,12 @@ export default function ModelCard ({
     success: false,
     error: null,
   });
-  console.log('Данные модели в карточке:', model);
+
+  const [infoModal, setInfoModal] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+  });
 
   const fileInputRef = useRef(null);
 
@@ -170,9 +176,21 @@ export default function ModelCard ({
       ).unwrap();
 
       setInviteStatus({ loading: false, success: true, error: null });
+
       setTimeout(() => setShowInviteMenu(false), 2000);
     } catch (error) {
-      setInviteStatus({ loading: false, success: false, error });
+      const msg =
+        typeof error === 'string'
+          ? error
+          : error?.message || 'Something went wrong';
+
+      setInviteStatus({ loading: false, success: false, error: msg });
+
+      setInfoModal({
+        isOpen: true,
+        title: 'Invitation Notice',
+        message: msg,
+      });
     }
   };
 
@@ -410,6 +428,21 @@ export default function ModelCard ({
                             </option>
                           ))}
                         </select>
+                        <InfoModal
+                          isOpen={infoModal.isOpen}
+                          onClose={() => setInfoModal(false)}
+                          title={infoModal.title}
+                        >
+                          <p
+                            style={{
+                              margin: 0,
+                              fontWeight: 500,
+                              color: '#374151',
+                            }}
+                          >
+                            {infoModal.message}
+                          </p>
+                        </InfoModal>
 
                         {inviteStatus.error && (
                           <p className={styles.errorText}>

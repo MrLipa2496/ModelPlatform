@@ -1,48 +1,8 @@
-import { useEffect, useRef } from 'react';
-import {
-  Users,
-  Building2,
-  Briefcase,
-  Globe,
-  Shield,
-  Sparkles,
-} from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
+import CONSTANTS from '../../../../utils/constants';
 import styles from './AboutSection.module.sass';
 
-const aboutItems = [
-  {
-    icon: <Users className={styles.icon} />,
-    title: 'Empowering Models',
-    text: 'Showcase your talent, grow your personal brand, and connect directly with verified agencies and clients worldwide. Take full control of your modeling journey.',
-  },
-  {
-    icon: <Building2 className={styles.icon} />,
-    title: 'Tools for Agencies',
-    text: 'Manage your portfolio, promote models, and collaborate with global brands and partners — all in one professional dashboard.',
-  },
-  {
-    icon: <Briefcase className={styles.icon} />,
-    title: 'Opportunities for Clients',
-    text: 'Find the perfect face for your campaign or fashion event. LipaX ensures transparent access to top-tier talents across the globe.',
-  },
-  {
-    icon: <Globe className={styles.icon} />,
-    title: 'Global Network',
-    text: 'From Milan to Tokyo — LipaX connects the modeling world, fostering an inclusive and borderless professional environment.',
-  },
-  {
-    icon: <Shield className={styles.icon} />,
-    title: 'Safety & Verification',
-    text: 'Every profile and agency is verified, ensuring trust, safety, and professionalism within our growing community.',
-  },
-  {
-    icon: <Sparkles className={styles.icon} />,
-    title: 'Innovation & Growth',
-    text: 'We combine technology and creativity to make talent discovery faster, smarter, and more inspiring than ever before.',
-  },
-];
-
-const AboutSection = () => {
+export default function AboutSection () {
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -57,41 +17,57 @@ const AboutSection = () => {
       { threshold: 0.15 }
     );
 
-    const blocks = sectionRef.current.querySelectorAll(`.${styles.block}`);
-    blocks.forEach(block => observer.observe(block));
+    const blocks = sectionRef.current?.querySelectorAll(`.${styles.bentoCard}`);
+    if (blocks) {
+      blocks.forEach(block => observer.observe(block));
+    }
 
-    return () => blocks.forEach(block => observer.unobserve(block));
+    return () => {
+      if (blocks) blocks.forEach(block => observer.unobserve(block));
+    };
   }, []);
 
   return (
     <section className={styles.about} ref={sectionRef}>
+      <div className={styles.bgGlow1}></div>
+      <div className={styles.bgGlow2}></div>
+
       <div className={styles.inner}>
-        <h2 className={styles.title}>
-          About <span>LipaX</span>
-        </h2>
-        <p className={styles.subtitle}>
-          LipaX is a next-generation ecosystem built to connect models,
-          agencies, and clients in one seamless platform — making the fashion
-          world transparent, efficient, and inspiring.
-        </p>
+        <div className={styles.header}>
+          <h2 className={styles.title}>
+            Why <span className={styles.gradient}>LipaX</span>?
+          </h2>
+          <p className={styles.subtitle}>
+            A next-generation ecosystem built to connect models, agencies, and
+            clients in one seamless, high-performance platform.
+          </p>
+        </div>
 
         <div className={styles.grid}>
-          {aboutItems.map((item, index) => (
-            <div key={index} className={styles.block}>
-              <div className={styles.iconWrapper}>{item.icon}</div>
-              <div className={styles.text}>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
+          {CONSTANTS.ABOUT_ITEMS.map((item, index) => {
+            const IconComponent = item.icon;
+
+            return (
+              <div
+                key={index}
+                className={styles.bentoCard}
+                style={{ transitionDelay: `${index * 0.1}s` }}
+              >
+                <div className={styles.iconWrapper}>
+                  <div className={styles.iconGradientBg}></div>
+                  <div className={styles.iconInner}>
+                    <IconComponent strokeWidth={2.5} size={32} />
+                  </div>
+                </div>
+                <div className={styles.text}>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
-
-      <div className={styles.gradientCircle1}></div>
-      <div className={styles.gradientCircle2}></div>
     </section>
   );
-};
-
-export default AboutSection;
+}

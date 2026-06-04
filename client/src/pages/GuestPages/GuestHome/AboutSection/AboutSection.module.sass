@@ -1,125 +1,60 @@
 .about
   position: relative
-  padding: 60px 20px
-  background: #fff
+  padding: 140px 20px
+  background-color: #ffffff 
+  border-top: 1px solid rgba(0, 0, 0, 0.03)
   color: #111
   overflow: hidden
+  font-family: 'Inter', -apple-system, sans-serif
+  z-index: 1
 
-  &::before
-    content: ""
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-    background: linear-gradient(270deg, #ff0077, #ff5c00, #ffdd00, #c400ff, #00e5ff, #ff0077)
-    background-size: 400% 400%
-    filter: blur(150px)
-    opacity: 0.15
-    animation: gradientShift 25s ease infinite
-    z-index: 1
+.bgGlow1, .bgGlow2
+  position: absolute
+  border-radius: 50%
+  filter: blur(120px)
+  pointer-events: none
+  z-index: -1
+
+.bgGlow1
+  width: 800px
+  height: 800px
+  background: radial-gradient(circle, rgba(255, 0, 119, 0.04) 0%, transparent 60%)
+  top: -200px
+  left: -200px
+
+.bgGlow2
+  width: 900px
+  height: 900px
+  background: radial-gradient(circle, rgba(139, 0, 255, 0.03) 0%, transparent 60%)
+  bottom: -300px
+  right: -200px
 
 .inner
-  max-width: 1100px
+  max-width: 1280px
   margin: 0 auto
   position: relative
   z-index: 3
+
+.header
   text-align: center
+  margin-bottom: 80px
 
 .title
-  font-size: 60px
-  font-family: "Roboto Slab", serif
-  font-weight: 1000
-  margin-bottom: 15px
-  background: linear-gradient(90deg, #ff0077, #ff5c00)
+  font-size: 64px
+  font-weight: 900
+  letter-spacing: -0.04em
+  margin: 0 0 20px 0
+  color: #050505
+
+.gradient
+  background: linear-gradient(270deg, red, orange, yellow, violet, red)
+  background-size: 400% 400%
   -webkit-background-clip: text
   -webkit-text-fill-color: transparent
+  animation: gradientText 6s ease-in-out infinite
+  display: inline-block
 
-.subtitle
-  font-size: 1.1rem
-  color: #555
-  margin-bottom: 70px
-  max-width: 750px
-  margin-left: auto
-  margin-right: auto
-  line-height: 1.6
-
-.grid
-  display: grid
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))
-  gap: 50px
-  justify-content: center
-  align-items: stretch
-
-.block
-  opacity: 0
-  transform: translateY(40px)
-  transition: all 0.8s ease
-  display: flex
-  flex-direction: column
-  align-items: center
-  text-align: center
-  background: rgba(255,255,255,0.8)
-  border-radius: 20px
-  padding: 30px 20px
-  backdrop-filter: blur(12px)
-  box-shadow: 0 8px 25px rgba(0,0,0,0.05)
-
-  &:hover
-    transform: translateY(-5px)
-    background: rgba(255,255,255,0.9)
-    box-shadow: 0 12px 35px rgba(255, 92, 0, 0.15)
-
-  &.#{visible}
-    opacity: 1
-    transform: translateY(0)
-
-.iconWrapper
-  width: 70px
-  height: 70px
-  border-radius: 25%
-  background: linear-gradient(135deg, #ff0077, #ff5c00)
-  display: flex
-  align-items: center
-  justify-content: center
-  margin-bottom: 20px
-  box-shadow: 0 6px 20px rgba(255, 0, 100, 0.4)
-  transition: all 0.3s ease
-
-  &:hover
-    transform: scale(1.1) rotate(8deg)
-    box-shadow: 0 8px 30px rgba(255, 92, 0, 0.4)
-
-.icon
-  font-size: 28px
-
-.text
-  h3
-    font-size: 1.2rem
-    margin-bottom: 8px
-    font-weight: 600
-  p
-    color: #444
-    line-height: 1.6
-    font-size: 0.95rem
-
-// --- Багатошаровий фон з анімацією ---
-@for $i from 1 through 6
-  .gradientCircle#{$i}
-    position: absolute
-    border-radius: 50%
-    filter: blur(100px)
-    opacity: 0.18 + random(7) * 0.01
-    z-index: 2
-    animation: float#{if($i % 2 == 0, "Alt", "")} 20s + random(10) * 1s ease-in-out infinite alternate
-    background: radial-gradient(circle, nth((#ff0077, #ff5c00, #ffdd00, #c400ff, #00e5ff, #ff00aa), $i) 0%, transparent 70%)
-    width: 200px + random(200)
-    height: 200px + random(200)
-    top: random(80) * 1%
-    left: random(80) * 1%
-
-// --- Анімації ---
-@keyframes gradientShift
+@keyframes gradientText
   0%
     background-position: 0% 50%
   50%
@@ -127,29 +62,123 @@
   100%
     background-position: 0% 50%
 
-@keyframes float
-  0%
-    transform: translateY(0) translateX(0)
-  50%
-    transform: translateY(-30px) translateX(20px)
-  100%
-    transform: translateY(30px) translateX(-20px)
+.subtitle
+  font-size: 20px
+  font-weight: 500
+  color: #555
+  max-width: 680px
+  margin: 0 auto
+  line-height: 1.6
 
-@keyframes floatAlt
-  0%
-    transform: translateY(0) translateX(0)
-  50%
-    transform: translateY(40px) translateX(-25px)
-  100%
-    transform: translateY(-40px) translateX(25px)
+.grid
+  display: grid
+  grid-template-columns: repeat(3, 1fr)
+  gap: 28px
+  align-items: stretch
 
-@media (max-width: 520px)
+.bentoCard
+  opacity: 0
+  transform: translateY(40px) scale(0.96)
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease
+  
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  text-align: left
+  background: #ffffff
+  border: 1px solid rgba(0, 0, 0, 0.06)
+  border-radius: 28px 
+  padding: 48px 36px
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02)
+  position: relative
+  overflow: hidden 
+
+  &.visible
+    opacity: 1
+    transform: translateY(0) scale(1)
+
+  &:hover
+    transform: translateY(-8px) scale(1.02) 
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.06), 0 0 0 2px rgba(139, 0, 255, 0.05) 
+    border-color: transparent 
+
+    .iconGradientBg
+      opacity: 1 
+      transform: scale(1) 
+      
+    .iconInner
+      color: #ffffff 
+
+.iconWrapper
+  position: relative
+  width: 72px
+  height: 72px
+  border-radius: 20px
+  background: #f4f4f5
+  display: flex
+  align-items: center
+  justify-content: center
+  margin-bottom: 32px
+  z-index: 1
+
+.iconGradientBg
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  border-radius: inherit
+  background: linear-gradient(270deg, red, orange, yellow, violet, red)
+  background-size: 400% 400%
+  animation: gradientText 4s ease-in-out infinite
+  opacity: 0 
+  transform: scale(0.9) 
+  transition: opacity 0.4s ease, transform 0.4s ease 
+  z-index: -1
+
+.iconInner
+  color: #111
+  transition: color 0.4s ease 
+  display: flex
+  align-items: center
+  justify-content: center
+
+.text
+  h3
+    font-size: 24px 
+    font-weight: 800 
+    letter-spacing: -0.02em
+    margin: 0 0 16px 0
+    color: #111
+  p
+    color: #444
+    line-height: 1.65
+    font-size: 16px
+    font-weight: 500 
+    margin: 0
+
+@media (max-width: 1024px)
   .title
-    font-size: 2rem
-  .subtitle
-    font-size: 1rem
-    margin-bottom: 50px
+    font-size: 52px
   .grid
-    gap: 35px
-  .block
-    padding: 25px 15px
+    grid-template-columns: repeat(2, 1fr)
+    gap: 20px
+  .bentoCard
+    padding: 36px 28px
+
+@media (max-width: 600px)
+  .about
+    padding: 80px 16px
+  .bgGlow1, .bgGlow2
+    display: none 
+  .header
+    margin-bottom: 50px
+  .title
+    font-size: 42px
+  .grid
+    grid-template-columns: 1fr
+    gap: 16px
+  .bentoCard
+    padding: 40px 24px
+    align-items: center
+    text-align: center

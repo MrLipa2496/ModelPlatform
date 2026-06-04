@@ -1,64 +1,74 @@
-import React from 'react';
-import { Shield, Globe2, MessageSquare, Camera, BarChart3 } from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
+import CONSTANTS from '../../../../utils/constants';
 import styles from './FeaturesSection.module.sass';
 
-const features = [
-  {
-    icon: <Shield />,
-    title: 'Secure Deals & Moderation',
-    text: 'Every offer is reviewed and verified to protect both models and agencies — transparency first.',
-  },
-  {
-    icon: <Globe2 />,
-    title: 'Global Network',
-    text: 'Connect with trusted international agencies and clients. Expand your reach beyond borders.',
-  },
-  {
-    icon: <MessageSquare />,
-    title: 'Built-in Chat & Offers',
-    text: 'Negotiate, sign, and collaborate directly inside the platform — simple, fast, and intuitive.',
-  },
-  {
-    icon: <Camera />,
-    title: 'Professional Portfolios',
-    text: 'Showcase your work through elegant portfolio galleries that make your talent stand out.',
-  },
-  {
-    icon: <BarChart3 />,
-    title: 'Smart Analytics',
-    text: 'Track your profile growth, engagement, and performance insights in real time.',
-  },
-];
+export default function FeaturesSection () {
+  const sectionRef = useRef(null);
 
-const FeaturesSection = () => {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add(styles.visible);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const rows = sectionRef.current?.querySelectorAll(`.${styles.featureRow}`);
+    if (rows) {
+      rows.forEach(row => observer.observe(row));
+    }
+
+    return () => {
+      if (rows) rows.forEach(row => observer.unobserve(row));
+    };
+  }, []);
+
   return (
-    <section className={styles.features}>
+    <section className={styles.features} ref={sectionRef}>
       <div className={styles.inner}>
-        <h2 className={styles.title}>Why Choose Our Platform</h2>
-        <p className={styles.subtitle}>
-          A new standard for digital modeling — built for trust, creativity, and
-          success.
-        </p>
+        <div className={styles.stickyColumn}>
+          <div className={styles.stickyContent}>
+            <h2 className={styles.title}>
+              Why Choose <br />{' '}
+              <span className={styles.gradient}>Our Platform</span>
+            </h2>
+            <p className={styles.subtitle}>
+              A new standard for digital modeling — precision-built for trust,
+              creativity, and unprecedented success.
+            </p>
+          </div>
+        </div>
 
-        <div className={styles.grid}>
-          {features.map((item, index) => (
-            <div key={index} className={styles.feature}>
-              <div className={styles.iconWrapper}>
-                <div className={styles.icon}>{item.icon}</div>
+        <div className={styles.scrollColumn}>
+          {CONSTANTS.FEATURES.map((item, index) => {
+            const IconComponent = item.icon;
+            return (
+              <div
+                key={index}
+                className={styles.featureRow}
+                style={{ transitionDelay: `${index * 0.1}s` }}
+              >
+                <div className={styles.iconWrapper}>
+                  <IconComponent
+                    size={28}
+                    strokeWidth={2}
+                    className={styles.icon}
+                  />
+                </div>
+
+                <div className={styles.text}>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
               </div>
-              <div className={styles.text}>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
-
-      <div className={styles.gradientCircle1}></div>
-      <div className={styles.gradientCircle2}></div>
     </section>
   );
-};
-
-export default FeaturesSection;
+}
