@@ -1,0 +1,356 @@
+.pageContainer
+  padding: 2rem
+  max-width: 1400px
+  margin: 0 auto
+  width: 100%
+
+.pageHeader
+  margin-bottom: 2rem
+
+.subtitle
+  font-size: 0.85rem
+  color: #888
+  letter-spacing: 1px
+  margin-bottom: 0.5rem
+
+.title
+  font-size: 2rem
+  font-weight: 700
+  color: #111
+  margin: 0 0 0.5rem 0
+
+.description
+  color: #666
+  font-size: 1rem
+  max-width: 800px
+
+.controlsWrapper
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: 1.5rem
+  gap: 1rem
+  flex-wrap: wrap
+
+.tabsContainer
+  display: flex
+  gap: 1rem
+
+.tabBtn
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 8px
+  padding: 10px 20px
+  background: #fff
+  border: 1px solid #eaeaea
+  border-radius: 8px
+  color: #666
+  font-weight: 600
+  cursor: pointer
+  transition: all 0.2s ease
+  &:hover
+    background: #f9f9f9
+
+.activeTab
+  background: #111
+  color: #fff
+  border-color: #111
+  &:hover
+    background: #222
+
+.filtersWrapper
+  display: flex
+  align-items: center
+  gap: 1rem
+
+.searchBox
+  position: relative
+  display: flex
+  align-items: center
+  .searchIcon
+    position: absolute
+    left: 12px
+    color: #999
+  input
+    padding: 10px 10px 10px 36px
+    border: 1px solid #eaeaea
+    border-radius: 8px
+    font-size: 0.95rem
+    width: 250px /* Дефолтная ширина для ПК */
+    outline: none
+    transition: border-color 0.2s, box-shadow 0.2s
+    &:focus
+      border-color: #111
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.05)
+
+.statusSelect
+  padding: 10px
+  border: 1px solid #eaeaea
+  border-radius: 8px
+  font-size: 0.95rem
+  outline: none
+  cursor: pointer
+  background: #fff
+  transition: border-color 0.2s
+  &:focus
+    border-color: #111
+
+.tableContainer
+  background: #fff
+  border: 1px solid #eaeaea
+  border-radius: 12px
+  overflow-x: auto 
+  -webkit-overflow-scrolling: touch
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02)
+
+.dataTable
+  width: 100%
+  border-collapse: collapse
+  text-align: left
+  min-width: 800px 
+
+  th
+    padding: 1rem 1.5rem
+    background: #f8f9fa
+    color: #666
+    font-weight: 600
+    font-size: 0.85rem
+    text-transform: uppercase
+    letter-spacing: 0.5px
+    border-bottom: 1px solid #eaeaea
+    white-space: nowrap
+
+  td
+    padding: 1.25rem 1.5rem
+    border-bottom: 1px solid #eaeaea
+    vertical-align: middle
+
+.tableRow
+  transition: background 0.2s
+  &:hover
+    background: #fafafa
+
+.profileLink
+  text-decoration: none
+  color: inherit
+
+.nameWrapper
+  display: flex
+  align-items: center
+  gap: 12px
+
+.avatarPlaceholder
+  width: 40px
+  height: 40px
+  border-radius: 50%
+  background: #eee
+  display: flex
+  align-items: center
+  justify-content: center
+  font-weight: 600
+  color: #666
+  overflow: hidden
+  flex-shrink: 0
+
+.avatarImage
+  width: 100%
+  height: 100%
+  object-fit: cover
+
+.primaryText
+  font-weight: 600
+  color: #111
+  margin: 0 0 4px 0
+  white-space: nowrap
+
+.secondaryText
+  font-size: 0.85rem
+  color: #888
+  margin: 0
+  white-space: nowrap
+
+.statusBadge
+  padding: 4px 10px
+  border-radius: 20px
+  font-size: 0.8rem
+  font-weight: 600
+  display: inline-block
+  text-transform: capitalize
+
+.active
+  background: #e6f4ea
+  color: #1e8e3e
+.pending
+  background: #fef7e0
+  color: #b08d00
+.blocked
+  background: #fce8e6
+  color: #d93025
+
+.actionButtons
+  display: flex
+  gap: 8px
+  justify-content: flex-end
+
+.actionBtn
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 6px
+  padding: 8px 14px
+  border-radius: 6px
+  font-size: 0.85rem
+  font-weight: 600
+  cursor: pointer
+  border: 1px solid transparent
+  transition: all 0.2s
+  white-space: nowrap
+
+.viewBtn
+  background: #f5f5f5
+  color: #333
+  border-color: #eaeaea
+  text-decoration: none
+  &:hover
+    background: #eaeaea
+
+.blockBtn
+  background: #fff
+  color: #d93025
+  border-color: #fce8e6
+  &:hover
+    background: #fce8e6
+
+.unblockBtn
+  background: #fff
+  color: #1e8e3e
+  border-color: #e6f4ea
+  &:hover
+    background: #e6f4ea
+
+.alignRight
+  text-align: right
+
+.emptyState
+  text-align: center
+  padding: 4rem 2rem
+  color: #666
+  
+.emptyIcon
+  font-size: 3rem
+  color: #ccc
+  margin-bottom: 1rem
+
+.paginationWrapper
+  display: flex
+  justify-content: center
+  padding: 1.5rem 0
+  margin-top: 1rem
+
+@media (max-width: 992px)
+  .controlsWrapper
+    flex-direction: column
+    align-items: stretch
+
+  .filtersWrapper
+    width: 100%
+    justify-content: space-between
+
+  .searchBox
+    flex-grow: 1
+    input
+      width: 100%
+
+@media (max-width: 768px)
+  .tableContainer
+    background: transparent
+    border: none
+    box-shadow: none
+    overflow-x: visible
+
+  .dataTable
+    min-width: 100% 
+    display: block
+    
+    thead
+      display: none 
+    
+    tbody
+      display: flex
+      flex-direction: column
+      gap: 1rem
+
+  .tableRow
+    display: flex
+    flex-direction: column
+    background: #fff
+    border: 1px solid #eaeaea
+    border-radius: 12px
+    padding: 1.25rem
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02)
+    
+  .dataTable td
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding: 0.5rem 0
+    border-bottom: none
+
+  .dataTable td:nth-child(1) 
+    justify-content: flex-start
+    padding-bottom: 1rem
+    margin-bottom: 0.5rem
+    border-bottom: 1px solid #eaeaea
+
+  .dataTable td:nth-child(2)::before
+    content: 'Status:'
+    font-weight: 600
+    font-size: 0.85rem
+    color: #888
+
+  .dataTable td:nth-child(3)::before 
+    content: 'Joined Date:'
+    font-weight: 600
+    font-size: 0.85rem
+    color: #888
+
+  .dataTable td:nth-child(4) 
+    margin-top: 0.5rem
+    padding-top: 1rem
+    border-top: 1px solid #eaeaea
+    
+  .actionButtons
+    width: 100%
+    justify-content: space-between
+    
+  .actionBtn
+    flex: 1 
+    justify-content: center
+
+
+@media (max-width: 600px)
+  .pageContainer
+    padding: 1rem
+
+  .title
+    font-size: 1.5rem
+
+  .tabsContainer
+    width: 100%
+  
+  .tabBtn
+    flex: 1 
+
+  .filtersWrapper
+    flex-direction: column
+    gap: 1rem
+
+  .searchBox
+    width: 100%
+
+  .statusSelect
+    width: 100%
+
+  .emptyState
+    padding: 2rem 1rem

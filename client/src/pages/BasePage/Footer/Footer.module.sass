@@ -1,0 +1,118 @@
+.footer
+  background-color: #050505 
+  color: #888888
+  padding: 80px 20px 40px
+  font-family: 'Inter', -apple-system, sans-serif
+  border-top: 1px solid rgba(255, 255, 255, 0.05) 
+
+.inner
+  max-width: 1280px
+  margin: 0 auto
+
+.topSection
+  display: grid
+  grid-template-columns: 2fr 1fr 1fr 1fr 
+  gap: 60px
+  margin-bottom: 80px
+
+.brandCol
+  display: flex
+  flex-direction: column
+
+.brandName
+  font-size: 32px
+  font-weight: 900
+  letter-spacing: -0.04em
+  color: #ffffff
+  margin: 0 0 16px 0
+
+.brandDesc
+  font-size: 15px
+  line-height: 1.6
+  margin: 0 0 24px 0
+  max-width: 320px
+
+.socials
+  display: flex
+  gap: 16px
+
+.socialIcon
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 40px
+  height: 40px
+  border-radius: 50%
+  background: rgba(255, 255, 255, 0.05)
+  color: #ffffff
+  transition: all 0.3s ease
+  
+  &:hover
+    background: #ffffff
+    color: #050505
+    transform: translateY(-3px)
+
+.linksCol
+  display: flex
+  flex-direction: column
+  
+  h4
+    color: #ffffff
+    font-size: 16px
+    font-weight: 700
+    margin: 0 0 24px 0
+    letter-spacing: -0.01em
+
+  a
+    color: #888888
+    text-decoration: none
+    font-size: 15px
+    margin-bottom: 16px
+    transition: color 0.3s ease
+
+    &:hover
+      color: #ffffff
+
+.bottomSection
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding-top: 32px
+  border-top: 1px solid rgba(255, 255, 255, 0.08)
+  font-size: 14px
+
+.creator
+  span
+    color: #ffffff
+    font-weight: 600
+
+@media (max-width: 1024px)
+  .topSection
+    grid-template-columns: 1fr 1fr
+    gap: 40px
+
+@media (max-width: 600px)
+  .footer
+    padding: 60px 16px 32px
+    
+  .topSection
+    grid-template-columns: 1fr 
+    gap: 40px
+    text-align: center 
+    
+  .brandCol
+    align-items: center 
+    
+  .brandDesc
+    margin: 0 auto 24px auto 
+    
+  .socials
+    justify-content: center 
+
+  .linksCol
+    align-items: center
+    
+  .bottomSection
+    flex-direction: column 
+    gap: 16px
+    text-align: center

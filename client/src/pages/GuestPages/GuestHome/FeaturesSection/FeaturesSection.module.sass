@@ -1,0 +1,190 @@
+.features
+  position: relative
+  padding: 140px 20px
+  background-color: #050505 
+  color: #ffffff
+  font-family: 'Inter', -apple-system, sans-serif
+  overflow: hidden
+
+.inner
+  max-width: 1200px
+  margin: 0 auto
+  display: flex
+  align-items: flex-start
+  gap: 80px
+
+.stickyColumn
+  flex: 1
+  position: sticky
+  top: 140px
+
+.stickyContent
+  padding-right: 20px
+
+.title
+  font-size: 64px
+  font-weight: 900
+  letter-spacing: -0.04em
+  line-height: 1.1
+  margin: 0 0 24px 0
+  color: #ffffff
+
+.gradient
+  background: linear-gradient(270deg, red, orange, yellow, violet, red)
+  background-size: 400% 400%
+  -webkit-background-clip: text
+  -webkit-text-fill-color: transparent
+  animation: gradientText 6s ease-in-out infinite
+  display: inline-block
+
+@keyframes gradientText
+  0%
+    background-position: 0% 50%
+  50%
+    background-position: 100% 50%
+  100%
+    background-position: 0% 50%
+
+.subtitle
+  font-size: 19px
+  font-weight: 400
+  color: #888888
+  line-height: 1.6
+  max-width: 480px
+
+.scrollColumn
+  flex: 1.2
+  display: flex
+  flex-direction: column
+  position: relative
+  padding-bottom: 80px
+  border-left: 1px solid rgba(255, 255, 255, 0.06) 
+  padding-left: 56px
+
+  &:hover .featureRow
+    opacity: 0.3
+
+.featureRow
+  position: relative
+  display: flex
+  align-items: flex-start
+  gap: 32px
+  padding: 40px 0
+  opacity: 0.8
+  transform: translateY(30px)
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1)
+  
+  &.visible
+    transform: translateY(0)
+
+  &::before
+    content: ''
+    position: absolute
+    left: -57px 
+    top: 40px
+    bottom: 40px
+    width: 3px
+    background: transparent
+    transition: all 0.1s ease
+    border-radius: 4px
+
+  &:hover
+    opacity: 1 !important 
+    transform: translateX(12px) 
+
+    &::before
+      background: linear-gradient(180deg, red, orange, yellow, violet, red)
+      background-size: 200% 200%
+      animation: gradientText 4s linear infinite
+      box-shadow: 0 0 16px rgba(255, 0, 100, 0.4) 
+
+    .iconWrapper
+      background: linear-gradient(135deg, #ff0077, #c400ff) 
+      border-color: transparent
+      transform: scale(1.05)
+      box-shadow: 0 10px 24px rgba(196, 0, 255, 0.25) 
+
+    .icon
+      color: #ffffff 
+
+    h3
+      color: #ffffff
+
+.iconWrapper
+  flex-shrink: 0
+  width: 64px
+  height: 64px
+  border-radius: 18px 
+  background: rgba(255, 255, 255, 0.03) 
+  border: 1px solid rgba(255, 255, 255, 0.08)
+  display: flex
+  align-items: center
+  justify-content: center
+  transition: all 0.4s ease
+
+.icon
+  color: #666666 
+  transition: color 0.4s ease
+
+.text
+  h3
+    font-size: 26px
+    font-weight: 700
+    letter-spacing: -0.02em
+    margin: 0 0 12px 0
+    color: #e0e0e0
+    transition: color 0.4s ease
+    
+  p
+    color: #888888
+    line-height: 1.6
+    font-size: 16px
+    font-weight: 400
+    margin: 0
+
+
+@media (max-width: 1024px)
+  .inner
+    gap: 40px
+    align-items: center
+  .title
+    font-size: 52px
+  .scrollColumn
+    padding-left: 40px
+  .featureRow::before
+    left: -41px
+
+@media (max-width: 900px)
+  .inner
+    flex-direction: column
+  
+  .stickyContent
+    text-align: center
+
+  .stickyColumn
+    position: relative
+    top: 0
+  
+  .scrollColumn
+    width: 100%
+    padding-bottom: 0
+
+@media (max-width: 600px)
+  .features
+    padding: 80px 16px
+  .title
+    font-size: 40px
+  .scrollColumn
+    padding-left: 24px 
+  .featureRow::before
+    left: -25px
+  .featureRow
+    padding: 32px 0
+    gap: 20px
+  .text h3
+    font-size: 22px
+  .iconWrapper
+    width: 56px
+    height: 56px
+  .featureRow:hover
+    transform: none 
