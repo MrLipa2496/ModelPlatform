@@ -1,4 +1,19 @@
 import styles from './../pages/BasePage/Header/Header.module.sass';
+import {
+  Users,
+  Building2,
+  Briefcase,
+  Globe,
+  Shield,
+  Sparkles,
+  UserPlus,
+  Link2,
+  Rocket,
+  Globe2,
+  MessageSquare,
+  Camera,
+  BarChart3,
+} from 'lucide-react';
 const serverIP = 'localhost';
 const serverPort = 5001;
 
@@ -236,6 +251,91 @@ const CONSTANTS = {
     'Unable to verify identity or agency credentials.',
     'Suspicious activity or suspected fake profile.',
     'Age requirement not met or missing parental consent.',
+  ],
+
+  ABOUT_ITEMS: [
+    {
+      icon: Users,
+      title: 'Empowering Models',
+      text: 'Showcase your talent, grow your personal brand, and connect directly with verified agencies and clients worldwide.',
+    },
+    {
+      icon: Building2,
+      title: 'Tools for Agencies',
+      text: 'Manage your portfolio, promote models, and collaborate with global brands and partners in one professional dashboard.',
+    },
+    {
+      icon: Briefcase,
+      title: 'Opportunities for Clients',
+      text: 'Find the perfect face for your campaign. LipaX ensures transparent access to top-tier talents across the globe.',
+    },
+    {
+      icon: Globe,
+      title: 'Global Network',
+      text: 'From Milan to Tokyo — LipaX connects the modeling world, fostering an inclusive and borderless environment.',
+    },
+    {
+      icon: Shield,
+      title: 'Safety & Verification',
+      text: 'Every profile and agency is verified, ensuring absolute trust, safety, and professionalism within our community.',
+    },
+    {
+      icon: Sparkles,
+      title: 'Innovation & Growth',
+      text: 'We combine technology and creativity to make talent discovery faster, smarter, and more inspiring than ever before.',
+    },
+  ],
+
+  HOW_IT_WORKS_STEPS: [
+    {
+      icon: UserPlus,
+      title: 'Create Profile',
+      text: 'Build your personal modeling portfolio. Add your best shots, physical stats, and story to showcase your true potential.',
+      link: '/signup',
+      linkText: 'Start Building',
+    },
+    {
+      icon: Link2,
+      title: 'Connect & Apply',
+      text: 'Explore exclusive opportunities. Send applications and get discovered by top-tier modeling agencies and global brands.',
+      link: '/agencies',
+      linkText: 'Explore Agencies',
+    },
+    {
+      icon: Rocket,
+      title: 'Collaborate & Grow',
+      text: 'Sign verified offers, participate in real fashion campaigns, and scale your modeling career with professional guidance.',
+      link: '/signup',
+      linkText: 'Join Now',
+    },
+  ],
+
+  FEATURES: [
+    {
+      icon: Shield,
+      title: 'Secure Deals & Moderation',
+      text: 'Every offer is reviewed and verified to protect both models and agencies. Absolute transparency and security.',
+    },
+    {
+      icon: Globe2,
+      title: 'Global Network',
+      text: 'Connect with trusted international agencies and clients. Expand your professional reach far beyond borders.',
+    },
+    {
+      icon: MessageSquare,
+      title: 'Built-in Chat & Offers',
+      text: 'Negotiate, sign, and collaborate directly inside the platform. A simple, fast, and intuitive workflow.',
+    },
+    {
+      icon: Camera,
+      title: 'Professional Portfolios',
+      text: 'Showcase your work through elegant, high-resolution portfolio galleries that make your talent stand out.',
+    },
+    {
+      icon: BarChart3,
+      title: 'Smart Analytics',
+      text: 'Track your profile growth, engagement metrics, and performance insights in real time.',
+    },
   ],
 };
 
